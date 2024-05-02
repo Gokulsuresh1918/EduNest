@@ -1,8 +1,12 @@
 import React from 'react'
+import Nav from './Nav'
 
-const Home = () => {
+const   Home = () => {
   return (
-    <div>Home page</div>
+    <div>
+           <Nav/>
+           <h1>Home page</h1>
+    </div>
   )
 }
 
