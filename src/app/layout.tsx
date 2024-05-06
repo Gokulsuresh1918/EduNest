@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Nav from "./components/Home/Nav";
+import Nav from "./components/Navbar";
+import { NextAuthProvider } from "../app/provider";
 
 
 const inter = Poppins({
-  weight:['200','300','400','500','600','700','800'],
-  subsets:['latin']
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -22,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-   
-        {children}</body>
+        <NextAuthProvider>{children}</NextAuthProvider>
+      </body>
     </html>
   );
 }

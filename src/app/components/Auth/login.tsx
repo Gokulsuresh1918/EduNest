@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import imageUrl from "../../../../public/images/signupimage.png";
@@ -7,11 +9,15 @@ import googleimg from "../../../../public/images/google logo.png";
 import githubimg from "../../../../public/images/github-removebg-preview.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { signIn, useSession } from "next-auth/react";
 
-const signUpPage = () => {
+const loginPage = () => {
+  const { data, status } = useSession();
+  console.log("status", status);
+
   return (
     <div className=" flex justify-center w-screen overflow-hidden">
-        <div className="w-[50%] hidden h-screen sm:block">
+      <div className="w-[50%] hidden h-screen sm:block">
         <Image
           src={imageUrl}
           alt="Login image"
@@ -26,15 +32,22 @@ const signUpPage = () => {
         </div>
         <div className=" flex flex-col px-44 w-full gap-5 ">
           {/* bg-[#645FB7] */}
-          <Input type="email" placeholder="Email" className="bg-blue-300  " />
+          <Input
+            type="email"
+            placeholder="Email"
+            className="bg-blue-300 rounded-xl  border-red-50"
+          />
           <Input
             type="password"
             placeholder="Password"
-            className="bg-blue-300 "
+            className="bg-blue-300 rounded-xl border-red-50 "
           />
-    
-          <Button className="bg-blue-800 text-white " variant="outline">
-           Log In
+
+          <Button
+            className="bg-blue-800 rounded-xl text-white  "
+            variant="outline"
+          >
+            Log In
           </Button>
           <h3 className="text-sm text-red-500">
             New User ?{" "}
@@ -43,15 +56,25 @@ const signUpPage = () => {
             </a>
           </h3>
           <div className="flex justify-center items-center space-x-5 animate-pulse">
-            <Image  src={googleimg} alt="google logo" width={40} height={45} />
-            <Image src={githubimg} alt="github logo" width={60} height={60} />
+            <Image
+              onClick={() => signIn("google")}
+              src={googleimg}
+              alt="google logo"
+              width={40}
+              height={45}
+            />
+            <Image
+              onClick={() => signIn("github")}
+              src={githubimg}
+              alt="github logo"
+              width={60}
+              height={60}
+            />
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 };
 
-export default signUpPage;
+export default loginPage;
