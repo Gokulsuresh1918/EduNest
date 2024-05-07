@@ -9,76 +9,42 @@ import googleimg from "../../../../public/images/google logo.png";
 import githubimg from "../../../../public/images/github-removebg-preview.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import  { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 // import { signIn } from "next-auth/react";
 
-const signUpPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+const schema = z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(6),
+  confirmPassword: z.string().min(6),
+});
+type FormField = z.infer<typeof schema>;
 
+const signUpPage = () => {
   const router = useRouter();
 
-  const isValidEmail = (email: string) => {
-    let emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
-  };
-  const isValidName = (name: string) => {
-    var usernameRegex = /^[A-Za-z0-9_]{5,25}$/;
-    return usernameRegex.test(name);
-  };
-  const isValidPassword = (password: string) => {
-    var passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{7,15}$/;
-    return passwordRegex.test(password);
-  };
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { isSubmitting, errors },
+  } = useForm<FormField>({
+    resolver: zodResolver(schema),
+  });
 
-  const handleSubmit = async (e: any) => {
-    console.log('vannu');
-    
-    e.preventDefault();
-    if (!isValidEmail(email)) {
-      setError("email is invalid");
-
-      return;
-    }
-    if (!isValidName(name)) {
-      setError("name is invalid ");
-      return;
-    }
-    if (!isValidPassword(password)) {
-      setError("password is invalid");
-      return;
-    }
+  const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      const data = await res.json(); 
-      if (res.ok) {
-        //todo here route to the ohter page
-        console.log('this responce oky now redirect ');
-          router.push("/login");
-        
-      } else {
-        if (res.status === 400) {
-          setError("This user already exists");
-        } else {
-          setError(data.message || "An error occurred");
-        }
-      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // throw new Error();
+      console.log("hello", data);
     } catch (error) {
-      setError("Please try again");
-      console.log(error);
+      setError("root", {
+        message: "Error from the backend",
+      });
     }
   };
 
@@ -91,43 +57,70 @@ const signUpPage = () => {
           </Link>
         </div>
         <div className="flex flex-col px-44 w-full gap-5">
-          <form className="flex flex-col w-full gap-5"  onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col w-full gap-5"
+          >
             <Input
               type="text"
               placeholder="name"
-              // value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register("name")}
               className="bg-blue-300 rounded-xl border-red-50"
             />
+            {errors.name && (
+              <p className="text-red-600 text-xs animate-pulse">
+                {errors.name.message}
+              </p>
+            )}
+
             <Input
               type="email"
+              {...register("email")}
               placeholder="Email"
-            
-              onChange={(e) => setEmail(e.target.value)}
               className="bg-blue-300 rounded-xl border-red-50"
             />
+            {errors.email && (
+              <p className="text-red-600 text-xs animate-pulse">
+                {errors.email.message}
+              </p>
+            )}
+
             <Input
               type="password"
+              {...register("password")}
               placeholder="Password"
-              // value='Gokul@123'
-              onChange={(e) => setPassword(e.target.value)}
               className="bg-blue-300 rounded-xl border-red-50"
             />
+            {errors.password && (
+              <p className="text-red-600 text-xs animate-pulse">
+                {errors.password.message}
+              </p>
+            )}
+
             <Input
               type="password"
+              {...register("confirmPassword")}
               placeholder="Confirm Password"
-              // value='Gokul@123'
-              onChange={(e) => setConfirmPassword(e.target.value)}
               className="bg-blue-300 rounded-xl border-red-50"
             />
-            <p className="text-red-600 mb-4 text-[16px]">{error && error}</p>
+            {errors.confirmPassword && (
+              <p className="text-red-600 text-xs animate-pulse">
+                {errors.confirmPassword.message}
+              </p>
+            )}
             <Button
+              disabled={isSubmitting}
               type="submit"
               className="bg-blue-800 text-white rounded-xl"
               variant="outline"
             >
-              Sign Up
+              {isSubmitting ? "...Submitting" : " Sign Up"}
             </Button>
+            {errors.root && (
+              <p className="text-red-500 text-sm animate-pulse">
+                {errors.root.message}
+              </p>
+            )}
           </form>
 
           <h3 className="text-sm text-red-500">
@@ -137,6 +130,22 @@ const signUpPage = () => {
             </a>
           </h3>
         </div>
+        <div className="flex justify-center items-center space-x-5 ">
+            <Image
+              onClick={() => signIn("google")}
+              src={googleimg}
+              alt="google logo"
+              width={40}
+              height={45}
+            />
+            <Image
+              onClick={() => signIn("github")}
+              src={githubimg}
+              alt="github logo"
+              width={60}
+              height={60}
+            />
+          </div>
       </div>
 
       <div className="w-[50%] hidden h-screen sm:block">
