@@ -15,6 +15,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 // import { signIn } from "next-auth/react";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+const handleGoogleSignIn = () => {
+  window.open(`${BASE_URL}/auth/google/callback`, "_self");
+};
+const handleGithubSignIn = () => {
+  window.open(`${BASE_URL}/auth/github/callback`, "_self");
+};
 
 const schema = z.object({
   name: z.string().min(3),
@@ -22,6 +33,7 @@ const schema = z.object({
   password: z.string().min(6),
   confirmPassword: z.string().min(6),
 });
+
 type FormField = z.infer<typeof schema>;
 
 const signUpPage = () => {
@@ -36,17 +48,34 @@ const signUpPage = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormField> = async (data) => {
+  async function onSubmit(values: FormField) {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // throw new Error();
-      console.log("hello", data);
+      if (values.password !== values.confirmPassword) {
+        toast.error("confirm password and password must be equal", {
+          position: "top-left",
+        });        
+        return;
+      }
+      const response = await axios.post(`${BASE_URL}/auth/signup`, values);
+      if (response) {
+        console.log(response.data);
+
+        toast.success("Verificaiton Mail Send", {
+          position: "top-center",
+        });
+        router.replace("/");
+      }
     } catch (error) {
-      setError("root", {
-        message: "Error from the backend",
-      });
+      if (axios.isAxiosError(error) && error.response?.data?.error) {
+        toast.error(error.response.data.error, {
+          position: "top-left",
+        });
+        console.log("error in post ", error.response.data.error);
+      } else {
+        console.log("An unexpected error occurred:", error);
+      }
     }
-  };
+  }
 
   return (
     <div className="flex justify-center w-screen overflow-hidden">
@@ -131,21 +160,21 @@ const signUpPage = () => {
           </h3>
         </div>
         <div className="flex justify-center items-center space-x-5 ">
-            <Image
-              onClick={() => signIn("google")}
-              src={googleimg}
-              alt="google logo"
-              width={40}
-              height={45}
-            />
-            <Image
-              onClick={() => signIn("github")}
-              src={githubimg}
-              alt="github logo"
-              width={60}
-              height={60}
-            />
-          </div>
+          <Image
+            onClick={handleGoogleSignIn}
+            src={googleimg}
+            alt="google logo"
+            width={40}
+            height={45}
+          />
+          <Image
+            onClick={handleGithubSignIn}
+            src={githubimg}
+            alt="github logo"
+            width={60}
+            height={60}
+          />
+        </div>
       </div>
 
       <div className="w-[50%] hidden h-screen sm:block">
@@ -158,4 +187,5 @@ const signUpPage = () => {
     </div>
   );
 };
+
 export default signUpPage;

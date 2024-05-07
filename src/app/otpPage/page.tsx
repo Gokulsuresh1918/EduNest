@@ -1,11 +1,11 @@
 import React from 'react'
-import SignUpPage from '../components/Auth/signUp'
+import OtpPage from '../components/Auth/otp'
 import { ToastContainer } from 'react-toastify'
 
 const signUp = () => {
   return (
     <div>
-      <SignUpPage/>
+      <OtpPage/>
       <ToastContainer />
     </div>
   )
