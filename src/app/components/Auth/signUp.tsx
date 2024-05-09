@@ -14,9 +14,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-// import { signIn } from "next-auth/react";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -52,23 +52,22 @@ const signUpPage = () => {
     try {
       if (values.password !== values.confirmPassword) {
         toast.error("confirm password and password must be equal", {
-          position: "top-left",
+          position: "top-right",
         });        
         return;
       }
       const response = await axios.post(`${BASE_URL}/auth/signup`, values);
+
       if (response) {
         console.log(response.data);
-
-        toast.success("Verificaiton Mail Send", {
-          position: "top-center",
-        });
-        router.replace("/");
+        router.replace('/otpPage')
       }
     } catch (error) {
+      console.log("error");
+      
       if (axios.isAxiosError(error) && error.response?.data?.error) {
         toast.error(error.response.data.error, {
-          position: "top-left",
+          position: "top-right",
         });
         console.log("error in post ", error.response.data.error);
       } else {
@@ -79,7 +78,7 @@ const signUpPage = () => {
 
   return (
     <div className="flex justify-center w-screen overflow-hidden">
-      <div className="w-[50%] flex flex-col justify-center">
+      <div className="w-[50%] flex flex-col justify-start">
         <div className="w-full flex justify-center">
           <Link href="/">
             <Image src={Logo} alt="Logo" width={170} height={50} />
@@ -159,7 +158,7 @@ const signUpPage = () => {
             </a>
           </h3>
         </div>
-        <div className="flex justify-center items-center space-x-5 ">
+        {/* <div className="flex justify-center items-center space-x-5 ">
           <Image
             onClick={handleGoogleSignIn}
             src={googleimg}
@@ -174,7 +173,7 @@ const signUpPage = () => {
             width={60}
             height={60}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="w-[50%] hidden h-screen sm:block">

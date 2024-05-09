@@ -1,19 +1,21 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import imageUrl from "../../../../public/images/signupimage.png";
 import Logo from "../../../../public/images/logo.png";
 import googleimg from "../../../../public/images/google logo.png";
-import githubimg from "../../../../public/images/github-removebg-preview.png";
+import githubimg from "../../../../public/images/githublogo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from '@hookform/resolvers/zod';
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
@@ -22,9 +24,12 @@ type FormField = z.infer<typeof schema>;
 
 const loginPage = () => {
   const { data, status } = useSession();
+  // console.log(status,'data vabbnu',data);
+  
+  const router = useRouter();
 
   const {
-    register, 
+    register,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
@@ -35,13 +40,20 @@ const loginPage = () => {
 
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // throw new Error();
-      console.log("hello", data);
+      // console.log('arrieved at our locatiohn',data);
+
+      const response = await axios.post(`${BASE_URL}/auth/login`, data);
+      if (response) {
+        router.push("/");
+      }
     } catch (error) {
-      setError("root", {
-        message: "Error from the backend",
-      });
+      if (axios.isAxiosError(error) && error.response?.data?.error) {
+        toast.error(error.response.data.error, {
+          position: "top-right",
+        })
+      } else {
+        console.log("Un expexted Error occured", error);
+      }
     }
   };
 
@@ -135,5 +147,3 @@ const loginPage = () => {
 };
 
 export default loginPage;
-
-
