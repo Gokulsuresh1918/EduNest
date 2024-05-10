@@ -1,9 +1,10 @@
+
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Navbar";
 import { NextAuthProvider } from "../app/provider";
-
+import { ThemeProvider } from "../app/components/theme-provider";
 
 const inter = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -23,7 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <NextAuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

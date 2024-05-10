@@ -1,4 +1,3 @@
-'use client'
 
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
@@ -21,7 +20,7 @@ const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({
+    async signIn({    
       user,
       account,
       profile,

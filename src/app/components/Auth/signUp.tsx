@@ -36,7 +36,7 @@ const schema = z.object({
 
 type FormField = z.infer<typeof schema>;
 
-const signUpPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
   const {
@@ -187,4 +187,4 @@ const signUpPage = () => {
   );
 };
 
-export default signUpPage;
+export default SignUpPage;

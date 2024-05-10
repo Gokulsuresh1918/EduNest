@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-const otpPage = () => {
+const OtpPage = () => {
   const router = useRouter();
   const [timer, setTimer] = useState<number>(45);
   const [otpValue, setOtpValue] = useState<string>("");
@@ -92,10 +92,6 @@ const otpPage = () => {
     }
   };
 
-  //   const handleChangeOtp = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setOtpValue(e.target.value);
-  //     // console.log(otpValue);
-  //   };
 
   const handleOTPChange = (newOTP: React.SetStateAction<string>) => {
     setOTP(newOTP);
@@ -170,4 +166,4 @@ const otpPage = () => {
   );
 };
 
-export default otpPage;
+export default OtpPage;

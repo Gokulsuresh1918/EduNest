@@ -14,7 +14,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; 
+import Cookies from 'js-cookie';
+
+
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const schema = z.object({
   email: z.string().email(),
@@ -22,10 +25,10 @@ const schema = z.object({
 });
 type FormField = z.infer<typeof schema>;
 
-const loginPage = () => {
+const LoginPage = () => {
   const { data, status } = useSession();
   // console.log(status,'data vabbnu',data);
-  
+
   const router = useRouter();
 
   const {
@@ -34,23 +37,24 @@ const loginPage = () => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<FormField>({
-    defaultValues: { email: "test@gmail.com", password: "asdfasdf" },
+    defaultValues: { email: "gokulanandhu1571@gmail.com", password: "asdfasdf" },
     resolver: zodResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {
       // console.log('arrieved at our locatiohn',data);
-
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
-      if (response) {
+      if (response.data && response.data.token) {
+        Cookies.set('token', response.data.token, { expires: 7 }); 
+        console.log('Token stored in cookie');
         router.push("/");
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.error) {
         toast.error(error.response.data.error, {
           position: "top-right",
-        })
+        });
       } else {
         console.log("Un expexted Error occured", error);
       }
@@ -146,4 +150,4 @@ const loginPage = () => {
   );
 };
 
-export default loginPage;
+export default LoginPage;
