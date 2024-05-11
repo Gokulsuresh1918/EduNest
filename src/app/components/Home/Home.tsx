@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
-import Nav from "../Navbar"
+import Nav from "../Navbar";
 import Image from "next/image";
+import logo from "../../../../public/images/logo.png";
 import imageUrl from "../../../../public/images/bg.svg";
+import landingGroup from "../../../../public/images/landing-group.svg";
+import landingGroup2 from "../../../../public/images/landing-group2.svg";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -12,11 +15,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import CarouselPlugin from "../curoseal";
+import Footer from "../Footer/footer";
+import { JoinClass } from "../modal/JoinClass";
+import {CreateClass} from '../modal/CreateClass'
 
 const Home = () => {
-  // Delay rendering until mounted on the client
-  
-
   return (
     <div>
       <Nav />
@@ -24,11 +28,11 @@ const Home = () => {
       <Image
         src={imageUrl}
         alt="Login image"
-        className="absolute object-cover -z-10 w-full"
+        className="absolute object-fill -z-10 w-full"
       />
-      <main className="h-screen w-full items-center pt-48 justify-between flex flex-col space-y-24">
+      <main className="  items-center pt-48 justify-between flex flex-col space-y-28">
         <div className="flex justify-between ">
-          <h1 className=" pt-36 text-white font-bold tracking-wider text-6xl">
+          <h1 className=" pt-48 text-white font-bold tracking-wider text-6xl">
             New Era Of Learning
           </h1>
         </div>
@@ -42,15 +46,76 @@ const Home = () => {
             of discovery in online learning today.
           </p>
         </div>
-
-        <div className="flex justify-center space-x-4">
-          <button className="text-white">Join</button>
-          <button className="text-white">Create</button>
+      
+        <div className="flex justify-center space-x-4 ">
+        
+         <JoinClass/>
+         <CreateClass />
         </div>
-       
-      </main>
 
-      <div className="w-full h-screen "></div>
+        <div className="flex justify-center items-center ml-14  ">
+          <div className="hidden lg:block">
+            <Image
+              src={landingGroup}
+              alt="Login image"
+              className="object-cover -z-10 "
+            />
+          </div>
+
+          <div className=" p-16  space-y-3">
+            <h1 className="font-bold text-lg">!!! UpComing Features</h1>
+            <h6 className="text-sm">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
+              numquam maxime ab maiores nihil quisquam asperiores a
+            </h6>
+            <button
+              className="boreder rounded-xl bg-[#35259b] p-3"
+              type="button"
+            >
+              Placement Drive &rarr;
+            </button>
+          </div>
+        </div>
+        <div className="flex justify-center items-center ">
+          <div className="p-16 space-y-3">
+            <h1 className="font-bold text-lg">!!! UpComing Features</h1>
+
+            <h6>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
+              numquam maxime ab maiores nihil quisquam asperiores
+            </h6>
+            <button
+              className="boreder rounded-xl bg-[#35259b] p-3"
+              type="button"
+            >
+              Discusion Section &rarr;
+            </button>
+          </div>
+
+          <div className="hidden lg:block">
+            <Image
+              src={landingGroup2}
+              alt="Login image"
+              className="object-cover -z-10 w-full h-auto"
+            />
+          </div>
+        </div>
+        <h1 className="font-bold text-5xl"> Upgrade to Premium</h1>
+        <h3 className=" text-lg text-center w-[60%]">
+          Unlock exclusive features and maximize your experience by subscribing
+          now! Gain access to premium content, advanced tools, and personalized
+          benefits. Elevate your journey with us and enjoy a seamless, enhanced
+          user experience. Subscribe today and unlock the full potential of our
+          platform.
+        </h3>
+        <div className="flex flex-row space-x-28 ">
+          <CarouselPlugin />
+          <CarouselPlugin />
+          <CarouselPlugin />
+        </div>
+
+        <Footer />
+      </main>
     </div>
   );
 };

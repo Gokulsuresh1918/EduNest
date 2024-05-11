@@ -45,8 +45,9 @@ const LoginPage = () => {
     try {
       // console.log('arrieved at our locatiohn',data);
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
+
       if (response.data && response.data.token) {
-        Cookies.set('token', response.data.token, { expires: 7 }); 
+        Cookies.set('token', response.data.token, { expires: 7, secure: true, sameSite: 'strict', httpOnly: true }); 
         console.log('Token stored in cookie');
         router.push("/");
       }
@@ -86,6 +87,7 @@ const LoginPage = () => {
               {...register("email")}
               type="email"
               placeholder="Email"
+              
               className="bg-blue-300 rounded-xl  border-red-50"
             />
             {errors.email && (

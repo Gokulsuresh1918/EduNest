@@ -6,7 +6,7 @@ import imageUrl from "../../../../public/images/signupimage.png";
 import Link from "next/link";
 import Logo from "../../../../public/images/logo.png";
 import googleimg from "../../../../public/images/google logo.png";
-import githubimg from "../../../../public/images/github-removebg-preview.png";
+import githubimg from "../../../../public/images/githublogo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -158,7 +158,7 @@ const SignUpPage = () => {
             </a>
           </h3>
         </div>
-        {/* <div className="flex justify-center items-center space-x-5 ">
+        <div className="flex justify-center items-center space-x-5 ">
           <Image
             onClick={handleGoogleSignIn}
             src={googleimg}
@@ -173,7 +173,7 @@ const SignUpPage = () => {
             width={60}
             height={60}
           />
-        </div> */}
+        </div>
       </div>
 
       <div className="w-[50%] hidden h-screen sm:block">

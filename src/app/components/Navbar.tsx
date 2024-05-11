@@ -33,7 +33,6 @@ const Nav = () => {
     <nav className="absolute w-full text-white h-13">
       <div className="flex items-center justify-between">
         <div>
-          
           <Image
             onClick={() => router.push("/")}
             className=""
@@ -44,7 +43,7 @@ const Nav = () => {
           />
         </div>
 
-        <div className="hidden md:flex gap-4 rounded">
+        <div className="hidden md:flex  gap-4 rounded">
           <Button
             className="text-gray-400 text-lg font-bold hover:text-white transition-colors tracking-widest"
             variant="ghost"
