@@ -71,7 +71,7 @@ const LoginPage = () => {
           className="object-cover h-full w-full "
         />
       </div>
-      <div className="w-[50%] flex flex-col justify-center ">
+      <div className="w-[50%] flex flex-col justify-center  bg-white">
         <div className="w-full flex justify-center ">
           <Link href="/">
             <Image src={Logo} alt="Logo" width={170} height={50} />

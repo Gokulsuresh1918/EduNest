@@ -15,7 +15,7 @@ export function JoinClass() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className=" bg-[#624DE3]  px-7  border-none rounded-xl hover:bg-black">
+        <Button className=" bg-[#624DE3]  px-14 py-7 text-lg  border-none rounded-xl hover:bg-black">
           Join
         </Button>
       </DialogTrigger>
@@ -28,7 +28,7 @@ export function JoinClass() {
             <Input
               id="name"
               placeholder="Classroom code"
-              className="col-span-3"
+              className="col-span-3  border-cyan-800 rounded-xl"
             />
           </div>
 

@@ -22,7 +22,7 @@ import {CreateClass} from '../modal/CreateClass'
 
 const Home = () => {
   return (
-    <div>
+    <div >
       <Nav />
       {/* <div className="h-screen  bg-[#08071a]"></div> */}
       <Image
@@ -30,7 +30,7 @@ const Home = () => {
         alt="Login image"
         className="absolute object-fill -z-10 w-full"
       />
-      <main className="  items-center pt-48 justify-between flex flex-col space-y-28">
+      <main className="bg-[#0A0118]  items-center pt-48 justify-between flex flex-col space-y-28">
         <div className="flex justify-between ">
           <h1 className=" pt-48 text-white font-bold tracking-wider text-6xl">
             New Era Of Learning
@@ -62,34 +62,37 @@ const Home = () => {
             />
           </div>
 
-          <div className=" p-16  space-y-3">
-            <h1 className="font-bold text-lg">!!! UpComing Features</h1>
+          <div className=" p-16 w-[60%]  space-y-3">
+            <h1 className="font-bold text-4xl font-serif">Join to a ClassRoom</h1>
             <h6 className="text-sm">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
               numquam maxime ab maiores nihil quisquam asperiores a
             </h6>
-            <button
+            {/* <button
               className="boreder rounded-xl bg-[#35259b] p-3"
               type="button"
             >
               Placement Drive &rarr;
-            </button>
+            </button> */}
+            <JoinClass/>
           </div>
         </div>
         <div className="flex justify-center items-center ">
-          <div className="p-16 space-y-3">
-            <h1 className="font-bold text-lg">!!! UpComing Features</h1>
+          <div className="p-16 w-[50%] space-y-3">
+            <h1 className="font-bold text-4xl font-serif">Create a ClassRoom</h1>
 
             <h6>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
               numquam maxime ab maiores nihil quisquam asperiores
             </h6>
-            <button
+            {/* <button
               className="boreder rounded-xl bg-[#35259b] p-3"
               type="button"
             >
               Discusion Section &rarr;
-            </button>
+            </button> */}
+                     <CreateClass />
+
           </div>
 
           <div className="hidden lg:block">

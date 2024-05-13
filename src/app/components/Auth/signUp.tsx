@@ -78,7 +78,7 @@ const SignUpPage = () => {
 
   return (
     <div className="flex justify-center w-screen overflow-hidden">
-      <div className="w-[50%] flex flex-col justify-start">
+      <div className="w-[50%] flex bg-white flex-col justify-start">
         <div className="w-full flex justify-center">
           <Link href="/">
             <Image src={Logo} alt="Logo" width={170} height={50} />
