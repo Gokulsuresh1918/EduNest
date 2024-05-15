@@ -1,8 +1,14 @@
+'use client'
+
 import Image from "next/image";
 import React from "react";
 import logo from "../../../../public/images/logo.png";
+// import { useStore } from 'zustand'; 
+import { userStore, classroomStore } from "../../../../globalStore/store";
+
 
 const NavBar = () => {
+  const user = userStore(state => state.user); 
   return (
     <div className="flex justify-between border  h-16">
       <div className=" flex justify-center items-center">
@@ -15,10 +21,10 @@ const NavBar = () => {
         </button>
       </div>
       <div className=" flex justify-center items-center">
-        <h2 className="text-black pr-2">name of user</h2>
+      <h2 className="text-black p-1 border border-black rounded-xl shadow-2xl mr-2">{user?.name || 'Guest'}</h2>
 
-        <div className="rounded-full bg-black">
-          <Image src={logo} alt="logo" width={60} height={10} />
+        <div className="rounded-full bg-black mr-3">
+          <Image src={logo} alt="logo" width={50} height={10} />
         </div>
       </div>
     </div>

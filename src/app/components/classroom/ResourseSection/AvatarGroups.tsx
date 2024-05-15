@@ -23,19 +23,19 @@ export default function MaxAndTotalAvatars() {
     people: [
       {
         alt: 'Remy Sharp',
-        src: '/public/images/classroomProfile.svg',
+        src: '/images/githublogo.png',
       },
       {
         alt: 'Travis Howard',
-        src: '/static/images/avatar/2.jpg',
+        src: '/images/githublogo.png',
       },
       {
         alt: 'Agnes Walker',
-        src: '/static/images/avatar/4.jpg',
+        src: '/images/githublogo.png',
       },
       {
         alt: 'Trevor Henderson',
-        src: '/static/images/avatar/5.jpg',
+        src: '/images/githublogo.png',
       },
     ],
     total: 24,
@@ -45,7 +45,7 @@ export default function MaxAndTotalAvatars() {
     total: dataFromTheServer.total,
   });
   return (
-    <AvatarGroup >
+    <AvatarGroup>
       {avatars.map((avatar) => (
         <Avatar key={avatar.alt} {...avatar} />
       ))}

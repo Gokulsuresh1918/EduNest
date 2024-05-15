@@ -14,9 +14,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation"; 
-import Cookies from 'js-cookie';
-
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import {userStore} from "../../../../globalStore/store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const schema = z.object({
@@ -27,7 +27,8 @@ type FormField = z.infer<typeof schema>;
 
 const LoginPage = () => {
   const { data, status } = useSession();
-  // console.log(status,'data vabbnu',data);
+  const setUser = userStore((state) => state.setUser);
+  const user = userStore((state) => state.user);
 
   const router = useRouter();
 
@@ -37,18 +38,30 @@ const LoginPage = () => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<FormField>({
-    defaultValues: { email: "gokulanandhu1571@gmail.com", password: "asdfasdf" },
+    defaultValues: {
+      email: "gokulanandhu1571@gmail.com",
+      password: "asdfasdf",
+    },
     resolver: zodResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {
-      // console.log('arrieved at our locatiohn',data);
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
 
       if (response.data && response.data.token) {
-        Cookies.set('token', response.data.token, { expires: 7, secure: true, sameSite: 'strict', httpOnly: true }); 
-        console.log('Token stored in cookie');
+        console.log(response.data.token, "this is ttoken");
+        Cookies.set("token", response.data.token, {
+          expires: 7,
+          secure: true,
+          sameSite: "strict",
+        });
+
+        setUser(response.data.user);
+        // console.log('this is the data',response.data.user);
+        
+        localStorage.setItem("User", JSON.stringify(response.data.user));
+        console.log("Token stored in cookie");
         router.push("/");
       }
     } catch (error) {
@@ -57,7 +70,7 @@ const LoginPage = () => {
           position: "top-right",
         });
       } else {
-        console.log("Un expexted Error occured", error);
+        console.log("Unexpected Error occurred", error);
       }
     }
   };
@@ -87,7 +100,6 @@ const LoginPage = () => {
               {...register("email")}
               type="email"
               placeholder="Email"
-              
               className="bg-blue-300 rounded-xl  border-red-50"
             />
             {errors.email && (

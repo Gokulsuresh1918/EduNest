@@ -30,6 +30,7 @@ export function JoinClass() {
               placeholder="Classroom code"
               className="col-span-3  border-cyan-800 rounded-xl"
             />
+            
           </div>
 
         </div>

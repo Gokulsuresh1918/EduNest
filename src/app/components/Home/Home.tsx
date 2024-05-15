@@ -6,7 +6,7 @@ import logo from "../../../../public/images/logo.png";
 import imageUrl from "../../../../public/images/bg.svg";
 import landingGroup from "../../../../public/images/landing-group.svg";
 import landingGroup2 from "../../../../public/images/landing-group2.svg";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, UserRound } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,22 +19,30 @@ import CarouselPlugin from "../curoseal";
 import Footer from "../Footer/footer";
 import { JoinClass } from "../modal/JoinClass";
 import {CreateClass} from '../modal/CreateClass'
+import {userStore} from "../../../../globalStore/store";
 
 const Home = () => {
+  // const user=userStore(state=>state.user)
+  // const value = localStorage.getItem("User") || ""
+  const { theme, setTheme } = useTheme();
+  // console.log('asdfghjkll',theme);
+  
   return (
     <div >
       <Nav />
       {/* <div className="h-screen  bg-[#08071a]"></div> */}
+      {theme == 'dark' ?( 
       <Image
         src={imageUrl}
         alt="Login image"
         className="absolute object-fill -z-10 w-full"
-      />
-      <main className="bg-[#0A0118]  items-center pt-48 justify-between flex flex-col space-y-28">
+      />) : 
+     null}
+      <main  className="    items-center pt-36 justify-between flex flex-col space-y-28">
         <div className="flex justify-between ">
           <h1 className=" pt-48 text-white font-bold tracking-wider text-6xl">
             New Era Of Learning
-          </h1>
+          </h1> 
         </div>
         <div className=" w-[90%] flex justify-center text-white font-mono font-medium text-lg">
           <p className="tracking-wide  mt-10 text-center">
