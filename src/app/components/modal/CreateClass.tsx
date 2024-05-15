@@ -99,17 +99,19 @@ export function CreateClass() {
 
         if (response.status === 200) {
           // Dispatch the classroom data to the store
-          console.log("ethu storeing canna user",response?.data?.classroom);
           const ownerid = response?.data?.classroom?.owner;
           const classroomId = response?.data?.classroom?._id;
+          const teacher = response?.data?.classroom?.teacher;
           createClassRoom({
             title,
             description,
-            code,
-            profilePicture: uploadedFileUrlOrId,
+            students: [],
+            teachers: [teacher],
             ownerId: ownerid || ownerId,
+            profilePicture: uploadedFileUrlOrId,
+            code,
+            
           });
-
           router.push(`/createdClass/${classroomId}`);
         } else {
           console.error("Unexpected response status:", response.status);

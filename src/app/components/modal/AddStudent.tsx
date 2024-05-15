@@ -15,6 +15,8 @@ import { FaCopy, FaShareAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import axios from "axios";
+import {  classroomStore } from "../../../../globalStore/store";
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -52,6 +54,9 @@ const handleShareEmail = () => {
 const AddStudent = () => {
   const [email, setEmail] = useState(true);
   const [code, setCode] = useState("");
+  const classData = classroomStore((state: { classrooms: any; }) => state.classrooms);
+console.log();
+
   
 
   useEffect(() => {
@@ -77,8 +82,8 @@ const AddStudent = () => {
             {email ? (
               <Input
                 id="name"
-                value={code}
-                placeholder={code}
+                value={classData.code}
+                placeholder={classData.code}
                 className="col-span-3  border-cyan-800 rounded-xl"
               />
             ) : (

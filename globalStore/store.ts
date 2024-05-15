@@ -15,6 +15,8 @@ interface Classroom {
   code: string;
   profilePicture: string;
   ownerId: string;
+  students: Array<string>; 
+  teachers: Array<string>; 
 }
 
 // Define the store interfaces
@@ -39,6 +41,7 @@ const userStore = create<UserStore>()(
 );
 
 const classroomStore = create<ClassroomStore>((set) => ({
+  
   classrooms: [],
   createClassroom: (classroom: Classroom) =>
     set((state) => ({
