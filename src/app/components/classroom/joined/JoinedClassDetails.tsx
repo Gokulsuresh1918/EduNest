@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AddMedia from "./AddMedia";
-import AvatarGroups from "./AvatarGroups";
+import AddMedia from "../created/AddMedia";
+import { AnimatedTooltipPreview } from "../AvatarGroups";
 import logo from "../../../../../public/images/google logo.png";
 import Image from "next/image";
 import axios from "axios";
@@ -10,7 +10,7 @@ import { userStore, classroomStore } from "../../../../../globalStore/store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-function ClassDetails({ classId }: { classId: string }) {
+function ClassDetails({ classCode }: { classCode: string }) {
   const classData = classroomStore((state) => state.classrooms);
   const createClassroom = classroomStore((state) => state.createClassroom);
 
@@ -18,21 +18,23 @@ function ClassDetails({ classId }: { classId: string }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/class/getClassData/${classId}`
+          `${BASE_URL}/class/getClassData/${classCode}`
         );
         const resData = response.data.classroom;
         // console.log("fjhfdakjsdhflkj", resData);
+        // console.log("profike",resData[0].profilePicture)
 
         let data = {
-          id: resData._id,
-          title: resData.title,
-          description: resData.description,
-          code: resData.roomCode,
-          profilePicture: resData.profilePicture,
-          ownerId: resData.owner,
-          students: resData.students,
-          teachers: resData.teacher,
+          id: resData[0]._id,
+          title: resData[0].title,
+          description: resData[0].description,
+          code: resData[0].roomCode,
+          profilePicture: resData[0].profilePicture,
+          ownerId: resData[0].owner,
+          students: resData[0].students,
+          teachers: resData[0].teacher,
         };
+        // console.log("data",data)
         createClassroom(data);
       } catch (error) {
         console.error(error);
@@ -42,7 +44,7 @@ function ClassDetails({ classId }: { classId: string }) {
     fetchData();
   }, []);
 
-  // console.log("classdatatt andaii", classData);
+  console.log("classdatatt an   aii", classData);
 
   return (
     <div className="flex flex-col h-screen">
@@ -53,8 +55,8 @@ function ClassDetails({ classId }: { classId: string }) {
         <h1 className="absolute left-10 top-[60%] transform -translate-y-1/2 text-gray-700 md:text-lg">
           {classData[0]?.description}
         </h1>
-        <div className="flex justify-end">
-          <AvatarGroups />
+        <div className="flex ">
+          <AnimatedTooltipPreview />
         </div>
         <Image
           className="absolute max-h-64  max-w-64  -bottom-7 left-10  rounded-3xl "
@@ -63,10 +65,6 @@ function ClassDetails({ classId }: { classId: string }) {
           src={classData[0]?.profilePicture}
           alt="profile"
         />
-      </div>
-
-      <div className="absolute right-72 flex justify-end bottom-0  items-baseline md:h-auto ">
-        <AddMedia />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
-import logo from "../../../public/images/logo.png";
+import logo from "../../../../public/images/logo.png";
 
 import Image from 'next/image'; 
 import { Card, CardContent } from "@/components/ui/card";

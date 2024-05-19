@@ -17,7 +17,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useEdgeStore } from "../../../lib/edgestore";
 import { userStore, classroomStore } from "../../../../globalStore/store";
-// import { useStore } from "zustand";
+import {motion} from 'framer-motion'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -37,16 +37,15 @@ export function CreateClass() {
   const createClassRoom = classroomStore((state) => state.createClassroom);
   const { theme, setTheme } = useTheme();
 
+
   // Safely access localStorage only in the browser
   useEffect(() => {
     if (typeof window !== "undefined") {
       let userData = localStorage.getItem("UserZustand");
       if (userData) {
         let parsedData = JSON.parse(userData);
-
         let userId = parsedData?.state?.user?._id;
         // console.log('this is parsced data',userId);
-
         setOwnerId(userId);
       }
     }
@@ -110,9 +109,11 @@ export function CreateClass() {
             ownerId: ownerid || ownerId,
             profilePicture: uploadedFileUrlOrId,
             code,
-            
+             
           });
-          router.push(`/createdClass/${classroomId}`);
+          router.push(`/createdClass/${code}`);
+          // console.log('modal-classcreated',code);
+          
         } else {
           console.error("Unexpected response status:", response.status);
         }
@@ -163,7 +164,7 @@ export function CreateClass() {
     window.open(whatsappUrl, "_blank");
   };
   const getTextColor = () => {
-    return theme === "light" ? "white" : "black";
+    return theme === "dark" ? "white" : "orange-200 ";
   };
 
   return (
@@ -179,11 +180,11 @@ export function CreateClass() {
       ) : (
         <Dialog>
           <DialogTrigger asChild>
-            <Button
-              className={`text-${getTextColor()} bg-slate-700 text-lg px-14 py-7 border-none rounded-xl hover:bg-black`}
+            <motion.button whileHover={{scale:1.3}}
+              className={`text-${getTextColor()}  bg-slate-700 text-xl font-bold px-14 py-4 border-none rounded-xl hover:bg-[#624DE3]`}
             >
               Create &rarr;
-            </Button>
+            </motion.button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -247,7 +248,7 @@ export function CreateClass() {
                   </div>
                 </div>
               </div>
-              <DialogFooter className={`rounded-xl w-[22%]   bg-[#624DE3] `}>
+              <DialogFooter className={`rounded-xl w-[22%]  text-${getTextColor()}  bg-[#624DE3] `}>
                 <Button type="submit">Create</Button>
               </DialogFooter>
             </form>

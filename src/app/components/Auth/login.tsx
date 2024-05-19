@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import imageUrl from "../../../../public/images/signupimage.png";
@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import {userStore} from "../../../../globalStore/store";
+import Loading from "../Loading"
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const schema = z.object({
@@ -26,9 +27,12 @@ const schema = z.object({
 type FormField = z.infer<typeof schema>;
 
 const LoginPage = () => {
+  console.log("onChildren login");
+  
   const { data, status } = useSession();
   const setUser = userStore((state) => state.setUser);
   const user = userStore((state) => state.user);
+  const [loading,SetLoading]=useState(true)
 
   const router = useRouter();
 
@@ -75,8 +79,21 @@ const LoginPage = () => {
     }
   };
 
+  // useEffect(()=>{
+  //   if(loading){
+  //    return <Loading />
+  //   }
+  //   if(status==="loading"){
+      
+  //     router.push('/')
+  //   } 
+  // },[])
+
   return (
+    <>
+    
     <div className=" flex justify-center w-screen overflow-hidden">
+
       <div className="w-[50%] hidden h-screen sm:block">
         <Image
           src={imageUrl}
@@ -161,6 +178,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

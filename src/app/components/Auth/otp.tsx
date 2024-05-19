@@ -98,8 +98,8 @@ const OtpPage = () => {
   };
   return (
     <div className="flex justify-center w-screen overflow-hidden">
-      <div className="w-[50%] flex flex-col r">
-        <div className="w-full flex  justify-center">
+      <div className="w-[50%] flex flex-col bg-white">
+        <div className="w-full flex  justify-center ">
           <Link href="/">
             <Image src={Logo} alt="Logo" width={170} height={50} />
           </Link>

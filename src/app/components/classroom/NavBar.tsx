@@ -5,18 +5,21 @@ import React from "react";
 import logo from "../../../../public/images/logo.png";
 // import { useStore } from 'zustand'; 
 import { userStore, classroomStore } from "../../../../globalStore/store";
+import { useRouter } from "next/navigation";
 
 
 const NavBar = () => {
   const user = userStore(state => state.user); 
-  return (
-    <div className="flex justify-between border  h-16">
-      <div className=" flex justify-center items-center">
-        <div>
-          <Image src={logo} alt="logo" width={60} height={10} />
-        </div>
+  const Router=useRouter()
 
-        <button className=" md:block hidden text-black bg-amber-500 border rounded-xl shadow-md  px-5">
+  return (
+    <div className="flex justify-between border bg-[#f1eff3]  h-16">
+      <div className=" flex justify-center items-center">
+        {/* <div onClick={()=>{Router.push('/')}}>
+          <Image src={logo} alt="logo" width={60} height={10} />
+        </div> */}
+
+        <button className=" md:block hidden hover:px-6  text-black bg-amber-500 border rounded-xl shadow-md  px-5">
           Buy Pro 
         </button>
       </div>

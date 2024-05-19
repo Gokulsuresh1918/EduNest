@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
-import Nav from "../Navbar";
+import React, { useEffect, useState } from "react";
+import Nav from "./Navbar";
 import Image from "next/image";
 import logo from "../../../../public/images/logo.png";
 import imageUrl from "../../../../public/images/bg.svg";
+import imageUrllight from "../../../../public/images/milad-fakurian-UiiHVEyxtyA-unsplash.jpg";
 import landingGroup from "../../../../public/images/landing-group.svg";
 import landingGroup2 from "../../../../public/images/landing-group2.svg";
 import { Moon, Sun, UserRound } from "lucide-react";
@@ -15,37 +16,79 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import CarouselPlugin from "../curoseal";
+import CarouselPlugin from "./curoseal";
 import Footer from "../Footer/footer";
 import { JoinClass } from "../modal/JoinClass";
-import {CreateClass} from '../modal/CreateClass'
-import {userStore} from "../../../../globalStore/store";
+import { CreateClass } from "../modal/CreateClass";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Cookie from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
 
 const Home = () => {
-  // const user=userStore(state=>state.user)
-  // const value = localStorage.getItem("User") || ""
+  const [login, setLogin] = useState(false);
+  // const value = localStorage.getItem("User") || "";
+  const router = useRouter();
+  // console.log("user", value);
+
+
+
+  const checkToken = async () => {
+    const token = Cookie.get("token");
+    if (!token) {
+      toast.error("Please log in to Continue");
+      router.push("/login"); 
+    }else{
+      setLogin(true)
+    }
+  };
+
+  function checkLogin() {
+    if (!login) {
+      checkToken();
+      return; 
+    }
+  }
+
   const { theme, setTheme } = useTheme();
-  // console.log('asdfghjkll',theme);
-  
+  // console.log('check-theme',theme);
+
   return (
-    <div >
+    <div>
       <Nav />
       {/* <div className="h-screen  bg-[#08071a]"></div> */}
-      {theme == 'dark' ?( 
-      <Image
-        src={imageUrl}
-        alt="Login image"
-        className="absolute object-fill -z-10 w-full"
-      />) : 
-     null}
-      <main  className="    items-center pt-36 justify-between flex flex-col space-y-28">
-        <div className="flex justify-between ">
-          <h1 className=" pt-48 text-white font-bold tracking-wider text-6xl">
+      {theme == "dark" ? (
+        <Image
+          src={imageUrl}
+          alt="Login image"
+          className="absolute object-fill -z-10 w-full"
+        />
+      ) : (
+        <Image
+          src={imageUrllight}
+          alt="Login image"
+          className="absolute object-fill -z-10 w-full"
+        />
+      )}
+      <main className="    items-center pt-36 justify-between flex flex-col space-y-28">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="flex justify-between "
+        >
+          <h1
+            className={`pt-48 ${
+              theme === "dark" ? "text-white" : "text-black"
+            } font-bold tracking-wider text-6xl`}
+          >
             New Era Of Learning
-          </h1> 
-        </div>
+          </h1>
+        </motion.div>
         <div className=" w-[90%] flex justify-center text-white font-mono font-medium text-lg">
-          <p className="tracking-wide  mt-10 text-center">
+          <p
+            className={`tracking-wide ${
+              theme === "dark" ? "text-white" : "text-black"
+            }   mt-10 text-center`}
+          >
             Welcome to EDUNEST. Empower educators and learners with seamless
             collaboration through doubt clearing, task management, and resource
             sharing. Teachers can effortlessly create virtual classrooms and
@@ -54,11 +97,10 @@ const Home = () => {
             of discovery in online learning today.
           </p>
         </div>
-      
-        <div className="flex justify-center space-x-4 ">
-        
-         <JoinClass/>
-         <CreateClass />
+
+        <div onClick={checkLogin} className="flex justify-center space-x-16 ">
+          <JoinClass />
+          <CreateClass />
         </div>
 
         <div className="flex justify-center items-center ml-14  ">
@@ -71,7 +113,9 @@ const Home = () => {
           </div>
 
           <div className=" p-16 w-[60%]  space-y-3">
-            <h1 className="font-bold text-4xl font-serif">Join to a ClassRoom</h1>
+            <h1 className="font-bold text-4xl font-serif">
+              Join to a ClassRoom
+            </h1>
             <h6 className="text-sm">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
               numquam maxime ab maiores nihil quisquam asperiores a
@@ -82,12 +126,14 @@ const Home = () => {
             >
               Placement Drive &rarr;
             </button> */}
-            <JoinClass/>
+            <JoinClass />
           </div>
         </div>
         <div className="flex justify-center items-center ">
           <div className="p-16 w-[50%] space-y-3">
-            <h1 className="font-bold text-4xl font-serif">Create a ClassRoom</h1>
+            <h1 className="font-bold text-4xl font-serif">
+              Create a ClassRoom
+            </h1>
 
             <h6>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
@@ -99,8 +145,7 @@ const Home = () => {
             >
               Discusion Section &rarr;
             </button> */}
-                     <CreateClass />
-
+            <CreateClass />
           </div>
 
           <div className="hidden lg:block">
@@ -132,3 +177,4 @@ const Home = () => {
 };
 
 export default Home;
+

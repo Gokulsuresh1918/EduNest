@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Nav from "./components/Navbar";
+import Nav from "./components/Home/Navbar";
 import { NextAuthProvider } from "../app/provider";
 import { ThemeProvider } from "../app/components/theme-provider";
 import { EdgeStoreProvider } from "../lib/edgestore";

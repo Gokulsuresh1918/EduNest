@@ -55,7 +55,7 @@ const AddStudent = () => {
   const [email, setEmail] = useState(true);
   const [code, setCode] = useState("");
   const classData = classroomStore((state: { classrooms: any; }) => state.classrooms);
-console.log();
+// console.log('this is calas data',classData);
 
   
 
@@ -82,8 +82,8 @@ console.log();
             {email ? (
               <Input
                 id="name"
-                value={classData.code}
-                placeholder={classData.code}
+                value={classData[0].code}
+                placeholder={classData[0].code}
                 className="col-span-3  border-cyan-800 rounded-xl"
               />
             ) : (
