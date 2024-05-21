@@ -57,7 +57,7 @@ const Sidenav = () => {
       {/* <Image src={logo} alt="logo" width={60} height={50} /> */}
       <div
         onClick={handleClick}
-        className="flex flex-col space-x-2 justify-center items-center pt-5 w-[80%]"
+        className="flex flex-col space-x-2 justify-center cursor-pointer  items-center pt-5 w-[80%]"
       >
         <h1 className="font-bold text-4xl text-cyan-800">EduNest</h1>
         <h1 className="text-xs text-cyan-800">👑 Upgrade to Pro 👑</h1>

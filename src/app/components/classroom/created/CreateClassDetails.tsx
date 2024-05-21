@@ -21,7 +21,7 @@ function ClassDetails({ classCode }: { classCode: string }) {
           `${BASE_URL}/class/getClassData/${classCode}`
         );
         const resData = response.data.classroom;
-        console.log("fjhfdakjsdhflkj", resData);
+        // console.log("fjhfdakjsdhflkj", resData);
 
         let data = {
           id: resData[0]._id,
@@ -33,7 +33,7 @@ function ClassDetails({ classCode }: { classCode: string }) {
           students: resData[0].students,
           teachers: resData[0].teacher,
         };
-        console.log("datqa", data);
+        // console.log("datqa", data);
 
         createClassroom(data);
       } catch (error) {
@@ -44,7 +44,7 @@ function ClassDetails({ classCode }: { classCode: string }) {
     fetchData();
   }, []);
 
-  console.log("classdatatt andaii", classData);
+  // console.log("classdatatt andaii", classData);
 
   return (
     <div className="flex flex-col h-screen">

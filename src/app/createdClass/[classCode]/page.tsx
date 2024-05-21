@@ -7,7 +7,7 @@ import AdsSection from "@/app/components/classroom/AdsSection";
 
 const CreatedClass = ({ params }: { params: { classCode: string } }) => {
   const classCode = params?.classCode;
-  console.log("classCode", classCode);
+  // console.log("classCode", classCode);
   return (
     <>
       <div className="bg-white flex overflow-hidden h-screen ">

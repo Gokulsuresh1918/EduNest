@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState,createContext, useContext } from "react";
 import {
   motion,
   useTransform,
@@ -9,6 +9,7 @@ import {
   useSpring,
 } from "framer-motion";
 import SideBarRight from "@/app/components/classroom/created/SideBarRight";
+export const SidebarContext = createContext({side:false,setSide:(value:boolean)=>{}});
 
 export const AnimatedTooltip = ({
   items,
@@ -39,15 +40,17 @@ export const AnimatedTooltip = ({
     x.set(event.nativeEvent.offsetX - halfWidth); // set the x value, which is then used in transform and rotate
   };
   const handleClick = (event: any) => {
-    setSide(true)
-    
+    setSide(true);
   };
 
+
   return (
-      <>
-      {side&&<SideBarRight/>}
+    <>
+    <SidebarContext.Provider value={{side,setSide}}>
+      {side && <SideBarRight  />}
+ 
       {items.map((item, idx) => (
-        <div
+        <div 
           className="-mr-6  relative group"
           key={item.name}
           onMouseEnter={() => setHoveredIndex(item.id)}
@@ -83,7 +86,7 @@ export const AnimatedTooltip = ({
             </motion.div>
           )}
           <Image
-          onClick={handleClick}
+            onClick={handleClick}
             onMouseMove={handleMouseMove}
             height={100}
             width={100}
@@ -93,6 +96,8 @@ export const AnimatedTooltip = ({
           />
         </div>
       ))}
+      </SidebarContext.Provider>
+
     </>
   );
 };

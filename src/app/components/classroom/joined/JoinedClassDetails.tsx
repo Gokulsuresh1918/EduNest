@@ -44,7 +44,7 @@ function ClassDetails({ classCode }: { classCode: string }) {
     fetchData();
   }, []);
 
-  console.log("classdatatt an   aii", classData);
+  // console.log("classdatatt an   aii", classData);
 
   return (
     <div className="flex flex-col h-screen">
@@ -55,9 +55,9 @@ function ClassDetails({ classCode }: { classCode: string }) {
         <h1 className="absolute left-10 top-[60%] transform -translate-y-1/2 text-gray-700 md:text-lg">
           {classData[0]?.description}
         </h1>
-        <div className="flex ">
+        {/* <div className="flex ">
           <AnimatedTooltipPreview />
-        </div>
+        </div> */}
         <Image
           className="absolute max-h-64  max-w-64  -bottom-7 left-10  rounded-3xl "
           width={120}
