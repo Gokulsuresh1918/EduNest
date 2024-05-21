@@ -89,22 +89,51 @@ export default function SideBarRight() {
       }
     });
   }
+  function handleBlock(_id: String) {
+    setSide(false)
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: `Yes!`,
+      cancelButtonText: "No, keep it",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(`${BASE_URL}/class/blockUser/${_id}`)
+          .then((res) => {
+            console.log("Student Blocked");
+          })
+          .catch((error) => {
+            console.error("Error during blocking:", error);
+          });
+      }
+    });
+  }
 
   let { setSide } = useContext(SidebarContext);
   return (
     <Sheet defaultOpen={true}>
       <SheetContent className="bg-slate-300 text-black">
-        <SheetHeader>
-        <button
-          onClick={() => setSide(false)}
-          className=" flex justify-end items-end border text-black rounded-xl bg-yellow-600 px-3"
-        >
-          Save Changes
-        </button>
-          <SheetTitle className=" font-bold text-3xl text-[#593e85] ">
+        <SheetHeader className="flex justify-end">
+          <div className="w-full flex justify-end">
+            <p className="font-bold text-md pr-7">Close The Window here&gt;&gt;&gt;&gt;</p>
+          <Button
+            onClick={() => setSide(false)}
+            className="border items-end  rounded-xl 
+            bg-gray-500
+               text-white"
+            type="submit"
+          >
+            X
+          </Button>
+          </div>
+
+          <SheetTitle   onClick={() => setSide(false)} className=" font-bold text-3xl text-[#593e85] ">
             Control User
           </SheetTitle>
-          <SheetDescription>
+          <SheetDescription   onClick={() => setSide(false)}> 
             Make Control to your Students here.
           </SheetDescription>
         </SheetHeader>
@@ -113,6 +142,7 @@ export default function SideBarRight() {
             students.map((student, index) => (
               <div
                 key={index}
+                onClick={() => setSide(false)}
                 className="grid justify-between border px-2 py-1 border-black  rounded-xl "
               >
                 <React.Fragment key={index}>
@@ -124,10 +154,13 @@ export default function SideBarRight() {
                   </h1>
                   <SheetClose asChild>
                     <Button
-                      className="border rounded-xl bg-red-400"
+                      onClick={()=>handleBlock(student._id)}
+                      
+                      className={`border rounded-xl ${student.status?' bg-green-500':' bg-red-500'}`}
                       type="submit"
                     >
-                      Block
+                      {student.status?'UnBlock':'Block'}
+                      
                     </Button>
                   </SheetClose>
                 </React.Fragment>
@@ -136,6 +169,7 @@ export default function SideBarRight() {
         </div>
 
         <SheetFooter>
+       
           <Button
             onClick={handleDelete}
             className="border rounded-xl 
