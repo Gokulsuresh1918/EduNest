@@ -5,6 +5,9 @@ import Nav from "./components/Home/Navbar";
 import { NextAuthProvider } from "../app/provider";
 import { ThemeProvider } from "../app/components/theme-provider";
 import { EdgeStoreProvider } from "../lib/edgestore";
+import { ToastContainer } from "react-toastify";
+import Head from "next/head";
+import { title } from "process";
 
 const inter = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -23,6 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <title>EduNest</title>
+        <meta name="description" content={metadata.description ?? ""} />
+      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </Head>
       <body className={inter.className}>
         <NextAuthProvider>
           <EdgeStoreProvider>
@@ -36,6 +44,7 @@ export default function RootLayout({
             </ThemeProvider>
           </EdgeStoreProvider>
         </NextAuthProvider>
+        <ToastContainer />
       </body>
     </html>
   );

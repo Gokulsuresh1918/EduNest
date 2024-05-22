@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 import {
   Dialog,
@@ -11,104 +10,138 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { FaCopy, FaShareAlt } from "react-icons/fa";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { useEdgeStore } from "../../../lib/edgestore";
-import { userStore, classroomStore } from "../../../../globalStore/store";
-import {motion} from 'framer-motion'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export function CreateClass() {
+export function AssignTask() {
+  const { theme } = useTheme();
+  const router = useRouter();
+  const params = useParams();
+  const demoCode = params.classCode;
 
-const theme=useTheme()
+  const [title, setTitle] = useState("");
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+  const [dueDate, setDueDate] = useState("");
+  const [students, setStudents] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchClassData = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/class/getClassData/${demoCode}`
+        );
+        const stuId = response.data?.classroom[0]?.students;
+
+        const extractIds = (stuId: any[]) => stuId.map((item) => item._id);
+        const idsArray = extractIds(stuId);
+
+        const res = await Promise.all(
+          idsArray.map((id) =>
+            axios.get(`${BASE_URL}/class/getStudentData/${id}`)
+          )
+        );
+
+        const studentsData = res.map((ele) => ele.data.Students);
+        setStudents(studentsData);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        toast.error("Failed to fetch students data.");
+      }
+    };
+
+    fetchClassData();
+  }, [demoCode]);
+
   const getTextColor = () => {
-    return theme === "dark" ? "white" : "orange-200 ";
+    return theme === "dark" ? "white" : "orange-200";
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const task = formData.get("task");
+    const studentEmail = formData.get("student");
+    const dueDate = formData.get("dueDate");
+
+    const data = {
+      task,
+      studentEmail,
+      dueDate,
+    };
+    if (studentEmail) {
+      const assignTask = async (data: object) => {
+        await axios.post(`${BASE_URL}/class/assigntask`, data);
+        toast.success("Task assigned successfully!");
+      };
+//todo toast errro not working
+      assignTask(data);
+    }
   };
 
   return (
     <div>
-      
-        <Dialog>
-          <DialogTrigger asChild>
-            <motion.button whileHover={{scale:1.3}}
-              className={`text-${getTextColor()}  bg-slate-700 text-xl font-bold px-14 py-4 border-none rounded-xl hover:bg-[#624DE3]`}
-            >
-              Create &rarr;
-            </motion.button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle className={`text-2xl text-${getTextColor()}`}>
-                Create ClassRooms
-              </DialogTitle>
-            </DialogHeader>
-            {/* <form onSubmit={handleSubmit}> */}
-              <div className={` text-${getTextColor()} grid gap-4 py-4`}>
-                <div className="items-center gap-4">
-                  <Input
-                    id="title"
-                    // value={title}
-                    // onChange={(e) => setTitle(e.target.value)}
-                    placeholder="title"
-                    className="col-span-3  border-cyan-800 rounded-xl"
-                  />
-                </div>
-                <div className="items-center gap-4">
-                  <label htmlFor="profilePicture" className="cursor-pointer">
-                    <Input
-                      id="profilePicture"
-                      type="file"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                        //   setProfilePicture(e.target.files[0]);
-                        }
-                      }}
-                      className="col-span-3 border-cyan-800 rounded-xl"
-                    />
-                  </label>
-                </div>
-                <div className="items-center gap-4">
-                  <Input
-                    id="description"
-                    // value={description}
-                    placeholder="Description"
-                    // onChange={(e) => setDescription(e.target.value)}
-                    className="col-span-3  border-cyan-800 rounded-xl"
-                  />
-                </div>
-                <div className="items-center gap-4">
-                  <div className="relative">
-                    <Input
-                      id="uniqueCode"
-                    //   defaultValue={code}
-                      className="col-span-3 border-cyan-800 rounded-xl"
-                    />
-                    <button
-                    //   onClick={handleShareWhatsApp}
-                      className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-transparent border-0 focus:outline-none ml-2"
-                    >
-                      <FaShareAlt />
-                    </button>
-                    <button
-                    //   onClick={() => handleCopy("uniqueCode")}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-0 focus:outline-none"
-                    >
-                      <FaCopy />
-                    </button>
-                  </div>
-                </div>
+      <Dialog defaultOpen={true}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className={`text-2xl text-${getTextColor()}`}>
+              Assign Tasks
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
+            <div className={` text-${getTextColor()} grid gap-4 py-4`}>
+              <div className="items-center gap-4">
+                <Input
+                  id="task"
+                  name="task"
+                  placeholder="Mention Task..."
+                  className="col-span-3 border-cyan-800 rounded-xl"
+                />
               </div>
-              <DialogFooter className={`rounded-xl w-[22%]  text-${getTextColor()}  bg-[#624DE3] `}>
-                <Button type="submit">Create</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+
+              <Select name="student">
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Students" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-300">
+                  {students?.map((student, index) => (
+                    <SelectItem key={index} value={student.email}>
+                      {student.email}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <div className="items-center gap-4">
+                <label htmlFor="dueDate">Last Date of Submission:</label>
+                <input
+                  name="dueDate"
+                  id="dueDate"
+                  type="date"
+                  className="col-span-3 p-1 bg pr-3 text-black border-cyan-800 rounded-xl"
+                />
+              </div>
+            </div>
+            <DialogFooter
+              className={`rounded-xl w-[22%] text-${getTextColor()} bg-[#624DE3]`}
+            >
+              <Button type="submit">Assign</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
 
-export default CreateClass;
+export default AssignTask;

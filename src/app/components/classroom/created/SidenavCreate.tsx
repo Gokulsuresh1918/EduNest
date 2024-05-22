@@ -13,33 +13,28 @@ import React, { useState } from "react";
 import logo from "../../../../../public/images/Animation - 1715593245274.gif";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import AddStudent from "../../modal/AddStudent";
 import { createPortal } from "react-dom";
+import AssignTask from "../../modal/AssignTask";
+import AddTeacher from "../../modal/AddTeacher";
 
 const Sidenav = () => {
   const router = useRouter();
   const [isOpen, setOpen] = useState(false);
+  const [teacher, setTeacher] = useState(false);
+  const [task, setTask] = useState(false);
 
   const handleClick = () => {
     router.push("/");
   };
   const handleAssignTask = () => {
-    toast("Upcoming feature!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    setTask(true);
   };
   const handleAddStudent = () => {
     setOpen(true);
   };
   const handleAddTeacher = () => {
-    router.push("/");
+    setTeacher(true)
   };
   const handleBulkEmail = () => {
     router.push("/");
@@ -53,6 +48,8 @@ const Sidenav = () => {
   return (
     <div className="sm:w-64 hidden  h-screen bg-[#f1eff3] sm:block    flex-row ">
       {isOpen && createPortal(<AddStudent />, document.body)}
+      {teacher && createPortal(<AddTeacher />, document.body)}
+      {task && createPortal(<AssignTask/>, document.body)}
 
       {/* <Image src={logo} alt="logo" width={60} height={50} /> */}
       <div

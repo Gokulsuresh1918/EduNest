@@ -29,7 +29,7 @@ export default function SideBarRight() {
   const [students, setStudents] = useState<any[]>();
   const [status, setStatus] = useState(true);
   const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
-  //todo fix demo code issue
+
   const params = useParams();
   const demoCode = params.classCode;
   const router = useRouter();
