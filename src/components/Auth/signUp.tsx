@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import imageUrl from "../../../../public/images/signupimage.png";
+import imageUrl from "../../../public/images/signupimage.png";
 import Link from "next/link";
-import Logo from "../../../../public/images/logo.png";
-import googleimg from "../../../../public/images/google logo.png";
-import githubimg from "../../../../public/images/githublogo.png";
+import Logo from "../../../public/images/logo.png";
+import googleimg from "../../../public/images/google logo.png";
+import githubimg from "../../../public/images/githublogo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";

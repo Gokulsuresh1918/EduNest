@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Nav from "./components/Home/Navbar";
+import Nav from "../components/Home/Navbar";
 import { NextAuthProvider } from "../app/provider";
-import { ThemeProvider } from "../app/components/theme-provider";
+import { ThemeProvider } from "../components/others/theme-provider";
 import { EdgeStoreProvider } from "../lib/edgestore";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
@@ -28,8 +28,9 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <title>EduNest</title>
+        
         <meta name="description" content={metadata.description ?? ""} />
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
       <body className={inter.className}>
         <NextAuthProvider>
@@ -42,10 +43,12 @@ export default function RootLayout({
             >
               {children}
             </ThemeProvider>
+            <ToastContainer />
           </EdgeStoreProvider>
         </NextAuthProvider>
         <ToastContainer />
       </body>
+      
     </html>
   );
 }

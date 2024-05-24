@@ -15,9 +15,9 @@ import { Input } from "@/components/ui/input";
 import { FaCopy, FaShareAlt } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useEdgeStore } from "../../../lib/edgestore";
-import { userStore, classroomStore } from "../../../../globalStore/store";
-import {motion} from 'framer-motion'
+import { useEdgeStore } from "../../lib/edgestore";
+import { userStore, classroomStore } from "../../../globalStore/store";
+import { motion } from "framer-motion";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -36,7 +36,6 @@ export function CreateClass() {
   const setUser = userStore((state) => state.setUser);
   const createClassRoom = classroomStore((state) => state.createClassroom);
   const { theme, setTheme } = useTheme();
-
 
   // Safely access localStorage only in the browser
   useEffect(() => {
@@ -109,11 +108,9 @@ export function CreateClass() {
             ownerId: ownerid || ownerId,
             profilePicture: uploadedFileUrlOrId,
             code,
-             
           });
           router.push(`/createdClass/${code}`);
-          // console.log('modal-classcreated',code);
-          
+          console.log('modal-classcreated',code);
         } else {
           console.error("Unexpected response status:", response.status);
         }
@@ -180,7 +177,8 @@ export function CreateClass() {
       ) : (
         <Dialog>
           <DialogTrigger asChild>
-            <motion.button whileHover={{scale:1.3}}
+            <motion.button
+              whileHover={{ scale: 1.3 }}
               className={`text-${getTextColor()}  bg-slate-700 text-xl font-bold px-14 py-4 border-none rounded-xl hover:bg-[#624DE3]`}
             >
               Create &rarr;
@@ -248,7 +246,9 @@ export function CreateClass() {
                   </div>
                 </div>
               </div>
-              <DialogFooter className={`rounded-xl w-[22%]  text-${getTextColor()}  bg-[#624DE3] `}>
+              <DialogFooter
+                className={`rounded-xl w-[22%]  text-${getTextColor()}  bg-[#624DE3] `}
+              >
                 <Button type="submit">Create</Button>
               </DialogFooter>
             </form>

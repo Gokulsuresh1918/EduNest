@@ -3,6 +3,7 @@ import React from "react";
 const AdsSection = () => {
   return (
     <>
+   
       <head>
         <script
           async
@@ -10,7 +11,7 @@ const AdsSection = () => {
           crossOrigin="anonymous"
         ></script>
       </head>
-      <div className="w-[26%] h-screen bg-slate-100 ">
+      <div className=" h-screen bg-slate-100 ">
         <h1 className="text-black font-bold flex justify-center items-center text-xl ">
           Ads Section
         </h1>
@@ -30,6 +31,7 @@ const AdsSection = () => {
           data-full-width-responsive="true"
         ></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      
     </>
   );
 };

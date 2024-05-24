@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
-import imageUrl from "../../../../public/images/signupimage.png";
+import imageUrl from "../../../public/images/signupimage.png";
 import Link from "next/link";
-import Logo from "../../../../public/images/logo.png";
+import Logo from "../../../public/images/logo.png";
 import {
   InputOTP,
   InputOTPGroup,

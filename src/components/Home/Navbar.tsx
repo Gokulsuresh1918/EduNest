@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Logo from "../../../../public/images/logo.png";
+import Logo from "../../../public/images/logo.png";
 import { Button } from "@/components/ui/button";
 import { destroyCookie, parseCookies } from "nookies";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -59,7 +59,7 @@ const Nav = () => {
   }, [theme]);
 
   return (
-    <nav className="absolute w-full text-white h-13">
+    <nav className="absolute w-full text-white h-10">
       <div className="flex items-center justify-between">
         <div>
           <Image

@@ -15,7 +15,7 @@ import { FaCopy, FaShareAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import axios from "axios";
-import { classroomStore } from "../../../../globalStore/store";
+import { classroomStore } from "../../../globalStore/store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -52,7 +52,9 @@ const AddStudent = () => {
     <Dialog defaultOpen={true}>
       <DialogContent className="sm:max-w-[425px]    ">
         <DialogHeader>
-          <DialogTitle className="text-orange-200 text-lg">Add Student </DialogTitle>
+          <DialogTitle className="text-orange-200 text-lg">
+            Add Student{" "}
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-sm text-center text-orange-200">
           Share this code to your students then they can Join Classroom
@@ -71,7 +73,6 @@ const AddStudent = () => {
         <div className="flex justify-evenly items-center">
           <DialogFooter className=" rounded-xl w-[17%] px-2 bg-green-700">
             <Button onClick={handleShareWhatsApp} type="submit">
-              
               <FaWhatsapp />
             </Button>
           </DialogFooter>

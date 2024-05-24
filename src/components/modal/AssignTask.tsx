@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
-import { useEdgeStore } from "../../../lib/edgestore";
+import { useEdgeStore } from "../../lib/edgestore";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -84,7 +84,7 @@ export function AssignTask() {
         await axios.post(`${BASE_URL}/class/assigntask`, data);
         toast.success("Task assigned successfully!");
       };
-//todo toast errro not working
+      //todo toast errro not working
       assignTask(data);
     }
   };

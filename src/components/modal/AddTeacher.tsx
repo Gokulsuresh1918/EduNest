@@ -13,7 +13,7 @@ import { z } from "zod";
 import { toast } from "react-toastify";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import axios from "axios";
-import { classroomStore } from "../../../../globalStore/store";
+import { classroomStore } from "../../../globalStore/store";
 import { useParams } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -41,7 +41,7 @@ const AddTeacher = () => {
         );
         const classcode = response.data.classroom[0].teacherCode;
         // console.log('class teacher code',classcode);
-        
+
         setClasscode(classcode);
       } catch (error) {
         console.error("Failed to fetch class data:", error);
@@ -93,25 +93,25 @@ const AddTeacher = () => {
     <Dialog defaultOpen={true}>
       <DialogContent className="sm:max-w-[425px] text-orange-300">
         <DialogHeader>
-          <DialogTitle className="text-orange-200 text-lg">Add Teacher</DialogTitle>
+          <DialogTitle className="text-orange-200 text-lg">
+            Add Teacher
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-sm text-center text-orange-200">
           Share this code with your teacher so they can join the classroom.
         </DialogDescription>
         <div className="grid gap-4 py-2">
           <div className="items-center text-orange-200 gap-4">
-            
-              <>
-                <Input
-                  ref={codeRef}
-                  id="code"
-                  placeholder={classcode}
-                  value={classcode}
-                  className="col-span-3 border-cyan-800 rounded-xl"
-                />
-                {errors.code && <div className="text-red-600">{errors.code}</div>}
-              </>
-           
+            <>
+              <Input
+                ref={codeRef}
+                id="code"
+                placeholder={classcode}
+                value={classcode}
+                className="col-span-3 border-cyan-800 rounded-xl"
+              />
+              {errors.code && <div className="text-red-600">{errors.code}</div>}
+            </>
           </div>
         </div>
         <div className="flex justify-evenly items-center">

@@ -1,9 +1,9 @@
 import React from "react";
-import Sidenav from "../../components/classroom/joined/SidenavJoin";
-import NavBar from "../../components/classroom/NavBar";
-import ClassDetails from "../../components/classroom/joined/JoinedClassDetails";
+import Sidenav from "../../../components/classRoom/joined/SidenavJoin";
+import NavBar from "../../../components/classRoom/NavBar";
+import ClassDetails from "../../../components/classRoom/joined/JoinedClassDetails";
 import Image from "next/image";
-import AdsSection from "@/app/components/classroom/AdsSection";
+import AdsSection from "@/components/classRoom/AdsSection";
 
 const JoinedClass = ({ params }: { params: { classCode: string } }) => {
   const classcode = params?.classCode;

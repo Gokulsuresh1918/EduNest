@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import Nav from "./Navbar";
 import Image from "next/image";
 import logo from "../../../../public/images/logo.png";
-import imageUrl from "../../../../public/images/bg.svg";
-import imageUrllight from "../../../../public/images/milad-fakurian-UiiHVEyxtyA-unsplash.jpg";
-import landingGroup from "../../../../public/images/landing-group.svg";
-import landingGroup2 from "../../../../public/images/landing-group2.svg";
+import imageUrl from "../../../public/images/bg.svg";
+import imageUrllight from "../../../public/images/milad-fakurian-UiiHVEyxtyA-unsplash.jpg";
+import landingGroup from "../../../public/images/landing-group.svg";
+import landingGroup2 from "../../../public/images/landing-group2.svg";
 import { Moon, Sun, UserRound } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Cookie from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import { SparklesCore } from "../ui/sparkles";
 
 const Home = () => {
   const [login, setLogin] = useState(false);
@@ -31,22 +32,20 @@ const Home = () => {
   const router = useRouter();
   // console.log("user", value);
 
-
-
   const checkToken = async () => {
     const token = Cookie.get("token");
     if (!token) {
       toast.error("Please log in to Continue");
-      router.push("/login"); 
-    }else{
-      setLogin(true)
+      router.push("/login");
+    } else {
+      setLogin(true);
     }
   };
 
   function checkLogin() {
     if (!login) {
       checkToken();
-      return; 
+      return;
     }
   }
 
@@ -71,18 +70,37 @@ const Home = () => {
         />
       )}
       <main className="    items-center pt-36 justify-between flex flex-col space-y-28">
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          className="flex justify-between "
-        >
-          <h1
-            className={`pt-48 ${
-              theme === "dark" ? "text-white" : "text-black"
-            } font-bold tracking-wider text-6xl`}
-          >
-            New Era Of Learning
-          </h1>
-        </motion.div>
+        <div className="flex justify-between ">
+          <div className="h-[40rem] w-full  flex-col items-center justify-center overflow-hidden rounded-md">
+            <h1
+              className={`pt-48 ${
+                theme === "dark" ? "text-white" : "text-black"
+              } font-bold tracking-wider text-6xl`}
+            >
+              New Era Of Learning
+            </h1>
+            <div className="w-[40rem] h-40 relative">
+              {/* Gradients */}
+              <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
+              <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
+              <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
+              <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
+
+              {/* Core component */}
+              <SparklesCore
+                background="transparent"
+                minSize={0.4}
+                maxSize={1}
+                particleDensity={1200}
+                className="w-full h-full"
+                particleColor="#FFFFFF"
+              />
+
+              {/* Radial Gradient to prevent sharp edges */}
+              <div className="absolute inset-0 w-  h-full [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
+            </div>
+          </div>
+        </div>
         <div className=" w-[90%] flex justify-center text-white font-mono font-medium text-lg">
           <p
             className={`tracking-wide ${
@@ -177,4 +195,3 @@ const Home = () => {
 };
 
 export default Home;
-

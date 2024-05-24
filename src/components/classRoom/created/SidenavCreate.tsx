@@ -6,7 +6,7 @@ import {
   GraduationCap,
   ListTodo,
   Mail,
-  VideoIcon
+  VideoIcon,
 } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -17,12 +17,14 @@ import AddStudent from "../../modal/AddStudent";
 import { createPortal } from "react-dom";
 import AssignTask from "../../modal/AssignTask";
 import AddTeacher from "../../modal/AddTeacher";
+import BulkEmail from "../../modal/BulkEmail";
 
 const Sidenav = () => {
   const router = useRouter();
   const [isOpen, setOpen] = useState(false);
   const [teacher, setTeacher] = useState(false);
   const [task, setTask] = useState(false);
+  const [bulkemail, setbulkemail] = useState(false);
 
   const handleClick = () => {
     router.push("/");
@@ -34,10 +36,10 @@ const Sidenav = () => {
     setOpen(true);
   };
   const handleAddTeacher = () => {
-    setTeacher(true)
+    setTeacher(true);
   };
   const handleBulkEmail = () => {
-    router.push("/");
+    setbulkemail(true);
   };
   const handleTodo = () => {
     router.push("/");
@@ -46,10 +48,11 @@ const Sidenav = () => {
     router.push("/");
   };
   return (
-    <div className="sm:w-64 hidden  h-screen bg-[#f1eff3] sm:block    flex-row ">
+    <div className="sm:w-56 hidden  h-screen bg-[#f1eff3] sm:block    flex-row ">
       {isOpen && createPortal(<AddStudent />, document.body)}
       {teacher && createPortal(<AddTeacher />, document.body)}
-      {task && createPortal(<AssignTask/>, document.body)}
+      {task && createPortal(<AssignTask />, document.body)}
+      {bulkemail && createPortal(<BulkEmail />, document.body)}
 
       {/* <Image src={logo} alt="logo" width={60} height={50} /> */}
       <div

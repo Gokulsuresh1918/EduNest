@@ -6,7 +6,7 @@ import { AnimatedTooltipPreview } from "../AvatarGroups";
 import logo from "../../../../../public/images/google logo.png";
 import Image from "next/image";
 import axios from "axios";
-import { userStore, classroomStore } from "../../../../../globalStore/store";
+import { userStore, classroomStore } from "../../../../globalStore/store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
