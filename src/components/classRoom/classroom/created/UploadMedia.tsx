@@ -67,7 +67,7 @@ const UploadMedia = ({ classCode }: { classCode: string }) => {
       }
     };
   return (
-    <div className="absolute right-64 bottom-4 flex justify-end items-baseline md:h-auto">
+    <div className="absolute right-[22%] bottom-4 flex justify-end items-baseline md:h-auto">
     <input
       type="file"
       ref={fileInputRef}

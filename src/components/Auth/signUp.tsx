@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import imageUrl from "../../../public/images/signupimage.png";
-import Link from "next/link";
-import Logo from "../../../public/images/logo.png";
-import googleimg from "../../../public/images/google logo.png";
-import githubimg from "../../../public/images/githublogo.png";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { z } from "zod";
+import githubimg from "../../../public/images/githublogo.png";
+import googleimg from "../../../public/images/google logo.png";
+import Logo from "../../../public/images/logo.png";
+import imageUrl from "../../../public/images/signupimage.png";
 
 
 
@@ -30,7 +28,7 @@ const handleGithubSignIn = () => {
 const schema = z.object({
   name: z.string().min(3),
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(6,{message:'password must be minimum 6 character'}),
   confirmPassword: z.string().min(6),
 });
 

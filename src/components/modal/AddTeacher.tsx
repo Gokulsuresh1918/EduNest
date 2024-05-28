@@ -79,7 +79,7 @@ const AddTeacher = () => {
     }
 
     setErrors({ code: "", email: "" });
-
+    //todo use resend to mail to teachwre
     const subject = "Exciting News: Your Unique Code to Join Our Classroom";
     const body = `🎉 Exciting news! Your unique code to join our Edunest classroom is: ${uniqueCode}. 🚀 Start your learning journey today and unlock a world of knowledge.`;
     const emailUrl = `mailto:${emailToSend}?subject=${encodeURIComponent(

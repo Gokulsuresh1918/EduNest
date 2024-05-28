@@ -1,6 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { AnimatedTooltip } from "../ui/animated-tooltip";
+import { useParams } from "next/navigation";
+import axios from "axios";
+
 const people = [
   {
     id: 1,
@@ -46,10 +49,25 @@ const people = [
   },
 ];
 
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 export function AnimatedTooltipPreview() {
+  const code = useParams();
+  let classcode=code.classCode
+  // console.log('classcode ',classcode.classCode);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const responce = await axios.get(
+        `${BASE_URL}/class/getClassData/${classcode}`
+      );
+      console.log("response of data", responce);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="flex flex-row  justify-end w-[96%]   right-6">
       <AnimatedTooltip items={people} />
     </div>
   );
 }
+export default AnimatedTooltipPreview

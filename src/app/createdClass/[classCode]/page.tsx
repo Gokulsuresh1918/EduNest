@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Sidenav from "../../../components/classRoom/created/SidenavCreate";
+import Sidenav from "../../../components/classRoom/classroom/created/SidenavCreate";
 import NavBar from "../../../components/classRoom/NavBar";
-import ClassDetails from "../../../components/classRoom/created/CreateClassDetails";
+import ClassDetails from "../../../components/classRoom/classroom/created/CreateClassDetails";
 import Image from "next/image";
 import AdsSection from "@/components/classRoom/AdsSection";
 import { toast, ToastContainer } from "react-toastify";
 import Card from "@/components/classRoom/card";
-import UploadMedia from "@/components/classRoom/created/UploadMedia";
+import UploadMedia from "@/components/classRoom/classroom/created/UploadMedia";
 import axios from "axios";
 import { fetchData } from "next-auth/client/_utils";
 
@@ -30,14 +30,12 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
       // console.log('thid iud stat ',file);
     };
     fetchFile();
-  }, [file]);
+  }, []);
 
   return (
     <>
       <div className="bg-white flex w-screen overflow-hidden  h-screen">
-        <div className="w-1/6">
-          <Sidenav />
-        </div>
+        <Sidenav />
 
         <div className="w-full">
           <NavBar />
@@ -46,9 +44,9 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
               <ClassDetails classCode={classCode} />
               {/* display content */}
               <div className=" w-full h-full ">
-                <div className="grid grid-cols-1 overflow-scroll h-[28rem]  rounded-xl shadow-2xl md:grid-cols-3 m-2 ">
+                <div className="grid grid-cols-1 overflow-scroll h-[28rem]  rounded-xl md:grid-cols-3 m-6">
                   {file.map((item, index) => (
-                    <Card file={item}/>
+                    <Card key={index} file={item} />
                   ))}
                 </div>
 
@@ -56,7 +54,11 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
               </div>
             </div>
             <div className="w-1/4">
-              <AdsSection />
+              <AdsSection
+                dataAdFormat="auto"
+                dataFullWidthResponsive={true}
+                dataAdSlot="1549962104"
+              />
             </div>
           </div>
         </div>

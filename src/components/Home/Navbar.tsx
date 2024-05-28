@@ -59,7 +59,7 @@ const Nav = () => {
   }, [theme]);
 
   return (
-    <nav className="absolute w-full text-white h-10">
+    <nav className="absolute w-full text-white h-10  ">
       <div className="flex items-center justify-between">
         <div>
           <Image

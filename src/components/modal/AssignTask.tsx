@@ -78,13 +78,13 @@ export function AssignTask() {
       task,
       studentEmail,
       dueDate,
+      demoCode
     };
     if (studentEmail) {
       const assignTask = async (data: object) => {
         await axios.post(`${BASE_URL}/class/assigntask`, data);
         toast.success("Task assigned successfully!");
       };
-      //todo toast errro not working
       assignTask(data);
     }
   };

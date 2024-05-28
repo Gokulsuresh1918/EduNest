@@ -26,6 +26,7 @@ export function CreateClass() {
   const [title, setTitle] = useState("title");
   const [description, setDescription] = useState("Description");
   const [code, setCode] = useState("");
+  const [teacher, setTeacher] = useState("");
   const [ownerId, setOwnerId] = useState("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const { edgestore } = useEdgeStore();
@@ -57,6 +58,8 @@ export function CreateClass() {
       otpValue += 100000;
     }
     setCode(otpValue.toString());
+    let teacherCode = Math.floor(Math.random() * 900000) + 100000;
+    setTeacher(teacherCode.toString())
   }, []);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
@@ -83,6 +86,7 @@ export function CreateClass() {
           code,
           profilePicture: uploadedFileUrlOrId,
           ownerId: ownerId,
+          teacher
         };
         // console.log("this is new data", postData);
 

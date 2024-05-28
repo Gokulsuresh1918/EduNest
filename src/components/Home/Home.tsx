@@ -105,7 +105,7 @@ const Home = () => {
           <p
             className={`tracking-wide ${
               theme === "dark" ? "text-white" : "text-black"
-            }   mt-10 text-center`}
+            }     text-center `}
           >
             Welcome to EDUNEST. Empower educators and learners with seamless
             collaboration through doubt clearing, task management, and resource

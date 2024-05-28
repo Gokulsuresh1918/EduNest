@@ -12,7 +12,7 @@ const NavBar = () => {
   const Router = useRouter();
 
   return (
-    <div className="flex justify-between border bg-[#f1eff3]  h-12 w-full">
+    <div className="flex justify-between border bg-[#f1eff3]   h-12 w-full">
       <div className=" flex justify-center items-center">
         {/* <div onClick={()=>{Router.push('/')}}>
           <Image src={logo} alt="logo" width={60} height={10} />

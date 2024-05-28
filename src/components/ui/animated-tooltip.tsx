@@ -8,7 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import SideBarRight from "@/components/classRoom/created/SideBarRight";
+import SideBarRight from "@/components/classRoom/classroom/created/SideBarRight";
 
 export const SidebarContext = createContext({
   side: false,
