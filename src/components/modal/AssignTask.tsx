@@ -111,9 +111,9 @@ export function AssignTask() {
 
               <Select name="student">
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select Students" />
+                  <SelectValue placeholder="Select Student" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-300">
+                <SelectContent className="bg-slate-300 text-black">
                   {students?.map((student, index) => (
                     <SelectItem key={index} value={student.email}>
                       {student.email}
@@ -128,7 +128,7 @@ export function AssignTask() {
                   name="dueDate"
                   id="dueDate"
                   type="date"
-                  className="col-span-3 p-1 bg pr-3 text-black border-cyan-800 rounded-xl"
+                  className="col-span-3 p-1 bg pr-3 text-black bg-white border-cyan-800 rounded-xl"
                 />
               </div>
             </div>

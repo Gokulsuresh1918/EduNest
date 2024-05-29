@@ -28,7 +28,7 @@ export const AnimatedTooltip = ({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [side, setSide] = useState(false);
   const springConfig = { stiffness: 100, damping: 5 };
-  const x = useMotionValue(0); // going to set this value on mouse move
+  const x = useMotionValue(0);
   // rotate the tooltip
   const rotate = useSpring(
     useTransform(x, [-100, 100], [-45, 45]),
@@ -41,7 +41,7 @@ export const AnimatedTooltip = ({
   );
   const handleMouseMove = (event: any) => {
     const halfWidth = event.target.offsetWidth / 2;
-    x.set(event.nativeEvent.offsetX - halfWidth); // set the x value, which is then used in transform and rotate
+    x.set(event.nativeEvent.offsetX - halfWidth); 
   };
   const handleClick = (event: any) => {
     setSide(true);

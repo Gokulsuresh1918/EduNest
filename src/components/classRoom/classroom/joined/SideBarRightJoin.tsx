@@ -100,7 +100,7 @@ export function SideBarJoin({ classCode }: { classCode: string }) {
   };
   return (
     <Sheet defaultOpen={true}>
-      <SheetContent className="bg-slate-300 text-black">
+      <SheetContent className="bg-slate-300 text-black  overflow-scroll">
         <SheetHeader>
           <SheetTitle>Assigned Task</SheetTitle>
           <SheetDescription>

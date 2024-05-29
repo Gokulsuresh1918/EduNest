@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
@@ -47,17 +47,18 @@ export function JoinClass() {
       let response = await axios.post(`${BASE_URL}/class/joinClass`, {
         data,
       });
+      console.log("chummma", response);
 
       if (response.status === 200) {
         Router.push(`/joinedClass/${classCode}`);
-      } else if (response.status === 400) {
-        toast.error(
-          ` ${response.data.message || "Something went Wrong Try Again"}`
-        );
-      }
+      } 
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to join class.Try Again Later");
+      console.error( error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error(` ${error.response.data.message || "Something went Wrong Try Again"}`);
+    } else {
+        toast.error("Failed to join class. Try Again Later");
+    }
     }
   };
   const getTextColor = () => {

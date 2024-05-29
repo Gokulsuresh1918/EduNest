@@ -61,8 +61,12 @@ const JoinedClass = ({ params }: { params: { classCode: string } }) => {
               </div>
             </div>
             <div className="w-1/4">
-              //todo props issue
-              <AdsSection />
+              <h1>Ads Section </h1>
+              <AdsSection
+                dataAdFormat="auto"
+                dataFullWidthResponsive={true}
+                dataAdSlot="1549962104"
+              />
             </div>
           </div>
         </div>

@@ -159,7 +159,7 @@ export default function SideBarRight() {
                       className={`border rounded-xl ${student.status?' bg-green-500':' bg-red-500'}`}
                       type="submit"
                     >
-                      {student.status?'UnBlock':'Block'}
+                      {student.status?'Block':'UnBlock'}
                       
                     </Button>
                   </SheetClose>

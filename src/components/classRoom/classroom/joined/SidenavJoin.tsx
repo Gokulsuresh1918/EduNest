@@ -1,10 +1,19 @@
 "use client";
 import { BookOpen, GraduationCap, ListTodo, VideoIcon } from "lucide-react";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {SideBarJoin} from "../joined/SideBarRightJoin";
 const Sidenav = () => {
   const router = useRouter();
+  const params = useParams();
+  let classCode: string;
+
+  if (Array.isArray(params.classCode)) {
+    classCode = params.classCode.join('');
+  } else {
+    classCode = params.classCode;
+  }
+  
   const [side, setSide] = useState(false);
 
   const handleClick = () => {
@@ -26,7 +35,7 @@ const Sidenav = () => {
 
   return (
     <div className="sm:w-56 hidden h-screen bg-[#f1eff3] sm:block flex-row">
-      {side && <SideBarJoin />}
+      {side && <SideBarJoin classCode={classCode} />}
       <div
         onClick={handleClick}
         className="flex flex-col space-x-2 justify-center cursor-pointer items-center pt-5 w-[80%]"

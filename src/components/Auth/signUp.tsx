@@ -25,12 +25,17 @@ const handleGithubSignIn = () => {
   window.open(`${BASE_URL}/auth/github/callback`, "_self");
 };
 
+
 const schema = z.object({
-  name: z.string().min(3),
-  email: z.string().email(),
-  password: z.string().min(6,{message:'password must be minimum 6 character'}),
-  confirmPassword: z.string().min(6),
+  name: z.string().min(3, { message: "Name must be at least 3 characters long" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
+  confirmPassword: z.string().min(6, { message: "Confirm password must be at least 6 characters long" }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"], 
 });
+
 
 type FormField = z.infer<typeof schema>;
 
