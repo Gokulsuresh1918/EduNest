@@ -17,7 +17,7 @@ interface Props {
 export function Card({ file }: Props) {
   // console.log("file", file.filename); // Original filename
 
-  const parts = file.filename.split("_"||" ");
+  const parts = file.filename.split(" ");
   const truncatedFilename = parts[0];
 
   // console.log("file", truncatedFilename);
@@ -28,7 +28,7 @@ export function Card({ file }: Props) {
   return (
     <div onClick={handleCardClick} >
     <CardContainer className="inter-var h-10 my-2 w-52 sm:flex-row">
-      <CardBody  className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]  dark:border-white/[0.2] border-black/[0.1] w-[16rem] h-[12rem] rounded-xl p-3 border">
+      <CardBody  className="bg-gray-200 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]  dark:border-white/[0.2] border-black/[0.1] w-[16rem] h-[12rem] rounded-xl p-3 border">
         {" "}
         {/* Adjusted width and height */}
       
