@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,11 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/Ui/dialog";
+import { Input } from "@/components/Ui/input";
+import { Label } from "@/components/Ui/label";
 import { motion } from "framer-motion";
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
@@ -51,14 +51,16 @@ export function JoinClass() {
 
       if (response.status === 200) {
         Router.push(`/joinedClass/${classCode}`);
-      } 
+      }
     } catch (error) {
-      console.error( error);
+      console.error(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error(` ${error.response.data.message || "Something went Wrong Try Again"}`);
-    } else {
+        toast.error(
+          ` ${error.response.data.message || "Something went Wrong Try Again"}`
+        );
+      } else {
         toast.error("Failed to join class. Try Again Later");
-    }
+      }
     }
   };
   const getTextColor = () => {

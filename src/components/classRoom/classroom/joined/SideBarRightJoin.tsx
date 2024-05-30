@@ -3,15 +3,15 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle
-} from "@/components/ui/sheet";
+  SheetTitle,
+} from "@/components/Ui/sheet";
 import { useEdgeStore } from "@/lib/edgestore";
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Fab } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -126,31 +126,31 @@ export function SideBarJoin({ classCode }: { classCode: string }) {
                 Status: <span className="font-normal">{student.status}</span>
               </h1>
 
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
 
-                {uploadProgress ? (
-                  <div className="w-full mt-2">
-                    <CircularProgress
-                      variant="determinate"
-                      value={uploadProgress}
-                    />
-                  </div>
-                ) : (
-                  <Fab
-                    size="medium"
-                    color="primary"
-                    aria-label="add"
-                    onClick={handleButtonClick}
-                  >
-                    <AssignmentIcon />
-                  </Fab>
-                )}
-              </div>
+              {uploadProgress ? (
+                <div className="w-full mt-2">
+                  <CircularProgress
+                    variant="determinate"
+                    value={uploadProgress}
+                  />
+                </div>
+              ) : (
+                <Fab
+                  size="medium"
+                  color="primary"
+                  aria-label="add"
+                  onClick={handleButtonClick}
+                >
+                  <AssignmentIcon />
+                </Fab>
+              )}
+            </div>
           ))}
         </div>
         {/* <SheetFooter>

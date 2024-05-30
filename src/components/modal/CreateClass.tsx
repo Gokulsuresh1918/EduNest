@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/Ui/button";
+import { Skeleton } from "@/components/Ui/skeleton";
 import { useTheme } from "next-themes";
 import {
   Dialog,
@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/components/Ui/dialog";
+import { Input } from "@/components/Ui/input";
 import { FaCopy, FaShareAlt } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -59,7 +59,7 @@ export function CreateClass() {
     }
     setCode(otpValue.toString());
     let teacherCode = Math.floor(Math.random() * 900000) + 100000;
-    setTeacher(teacherCode.toString())
+    setTeacher(teacherCode.toString());
   }, []);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
@@ -86,7 +86,7 @@ export function CreateClass() {
           code,
           profilePicture: uploadedFileUrlOrId,
           ownerId: ownerId,
-          teacher
+          teacher,
         };
         // console.log("this is new data", postData);
 
@@ -114,7 +114,7 @@ export function CreateClass() {
             code,
           });
           router.push(`/createdClass/${code}`);
-          console.log('modal-classcreated',code);
+          console.log("modal-classcreated", code);
         } else {
           console.error("Unexpected response status:", response.status);
         }

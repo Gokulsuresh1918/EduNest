@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/images/logo.png";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import { destroyCookie, parseCookies } from "nookies";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/Ui/dropdown-menu";
 
 const Nav = () => {
   const { status } = useSession();
@@ -74,7 +74,9 @@ const Nav = () => {
 
         <div className="hidden md:flex gap-4 rounded">
           <Button
-            className={`text-gray-400 text-lg ${theme === "dark"?'text-gray-100':'text-gray-900'} font-bold hover:text-white transition-colors tracking-widest`}
+            className={`text-gray-400 text-lg ${
+              theme === "dark" ? "text-gray-100" : "text-gray-900"
+            } font-bold hover:text-white transition-colors tracking-widest`}
             variant="ghost"
           >
             ClassRooms
@@ -86,11 +88,13 @@ const Nav = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <Sun color="#333"
+                  <Sun
+                    color="#333"
                     onClick={() => setTheme("dark")}
                     className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
                   />
-                  <Moon color="#ffffff"
+                  <Moon
+                    color="#ffffff"
                     onClick={() => setTheme("light")}
                     className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
                   />
@@ -98,7 +102,11 @@ const Nav = () => {
               </DropdownMenuTrigger>
             </DropdownMenu>
             <Button
-              className={`m-4 border ${theme === "dark"?'text-gray-100 border-gray-400':'text-gray-900 border-gray-950'}  rounded-xl`}
+              className={`m-4 border ${
+                theme === "dark"
+                  ? "text-gray-100 border-gray-400"
+                  : "text-gray-900 border-gray-950"
+              }  rounded-xl`}
               onClick={handleSignout}
               variant="secondary"
             >
@@ -110,11 +118,12 @@ const Nav = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <Sun color="#333"
+                  <Sun
+                    color="#333"
                     onClick={() => setTheme("dark")}
                     className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
                   />
-                  <Moon 
+                  <Moon
                     onClick={() => setTheme("light")}
                     className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
                   />
@@ -123,7 +132,9 @@ const Nav = () => {
             </DropdownMenu>
             <Button
               onClick={handleLogin}
-              className={`m-4 border ${theme==='dark'?'text-slate-300':'text-slate-950 '} border-gray-400 rounded-xl`}
+              className={`m-4 border ${
+                theme === "dark" ? "text-slate-300" : "text-slate-950 "
+              } border-gray-400 rounded-xl`}
               variant="secondary"
             >
               Login

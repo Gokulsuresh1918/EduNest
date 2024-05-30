@@ -6,8 +6,8 @@ import imageUrl from "../../../public/images/signupimage.png";
 import Logo from "../../../public/images/logo.png";
 import googleimg from "../../../public/images/google logo.png";
 import githubimg from "../../../public/images/githublogo.png";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/Ui/input";
+import { Button } from "@/components/Ui/button";
 import { signIn, useSession } from "next-auth/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { userStore } from "../../../globalStore/store";
-import Loading from "../others/Loading";
+import Loading from "../Others/Loading";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const schema = z.object({

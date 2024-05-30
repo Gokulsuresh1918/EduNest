@@ -11,9 +11,9 @@ import {
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "@/components/Ui/input-otp";
+import { Input } from "@/components/Ui/input";
+import { Button } from "@/components/Ui/button";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -91,7 +91,6 @@ const OtpPage = () => {
       }
     }
   };
-
 
   const handleOTPChange = (newOTP: React.SetStateAction<string>) => {
     setOTP(newOTP);

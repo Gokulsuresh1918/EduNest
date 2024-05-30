@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import { useTheme } from "next-themes";
 import {
   Dialog,
@@ -9,15 +9,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/Ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+} from "@/components/Ui/select";
+import { Input } from "@/components/Ui/input";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import { useEdgeStore } from "../../lib/edgestore";
@@ -78,7 +78,7 @@ export function AssignTask() {
       task,
       studentEmail,
       dueDate,
-      demoCode
+      demoCode,
     };
     if (studentEmail) {
       const assignTask = async (data: object) => {

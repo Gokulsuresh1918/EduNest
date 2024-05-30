@@ -9,22 +9,22 @@ import landingGroup from "../../../public/images/landing-group.svg";
 import landingGroup2 from "../../../public/images/landing-group2.svg";
 import { Moon, Sun, UserRound } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/Ui/dropdown-menu";
 import CarouselPlugin from "./curoseal";
 import Footer from "../Footer/footer";
-import { JoinClass } from "../modal/JoinClass";
-import { CreateClass } from "../modal/CreateClass";
+import { JoinClass } from "../Modal/JoinClass";
+import { CreateClass } from "../Modal/CreateClass";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Cookie from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
-import { SparklesCore } from "../ui/sparkles";
+import { SparklesCore } from "../Ui/sparkles";
 
 const Home = () => {
   const [login, setLogin] = useState(false);

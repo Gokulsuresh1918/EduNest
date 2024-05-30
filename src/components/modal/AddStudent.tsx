@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/Ui/dialog";
+import { Input } from "@/components/Ui/input";
+import { Label } from "@/components/Ui/label";
 import { FaCopy, FaShareAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";

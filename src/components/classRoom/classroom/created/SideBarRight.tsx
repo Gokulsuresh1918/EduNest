@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/Ui/button";
+import { Input } from "@/components/Ui/input";
+import { Label } from "@/components/Ui/label";
 import {
   Sheet,
   SheetClose,
@@ -10,7 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/components/Ui/sheet";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
@@ -18,7 +18,7 @@ import { log } from "console";
 import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import { useParams, useRouter } from "next/navigation";
-import { SidebarContext } from "@/components/ui/animated-tooltip";
+import { SidebarContext } from "@/components/Ui/animated-tooltip";
 
 interface Student {
   name?: string;
@@ -90,7 +90,7 @@ export default function SideBarRight() {
     });
   }
   function handleBlock(_id: String) {
-    setSide(false)
+    setSide(false);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -118,22 +118,27 @@ export default function SideBarRight() {
       <SheetContent className="bg-slate-300 text-black">
         <SheetHeader className="flex justify-end">
           <div className="w-full flex justify-end">
-            <p className="font-bold text-md pr-7">Close The Window here&gt;&gt;&gt;&gt;</p>
-          <Button
-            onClick={() => setSide(false)}
-            className="border items-end  rounded-xl 
+            <p className="font-bold text-md pr-7">
+              Close The Window here&gt;&gt;&gt;&gt;
+            </p>
+            <Button
+              onClick={() => setSide(false)}
+              className="border items-end  rounded-xl 
             bg-gray-500
                text-white"
-            type="submit"
-          >
-            X
-          </Button>
+              type="submit"
+            >
+              X
+            </Button>
           </div>
 
-          <SheetTitle   onClick={() => setSide(false)} className=" font-bold text-3xl text-[#593e85] ">
+          <SheetTitle
+            onClick={() => setSide(false)}
+            className=" font-bold text-3xl text-[#593e85] "
+          >
             Control User
           </SheetTitle>
-          <SheetDescription   onClick={() => setSide(false)}> 
+          <SheetDescription onClick={() => setSide(false)}>
             Make Control to your Students here.
           </SheetDescription>
         </SheetHeader>
@@ -154,13 +159,13 @@ export default function SideBarRight() {
                   </h1>
                   <SheetClose asChild>
                     <Button
-                      onClick={()=>handleBlock(student._id)}
-                      
-                      className={`border rounded-xl ${student.status?' bg-green-500':' bg-red-500'}`}
+                      onClick={() => handleBlock(student._id)}
+                      className={`border rounded-xl ${
+                        student.status ? " bg-green-500" : " bg-red-500"
+                      }`}
                       type="submit"
                     >
-                      {student.status?'Block':'UnBlock'}
-                      
+                      {student.status ? "Block" : "UnBlock"}
                     </Button>
                   </SheetClose>
                 </React.Fragment>
@@ -169,7 +174,6 @@ export default function SideBarRight() {
         </div>
 
         <SheetFooter>
-       
           <Button
             onClick={handleDelete}
             className="border rounded-xl 

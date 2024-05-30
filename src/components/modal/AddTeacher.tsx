@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/components/Ui/dialog";
+import { Input } from "@/components/Ui/input";
 import { z } from "zod";
 import { toast } from "react-toastify";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";

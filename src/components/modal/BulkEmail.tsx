@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/Ui/button";
 import { useRouter } from "next/navigation";
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/components/Ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -17,11 +17,11 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Input } from "@/components/ui/input";
+} from "@/components/Ui/drawer";
+import { Input } from "@/components/Ui/input";
 import { z } from "zod";
 import axios from "axios";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/Ui/textarea";
 import { useParams } from "next/navigation";
 import { FaEnvelope } from "react-icons/fa";
 import Checkbox from "@mui/material/Checkbox";
@@ -180,7 +180,7 @@ const BulkEmail = () => {
                       className="flex justify-evenly w-full"
                       type="button"
                     >
-                     Send  <FaEnvelope />
+                      Send <FaEnvelope />
                     </Button>
                   </DialogFooter>
                 </DrawerFooter>

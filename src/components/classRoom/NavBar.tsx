@@ -7,6 +7,7 @@ import logo from "../../../public/images/logo.png";
 import { userStore, classroomStore } from "../../../globalStore/store";
 import { useRouter } from "next/navigation";
 
+
 const NavBar = () => {
   const user = userStore((state) => state.user);
   const Router = useRouter();

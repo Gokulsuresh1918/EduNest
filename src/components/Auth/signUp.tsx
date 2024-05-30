@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/Ui/button";
+import { Input } from "@/components/Ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Image from "next/image";
@@ -15,8 +15,6 @@ import googleimg from "../../../public/images/google logo.png";
 import Logo from "../../../public/images/logo.png";
 import imageUrl from "../../../public/images/signupimage.png";
 
-
-
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const handleGoogleSignIn = () => {
   window.open(`${BASE_URL}/auth/google/callback`, "_self");
@@ -25,17 +23,25 @@ const handleGithubSignIn = () => {
   window.open(`${BASE_URL}/auth/github/callback`, "_self");
 };
 
-
-const schema = z.object({
-  name: z.string().min(3, { message: "Name must be at least 3 characters long" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
-  confirmPassword: z.string().min(6, { message: "Confirm password must be at least 6 characters long" }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"], 
-});
-
+const schema = z
+  .object({
+    name: z
+      .string()
+      .min(3, { message: "Name must be at least 3 characters long" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" }),
+    confirmPassword: z
+      .string()
+      .min(6, {
+        message: "Confirm password must be at least 6 characters long",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 type FormField = z.infer<typeof schema>;
 
@@ -56,18 +62,18 @@ const SignUpPage = () => {
       if (values.password !== values.confirmPassword) {
         toast.error("confirm password and password must be equal", {
           position: "top-right",
-        });        
+        });
         return;
       }
       const response = await axios.post(`${BASE_URL}/auth/signup`, values);
 
       if (response) {
         console.log(response.data);
-        router.replace('/otpPage')
+        router.replace("/otpPage");
       }
     } catch (error) {
       console.log("error");
-      
+
       if (axios.isAxiosError(error) && error.response?.data?.error) {
         toast.error(error.response.data.error, {
           position: "top-right",

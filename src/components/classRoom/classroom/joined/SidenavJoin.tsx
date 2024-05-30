@@ -1,36 +1,57 @@
 "use client";
-import { BookOpen, GraduationCap, ListTodo, VideoIcon } from "lucide-react";
-import React, { useState } from "react";
+import {
+  BellIcon,
+  BellRing,
+  BookOpen,
+  GraduationCap,
+  ListTodo,
+  VideoIcon,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import {SideBarJoin} from "../joined/SideBarRightJoin";
+import { SideBarJoin } from "../joined/SideBarRightJoin";
+import { io } from "socket.io-client";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+const CLIENT = process.env.NEXT_PUBLIC_FRONT;
+
+const socket = io(`${BASE_URL}`);
+
 const Sidenav = () => {
+  const Router=useRouter()
   const router = useRouter();
   const params = useParams();
   let classCode: string;
 
   if (Array.isArray(params.classCode)) {
-    classCode = params.classCode.join('');
+    classCode = params.classCode.join("");
   } else {
     classCode = params.classCode;
   }
-  
-  const [side, setSide] = useState(false);
 
+  const [side, setSide] = useState(false);
+  const [notification, setNotification] = useState<string>("");
+
+  useEffect(() => {
+    socket.on("callStarted", (data) => {
+      setNotification(data.message);
+    });
+
+    return () => {
+      socket.off("callStarted");
+    };
+  }, []);
   const handleClick = () => {
     router.push("/");
   };
 
   const handleAssignTask = () => {
-    // Add your logic here
     setSide(true);
   };
+  const handleVideo = () => {
+    Router.push(`${CLIENT}/room/${classCode}`);
 
-  const handleTodo = () => {
-    router.push("/");
-  };
-
-  const handleQuiz = () => {
-    router.push("/");
+    setSide(true);
   };
 
   return (
@@ -53,25 +74,30 @@ const Sidenav = () => {
           <h2>Assigned Task</h2>
         </div>
         <div
-          onClick={handleTodo}
+          // onClick={handleTodo}
           className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
         >
           <ListTodo className="group-hover:animate-bounce" />
           <h2>Todo</h2>
         </div>
         <div
-          onClick={handleQuiz}
+          // onClick={handleQuiz}
           className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
         >
           <GraduationCap className="group-hover:animate-bounce" />
           <h2>Quiz</h2>
         </div>
         <div
-          onClick={handleQuiz}
-          className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+          onClick={handleVideo}
+          className={`group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3]  hover:text-white rounded-md transition-all ease-in-out duration-200 relative`}
         >
-          <VideoIcon className="group-hover:animate-bounce" />
-          <h2>Join Class</h2>
+          {/* Overlay the BellIcon on top of the VideoIcon when a notification is pending */}
+          {notification ? (
+            <BellRing className=" text-red-700  animate-pulse" />
+          ) : (
+            <VideoIcon className="group-hover:animate-bounce" />
+          )}
+          <h2 className={notification&&'text-red-700 animate-pulse'}>{notification?' Join Class ':'No Class'}</h2>
         </div>
       </div>
     </div>

@@ -2,15 +2,15 @@ import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import logo from "../../../public/images/logo.png";
 
-import Image from 'next/image'; 
-import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import { Card, CardContent } from "@/components/Ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/components/Ui/carousel";
 
 export function CarouselPlugin() {
   const plugin = React.useRef(

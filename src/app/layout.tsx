@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Nav from "../components/Home/Navbar";
 import { NextAuthProvider } from "../app/provider";
-import { ThemeProvider } from "../components/others/theme-provider";
+import { ThemeProvider } from "../components/Others/theme-provider";
 import { EdgeStoreProvider } from "../lib/edgestore";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
