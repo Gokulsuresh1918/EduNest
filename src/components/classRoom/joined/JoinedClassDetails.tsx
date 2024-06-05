@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AddMedia from "./AddMedia";
-import { AnimatedTooltipPreview } from "../../AvatarGroups";
+import AddMedia from "../../classRoom/created/AddMedia";
+import { AnimatedTooltipPreview } from "../AvatarGroups";
+import logo from "../../../../../public/images/google logo.png";
 import Image from "next/image";
 import axios from "axios";
-import { userStore, classroomStore } from "../../../../../globalStore/store";
-
-import { useEdgeStore } from "../../../../lib/edgestore";
+import { userStore, classroomStore } from "../../../../globalStore/store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -21,29 +20,31 @@ function ClassDetails({ classCode }: { classCode: string }) {
         const response = await axios.get(
           `${BASE_URL}/class/getClassData/${classCode}`
         );
-        const resData = response.data.classroom[0];
+        const resData = response.data.classroom;
+        // console.log("fjhfdakjsdhflkj", resData);
+        // console.log("profike",resData[0].profilePicture)
 
-        if (resData) {
-          const data = {
-            id: resData._id,
-            title: resData.title,
-            description: resData.description,
-            code: resData.roomCode,
-            profilePicture: resData.profilePicture,
-            ownerId: resData.owner,
-            students: resData.students,
-            teachers: resData.teacher,
-          };
-
-          createClassroom(data);
-        }
+        let data = {
+          id: resData[0]._id,
+          title: resData[0].title,
+          description: resData[0].description,
+          code: resData[0].roomCode,
+          profilePicture: resData[0].profilePicture,
+          ownerId: resData[0].owner,
+          students: resData[0].students,
+          teachers: resData[0].teacher,
+        };
+        // console.log("data",data)
+        createClassroom(data);
       } catch (error) {
-        console.error("Error fetching class data:", error);
+        console.error(error);
       }
     };
 
     fetchData();
-  }, [classCode, createClassroom]);
+  }, []);
+
+  // console.log("classdatatt an   aii", classData);
 
   return (
     <div className="flex flex-col h-32 w-full">
@@ -52,9 +53,6 @@ function ClassDetails({ classCode }: { classCode: string }) {
           {classData[0]?.title || "Loading..."}
         </h1>
 
-        <div className="pt-2">
-          <AnimatedTooltipPreview />
-        </div>
         <h1 className="absolute left-1/4 top-3/4 transform -translate-y-1/2 text-gray-700 md:text-lg">
           {classData[0]?.description || "Loading..."}
         </h1>
@@ -72,5 +70,4 @@ function ClassDetails({ classCode }: { classCode: string }) {
     </div>
   );
 }
-
 export default ClassDetails;

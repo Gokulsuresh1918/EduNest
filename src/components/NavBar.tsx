@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import React from "react";
-import logo from "../../../public/images/logo.png";
+import logo from "../../public/images/logo.png";
 // import { useStore } from 'zustand';
-import { userStore, classroomStore } from "../../../globalStore/store";
+import { userStore, classroomStore } from "../../globalStore/store";
 import { useRouter } from "next/navigation";
-
 
 const NavBar = () => {
   const user = userStore((state) => state.user);

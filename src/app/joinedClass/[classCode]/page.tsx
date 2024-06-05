@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Sidenav from "../../../components/classRoom/classroom/joined/SidenavJoin";
-import NavBar from "../../../components/classRoom/NavBar";
-import ClassDetails from "../../../components/classRoom/classroom/joined/JoinedClassDetails";
+import Sidenav from "../../../components/classRoom/joined/SidenavJoin";
+import NavBar from "../../../components/NavBar";
+import ClassDetails from "../../../components/classRoom/joined/JoinedClassDetails";
 import Image from "next/image";
-import AdsSection from "@/components/classRoom/AdsSection";
+import AdsSection from "../../../components/classRoom/AdsSection";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
-import Card from "@/components/classRoom/card";
+import Card from "../../../components/classRoom/card";
 import imageUrl from "../../../../public/images/bg.svg";
-
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -30,15 +29,11 @@ const JoinedClass = ({ params }: { params: { classCode: string } }) => {
       // console.log('thid iud stat ',file);
     };
     fetchFile();
-      
-  // const intervalId = setInterval(fetchFile, 5000); 
-
-  // return () => clearInterval(intervalId);
   }, []);
   return (
     <>
       <div className="bg-white flex w-screen overflow-hidden  h-screen">
-          <Sidenav />
+        <Sidenav />
 
         <div className="w-full">
           <NavBar />
@@ -48,11 +43,11 @@ const JoinedClass = ({ params }: { params: { classCode: string } }) => {
               {/* display content */}
               <div className=" w-full h-full ">
                 {file ? (
-                 <div className="grid grid-cols-1 overflow-scroll h-[28rem]  rounded-xl md:grid-cols-3 m-6">
-                 {file.map((item, index) => (
-                   <Card file={item} />
-                 ))}
-               </div>
+                  <div className="grid grid-cols-1 overflow-scroll h-[28rem]  rounded-xl md:grid-cols-3 m-6">
+                    {file.map((item, index) => (
+                      <Card file={item} />
+                    ))}
+                  </div>
                 ) : (
                   <div className="grid grid-cols-1 overflow-scroll h-[28rem]  rounded-xl shadow-2xl md:grid-cols-3 m-2 ">
                     <Image src={imageUrl} alt="no media" />{" "}

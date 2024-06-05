@@ -8,7 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import SideBarRight from "@/components/classRoom/classroom/created/SideBarRight";
+import SideBarRight from "@/components/classRoom/created/SideBarRight";
 
 export const SidebarContext = createContext({
   side: false,
@@ -41,7 +41,7 @@ export const AnimatedTooltip = ({
   );
   const handleMouseMove = (event: any) => {
     const halfWidth = event.target.offsetWidth / 2;
-    x.set(event.nativeEvent.offsetX - halfWidth); 
+    x.set(event.nativeEvent.offsetX - halfWidth);
   };
   const handleClick = (event: any) => {
     setSide(true);

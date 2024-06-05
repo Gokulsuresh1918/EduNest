@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Sidenav from "../../../components/classRoom/classroom/created/SidenavCreate";
-import NavBar from "../../../components/classRoom/NavBar";
-import ClassDetails from "../../../components/classRoom/classroom/created/CreateClassDetails";
+import Sidenav from "../../../components/classRoom/created/SidenavCreate";
+import NavBar from "../../../components/NavBar";
+import ClassDetails from "../../../components/classRoom/created/CreateClassDetails";
 import Image from "next/image";
-import AdsSection from "@/components/classRoom/AdsSection";
+import AdsSection from "../../../components/classRoom/AdsSection";
 import { toast, ToastContainer } from "react-toastify";
-import Card from "@/components/classRoom/card";
-import UploadMedia from "@/components/classRoom/classroom/created/UploadMedia";
+import Card from "../../../components/classRoom/card";
+import UploadMedia from "@/components/classRoom/created/UploadMedia";
 import axios from "axios";
 import { fetchData } from "next-auth/client/_utils";
 
@@ -17,6 +17,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const CreatedClass = ({ params }: { params: { classCode: string } }) => {
   const classCode = params?.classCode;
   const [file, SetFile] = useState([]);
+  // const [triger, setState] = useState([]);
   // console.log("classCode", classCode);
   useEffect(() => {
     const fetchFile = async () => {

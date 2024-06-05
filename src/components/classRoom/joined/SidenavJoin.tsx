@@ -9,8 +9,10 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SideBarJoin } from "../joined/SideBarRightJoin";
+import { SideBarJoin } from "./SideBarRightJoin";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const CLIENT = process.env.NEXT_PUBLIC_FRONT;
@@ -18,7 +20,7 @@ const CLIENT = process.env.NEXT_PUBLIC_FRONT;
 const socket = io(`${BASE_URL}`);
 
 const Sidenav = () => {
-  const Router=useRouter()
+  const Router = useRouter();
   const router = useRouter();
   const params = useParams();
   let classCode: string;
@@ -49,9 +51,12 @@ const Sidenav = () => {
     setSide(true);
   };
   const handleVideo = () => {
-    Router.push(`${CLIENT}/room/${classCode}`);
-
-    setSide(true);
+    notification
+      ? Router.push(`${CLIENT}/room/${classCode}`)
+      : toast("Teacher not started a call", {
+          position: "bottom-left",
+          autoClose: 4000,
+        });
   };
 
   return (
@@ -97,7 +102,9 @@ const Sidenav = () => {
           ) : (
             <VideoIcon className="group-hover:animate-bounce" />
           )}
-          <h2 className={notification&&'text-red-700 animate-pulse'}>{notification?' Join Class ':'No Class'}</h2>
+          <h2 className={notification && "text-red-700 animate-pulse"}>
+            {notification ? " Join Class " : "No Class"}
+          </h2>
         </div>
       </div>
     </div>

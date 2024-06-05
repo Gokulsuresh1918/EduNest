@@ -14,6 +14,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const UploadMedia = ({ classCode }: { classCode: string }) => {
     const [uploadProgress, setUploadProgress] = useState(0);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    
     const { edgestore } = useEdgeStore();
   
     const handleButtonClick = () => {

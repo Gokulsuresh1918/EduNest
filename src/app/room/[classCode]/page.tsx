@@ -2,6 +2,7 @@
 
 import { Skeleton } from "@/components/Ui/skeleton";
 import {
+  VideoConference,
   ControlBar,
   GridLayout,
   LiveKitRoom,
@@ -11,6 +12,7 @@ import {
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -20,10 +22,14 @@ const socket = io(`${BASEURL}`);
 
 const VideoCall = ({ params }: { params: { classCode: string } }) => {
   const classCode = params?.classCode;
+  const Router = useRouter();
   // console.log("params vanaii datat", classCode);
   const [username, setName] = useState<String>("");
   const [token, setToken] = useState("");
-
+  function handledisconect() {
+    setToken("");
+    Router.back();
+  }
   useEffect(() => {
     // Assume this function is called when the video call starts
     const startVideoCall = () => {
@@ -90,10 +96,13 @@ const VideoCall = ({ params }: { params: { classCode: string } }) => {
       audio={true}
       token={token}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+      onDisconnected={handledisconect}
       // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
       style={{ height: "100dvh" }}
+      
     >
+      <VideoConference />
       {/* Your custom component with basic video conferencing functionality. */}
       <MyVideoConference />
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}

@@ -13,12 +13,12 @@ import React, { useState } from "react";
 import logo from "../../../../../public/images/Animation - 1715593245274.gif";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
-import AddStudent from "../../../Modal/AddStudent";
+import AddStudent from "../../Modal/AddStudent";
 import { createPortal } from "react-dom";
-import AssignTask from "../../../Modal/AssignTask";
-import AddTeacher from "../../../Modal/AddTeacher";
-import BulkEmail from "../../../Modal/BulkEmail";
-import VideoCallConfirm from "../../../Modal/videoCallConfirm";
+import AssignTask from "../../Modal/AssignTask";
+import AddTeacher from "../../Modal/AddTeacher";
+import BulkEmail from "../../Modal/BulkEmail";
+import VideoCallConfirm from "../../Modal/videoCallConfirm";
 import { FiMenu, FiX } from "react-icons/fi";
 import { toast } from "react-toastify";
 
