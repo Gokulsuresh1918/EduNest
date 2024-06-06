@@ -6,6 +6,7 @@ import {
   GraduationCap,
   ListTodo,
   Mail,
+  PresentationIcon,
   VideoIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -21,6 +22,8 @@ import BulkEmail from "../../Modal/BulkEmail";
 import VideoCallConfirm from "../../Modal/videoCallConfirm";
 import { FiMenu, FiX } from "react-icons/fi";
 import { toast } from "react-toastify";
+import WhiteBoard from "../../../app/whiteBoard/page";
+import WhiteBoardCanvas from "./WhiteBoardCanvas";
 
 const Sidenav = () => {
   const router = useRouter();
@@ -29,6 +32,7 @@ const Sidenav = () => {
   const [task, setTask] = useState(false);
   const [bulkemail, setbulkemail] = useState(false);
   const [video, setVideo] = useState(false);
+  const [white, setwhiteBoard] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { classCode } = useParams();
@@ -77,6 +81,11 @@ const Sidenav = () => {
   };
   const handleStartClass = () => {
     setVideo(true);
+    setMenuOpen(false);
+  };
+  const handlewhiteBoard = () => {
+    setwhiteBoard(true);
+    router.push(`/whiteBoard`);
     setMenuOpen(false);
   };
 
@@ -144,6 +153,13 @@ const Sidenav = () => {
               <h2>Quiz</h2>
             </div>
             <div
+              onClick={handlewhiteBoard}
+              className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            >
+              <GraduationCap className="group-hover:animate-bounce" />
+              <h2>WhiteBoard</h2>
+            </div>
+            <div
               onClick={handleStartClass}
               className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
             >
@@ -200,6 +216,21 @@ const Sidenav = () => {
             <Mail className="group-hover:animate-bounce" />
             <h2>Bulk Email</h2>
           </div>
+
+          <div
+            onClick={handlewhiteBoard}
+            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+          >
+            <PresentationIcon className="group-hover:animate-bounce" />
+            <h2>WhiteBoard</h2>
+          </div>
+          <div
+            onClick={handleStartClass}
+            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+          >
+            <VideoIcon className="group-hover:animate-bounce" />
+            <h2>Start Class</h2>
+          </div>
           <div
             onClick={handleTodo}
             className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
@@ -213,13 +244,6 @@ const Sidenav = () => {
           >
             <GraduationCap className="group-hover:animate-bounce" />
             <h2>Quiz</h2>
-          </div>
-          <div
-            onClick={handleStartClass}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
-          >
-            <VideoIcon className="group-hover:animate-bounce" />
-            <h2>Start Class</h2>
           </div>
         </div>
       </div>

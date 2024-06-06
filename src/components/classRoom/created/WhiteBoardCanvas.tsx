@@ -1,6 +1,6 @@
-
 'use client'
 import React, { useEffect, useRef, useState } from "react";
+import { io } from 'socket.io-client';
 
 interface DrawingAction {
   path: { x: number; y: number }[];
@@ -22,10 +22,12 @@ const WhiteBoardCanvas: React.FC = () => {
     lineWidth: 3,
   });
 
+  const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}`)).current;
+
   useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
-      canvas.width = 900;
+      canvas.width = 1100;
       canvas.height = 500;
       const ctx = canvas.getContext("2d");
       if (ctx) {
@@ -33,7 +35,18 @@ const WhiteBoardCanvas: React.FC = () => {
         reDrawPreviousData(ctx);
       }
     }
-  }, []);
+
+    socket.on('drawing', (data: DrawingAction) => {
+      setDrawingActions((prevActions) => [...prevActions, data]);
+      if (context && canvasRef.current) {
+        reDrawPreviousData(context, [...drawingActions, data]);
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [context, socket]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (context) {
@@ -63,10 +76,12 @@ const WhiteBoardCanvas: React.FC = () => {
       context.closePath();
     }
     if (currentPath.length > 0) {
+      const newDrawingAction = { path: currentPath, style: currentStyle };
       setDrawingActions((prevActions) => [
         ...prevActions,
-        { path: currentPath, style: currentStyle },
+        newDrawingAction,
       ]);
+      socket.emit('drawing', newDrawingAction); 
     }
     setCurrentPath([]);
   };
@@ -141,7 +156,7 @@ const WhiteBoardCanvas: React.FC = () => {
       />
       <div className="flex my-4">
         <div className="flex justify-center space-x-4">
-          {["red", "blue", "green", "orange", "black"].map((color) => (
+          {["red", "blue", "green", "yellow", "black"].map((color) => (
             <div
               key={color}
               className={`w-8 h-8 rounded-full cursor-pointer ${
