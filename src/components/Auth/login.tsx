@@ -54,7 +54,7 @@ const LoginPage = () => {
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
 
       if (response.data && response.data.token) {
-        console.log(response.data.token, "this is ttoken");
+        console.log(response.data.token, "this is token");
         Cookies.set("token", response.data.token, {
           expires: 7,
           secure: true,
@@ -177,6 +177,8 @@ const LoginPage = () => {
         </div>
       </div>
     </>
+
+
   );
 };
 
