@@ -21,8 +21,11 @@ import { Input } from "@/components/Ui/input";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import { useEdgeStore } from "../../lib/edgestore";
+import { io } from "socket.io-client";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+const socket = io(`${BASE_URL}`);
 
 export function AssignTask() {
   const { theme } = useTheme();
@@ -85,6 +88,8 @@ export function AssignTask() {
         await axios.post(`${BASE_URL}/class/assigntask`, data);
         toast.success("Task assigned successfully!");
       };
+      socket.emit("taskAssigned",data)
+
       assignTask(data);
     }
   };

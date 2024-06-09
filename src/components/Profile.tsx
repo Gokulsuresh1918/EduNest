@@ -10,7 +10,7 @@ import {
   SelectItem,
 } from "./Ui/select";
 import { IconButton } from "./Ui/iconButton";
-import { EditIcon, EyeIcon, EyeOffIcon } from "./Ui/icons";
+import { EditIcon } from "./Ui/icons";
 import {
   Sheet,
   SheetClose,
@@ -19,47 +19,111 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "./Ui/sheet";
 import axios from "axios";
+import { toast } from "react-toastify";
 
+// Interface for user data
 interface UserData {
   name: string;
   password: string;
+  _id: string;
+  email: string;
+  createdClassrooms: string[];
+  joinedClassrooms: string[];
 }
-const BASE_URL=process.env.NEXT_PUBLIC_SERVER_URL
-const ProfilePge: React.FC = () => {
-  const [isEditingUsername, setIsEditingUsername] = useState(false);
-  const [isEditingPassword, setIsEditingPassword] = useState(false);
-  const [username, setUsername] = useState("your name");
-  const [password, setPassword] = useState("********");
-  const [showPassword, setShowPassword] = useState(false);
 
+// Environment variable for base URL
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+interface ProfilePgeProps {
+  status: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
+  // console.log('samad',status);
+  
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [username, setUsername] = useState("your name");
+  const [email, setEmail] = useState("");
+  const [createdClassrooms, setCreatedClassrooms] = useState<string[]>([]);
+  const [joinedClassrooms, setJoinedClassrooms] = useState<string[]>([]);
+
+  // Fetch user data on component mount
   useEffect(() => {
     const rawData = localStorage.getItem("User");
     const fetchData = async () => {
-        const userData = JSON.parse(rawData || '{}');
-        const response = await axios.post(`${BASE_URL}/user`, userData.email);
-        console.log('this ',response.data);
-        
-    }
+      if (!rawData) return;
+      const userData: UserData = JSON.parse(rawData);
+      if (!userData._id) return;
+
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/user/userData/${userData._id}`
+        );
+        const data = response.data;
+
+        setUsername(data.name);
+        setEmail(data.email);
+        setCreatedClassrooms(data.createdClassrooms || []);
+        setJoinedClassrooms(data.joinedClassrooms || []);
+
+        const classroomNames = await Promise.all(
+          data.joinedClassrooms.map((classroomId: string) =>
+            getClassData(classroomId)
+          )
+        );
+        const creatclassroomNames = await Promise.all(
+          data.createdClassrooms.map((classroomId: string) =>
+            getClassData(classroomId)
+          )
+        );
+        setCreatedClassrooms(creatclassroomNames);
+        setJoinedClassrooms(classroomNames);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     fetchData();
   }, []);
+
+  // Fetch classroom data by ID
+  const getClassData = async (classroomId: string) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/user/getClassData/${classroomId}`
+      );
+      return response.data.classroom;
+    } catch (error) {
+      console.error(
+        `Failed to fetch classroom data for ID: ${classroomId}`,
+        error
+      );
+      return "";
+    }
+  };
+
   const handleEditUsername = () => {
+    console.log("Current username:", username);
     setIsEditingUsername(true);
   };
 
-  const handleEditPassword = () => {
-    setIsEditingPassword(true);
-  };
-
-  const handleSaveChanges = () => {
+  // Save changes and send updated username to the backend
+  const handleSaveChanges = async () => {
     setIsEditingUsername(false);
-    setIsEditingPassword(false);
-  };
+    const rawData = localStorage.getItem("User");
+    if (!rawData) return;
+    const userData: UserData = JSON.parse(rawData);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    try {
+      await axios.post(`${BASE_URL}/user/updateUsername`, {
+        userId: userData._id,
+        newUsername: username,
+      });
+      console.log("Username updated successfully");
+      toast('Username updated successfully')
+    } catch (error) {
+      console.error("Failed to update username:", error);
+    }
   };
 
   return (
@@ -96,35 +160,11 @@ const ProfilePge: React.FC = () => {
             </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="password" className="text-right">
-              Password
+            <Label htmlFor="email" className="text-right">
+              E-Mail
             </Label>
             <div className="flex col-span-3 items-center gap-2">
-              {isEditingPassword ? (
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  className="flex-1"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              ) : (
-                <span className="flex-1">
-                  {showPassword ? password : "********"}
-                </span>
-              )}
-              <IconButton
-                aria-label="Toggle password visibility"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </IconButton>
-              <IconButton
-                aria-label="Edit password"
-                onClick={handleEditPassword}
-              >
-                <EditIcon />
-              </IconButton>
+              <span className="flex-1">{email}</span>
             </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -134,12 +174,17 @@ const ProfilePge: React.FC = () => {
             <div className="flex col-span-3 items-center gap-2">
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select class" />
+                  <SelectValue
+                    placeholder={joinedClassrooms[0] || "Joined class"}
+                  />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="class1">Class 1</SelectItem>
-                  <SelectItem value="class2">Class 2</SelectItem>
-                  <SelectItem value="class3">Class 3</SelectItem>
+                <SelectContent className="text-black bg-slate-400">
+                  {Array.isArray(joinedClassrooms) &&
+                    joinedClassrooms.map((data, index) => (
+                      <SelectItem key={index} value={data}>
+                        {data}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>
@@ -151,12 +196,17 @@ const ProfilePge: React.FC = () => {
             <div className="flex col-span-3 items-center gap-2">
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select class" />
+                  <SelectValue
+                    placeholder={createdClassrooms[0] || "Joined class"}
+                  />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="class1">Class 1</SelectItem>
-                  <SelectItem value="class2">Class 2</SelectItem>
-                  <SelectItem value="class3">Class 3</SelectItem>
+                <SelectContent className="text-black bg-slate-400">
+                  {Array.isArray(createdClassrooms) &&
+                    createdClassrooms.map((data, index) => (
+                      <SelectItem key={index} value={data}>
+                        {data}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>

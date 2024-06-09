@@ -19,7 +19,7 @@ import { useTheme } from "next-themes";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export function JoinClass() {
+export function JoinClass(status: any) {
   const { theme, setTheme } = useTheme();
   const [ownerId, setOwnerId] = useState("");
   const Router = useRouter();
@@ -76,26 +76,28 @@ export function JoinClass() {
           Join
         </motion.button>
       </DialogTrigger>
-      <DialogContent className={` text-${getTextColor()} sm:max-w-[425px]`}>
-        <DialogHeader>
-          <DialogTitle>Join ClassRooms</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="items-center gap-4">
-              <Input
-                id="name"
-                placeholder="Classroom code"
-                className="col-span-3 border-cyan-800 rounded-xl"
-                onChange={(e) => setClassCode(e.target.value)}
-              />
+      {status && (
+        <DialogContent className={` text-${getTextColor()} sm:max-w-[425px]`}>
+          <DialogHeader>
+            <DialogTitle>Join ClassRooms</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="items-center gap-4">
+                <Input
+                  id="name"
+                  placeholder="Classroom code"
+                  className="col-span-3 border-cyan-800 rounded-xl"
+                  onChange={(e) => setClassCode(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <DialogFooter className="rounded-xl w-[17%] bg-[#624DE3]">
-            <Button type="submit">Join</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+            <DialogFooter className="rounded-xl w-[17%] bg-[#624DE3]">
+              <Button type="submit">Join</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      )}
     </Dialog>
   );
 }

@@ -1,24 +1,22 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import imageUrl from "../../../public/images/signupimage.png";
-import Logo from "../../../public/images/logo.png";
-import googleimg from "../../../public/images/google logo.png";
-import githubimg from "../../../public/images/githublogo.png";
-import { Input } from "@/components/Ui/input";
 import { Button } from "@/components/Ui/button";
-import { signIn, useSession } from "next-auth/react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
+import { Input } from "@/components/Ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Cookie from "js-cookie";
-import { toast } from "react-toastify";
+import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
 import { userStore } from "../../../globalStore/store";
-import Loading from "../Others/Loading";
+import githubimg from "../../../public/images/githublogo.png";
+import googleimg from "../../../public/images/google logo.png";
+import Logo from "../../../public/images/logo.png";
+import imageUrl from "../../../public/images/signupimage.png";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const schema = z.object({
@@ -27,9 +25,7 @@ const schema = z.object({
 });
 type FormField = z.infer<typeof schema>;
 
-const LoginPage = () => {
-  console.log("onChildren login");
-
+const AdminLoginPage = () => {
   const { data, status } = useSession();
   const setUser = userStore((state) => state.setUser);
   const user = userStore((state) => state.user);
@@ -45,11 +41,12 @@ const LoginPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormField>({
     defaultValues: {
-      email: "gokulanandhu1571@gmail.com",
-      password: "asdfasdf",
+      email: "",
+      password: "",
     },
     resolver: zodResolver(schema),
   });
+
   useEffect(() => {
     const checkToken = async () => {
       const token = Cookie.get("token");
@@ -64,20 +61,20 @@ const LoginPage = () => {
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
 
-      if (response.data && response.data.token) {
-        console.log(response.data.token, "this is token");
-        Cookies.set("token", response.data.token, {
+      if (response.data && response.data.token && response.data.user.role === 'admin') {
+        Cookie.set("token", response.data.token, {
           expires: 7,
           secure: true,
           sameSite: "strict",
         });
 
         setUser(response.data.user);
-        // console.log('this is the data',response.data.user);
-
         localStorage.setItem("User", JSON.stringify(response.data.user));
-        console.log("Token stored in cookie");
-        router.push("/");
+        router.push("/admin-dashboard");
+      } else {
+        toast.error("Not authorized as admin", {
+          position: "top-right",
+        });
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.error) {
@@ -85,7 +82,9 @@ const LoginPage = () => {
           position: "top-right",
         });
       } else {
-        console.log("Unexpected Error occurred", error);
+        toast.error("Unexpected error occurred", {
+          position: "top-right",
+        });
       }
     }
   };
@@ -93,7 +92,7 @@ const LoginPage = () => {
   return (
     <>
       {login && (
-        <div className=" flex justify-center w-screen overflow-hidden">
+        <div className="flex justify-center w-screen overflow-hidden">
           <div className="w-[50%] hidden h-screen sm:block">
             <Image
               src={imageUrl}
@@ -101,23 +100,22 @@ const LoginPage = () => {
               className="object-cover h-full w-full "
             />
           </div>
-          <div className="w-[50%] flex flex-col justify-center  bg-white">
-            <div className="w-full flex justify-center ">
+          <div className="w-[50%] flex flex-col justify-center bg-white">
+            <div className="w-full flex justify-center">
               <Link href="/">
                 <Image src={Logo} alt="Logo" width={170} height={50} />
               </Link>
             </div>
             <div>
-              {/* bg-[#645FB7] */}
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className=" flex flex-col px-44 w-full gap-4"
+                className="flex flex-col px-44 w-full gap-4"
               >
                 <Input
                   {...register("email")}
                   type="email"
                   placeholder="Email"
-                  className="bg-blue-300 rounded-xl  border-red-50"
+                  className="bg-blue-300 rounded-xl border-red-50"
                 />
                 {errors.email && (
                   <p className="text-red-700 text-sm animate-pulse">
@@ -129,7 +127,7 @@ const LoginPage = () => {
                   type="password"
                   {...register("password")}
                   placeholder="Password"
-                  className="bg-blue-300 rounded-xl border-red-50 "
+                  className="bg-blue-300 rounded-xl border-red-50"
                 />
                 {errors.password && (
                   <p className="text-red-600 text-sm animate-pulse">
@@ -139,7 +137,7 @@ const LoginPage = () => {
 
                 <Button
                   disabled={isSubmitting}
-                  className="bg-blue-800 rounded-xl text-white  "
+                  className="bg-blue-800 rounded-xl text-white"
                   variant="outline"
                 >
                   {isSubmitting ? "...Loading" : "Log In"}
@@ -151,15 +149,15 @@ const LoginPage = () => {
                 )}
               </form>
               <div className="flex justify-center">
-                <h3 className="text-lg text-red-800 flex justify-center ">
-                  New User ?{" "}
+                <h3 className="text-lg text-red-800 flex justify-center">
+                  New User?{" "}
                   <a href="/signup" className="text-black">
                     SIGN UP
                   </a>
                 </h3>
               </div>
 
-              <div className="flex justify-center items-center space-x-5 ">
+              <div className="flex justify-center items-center space-x-5">
                 <Image
                   onClick={() => signIn("google")}
                   src={googleimg}
@@ -183,4 +181,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;

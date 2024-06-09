@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import React, { useState } from "react";
 import logo from "../../public/images/logo.png";
@@ -15,11 +13,11 @@ const NavBar = () => {
   const [profile, setprofile] = useState(false);
   const Router = useRouter();
   function handleprofile() {    
-    setprofile(true);
+    setprofile(!profile);
   }
   return (
     <>
-      {profile && createPortal(<ProfilePge />, document.body)}
+      {profile && createPortal(<ProfilePge status={setprofile} />, document.body)}
       <div className="flex justify-between border bg-[#f1eff3]   h-12 w-full">
         <div className=" flex justify-center items-center">
           {/* <div onClick={()=>{Router.push('/')}}>

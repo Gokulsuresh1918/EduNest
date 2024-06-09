@@ -1,29 +1,24 @@
 "use client";
 import {
-  BadgeIcon,
   BookAIcon,
   BookOpen,
   GraduationCap,
   ListTodo,
   Mail,
   PresentationIcon,
-  VideoIcon,
+  VideoIcon
 } from "lucide-react";
-import Image from "next/image";
-import React, { useState } from "react";
-import logo from "../../../../../public/images/Animation - 1715593245274.gif";
-import { FaChalkboardTeacher } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
-import AddStudent from "../../Modal/AddStudent";
+import { useState } from "react";
 import { createPortal } from "react-dom";
-import AssignTask from "../../Modal/AssignTask";
-import AddTeacher from "../../Modal/AddTeacher";
-import BulkEmail from "../../Modal/BulkEmail";
-import VideoCallConfirm from "../../Modal/videoCallConfirm";
+import { FaChalkboardTeacher } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 import { toast } from "react-toastify";
-import WhiteBoard from "../../../app/whiteBoard/page";
-import WhiteBoardCanvas from "./WhiteBoardCanvas";
+import AddStudent from "../../Modal/AddStudent";
+import AddTeacher from "../../Modal/AddTeacher";
+import AssignTask from "../../Modal/AssignTask";
+import BulkEmail from "../../Modal/BulkEmail";
+import VideoCallConfirm from "../../Modal/videoCallConfirm";
 
 const Sidenav = () => {
   const router = useRouter();
@@ -32,7 +27,6 @@ const Sidenav = () => {
   const [task, setTask] = useState(false);
   const [bulkemail, setbulkemail] = useState(false);
   const [video, setVideo] = useState(false);
-  const [white, setwhiteBoard] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { classCode } = useParams();
@@ -41,19 +35,19 @@ const Sidenav = () => {
     router.push("/");
   };
   const handleAssignTask = () => {
-    setTask(true);
+    setTask(!task);
     setMenuOpen(false);
   };
   const handleAddStudent = () => {
-    setOpen(true);
+    setOpen(!isOpen);
     setMenuOpen(false);
   };
   const handleAddTeacher = () => {
-    setTeacher(true);
+    setTeacher(!teacher);
     setMenuOpen(false);
   };
   const handleBulkEmail = () => {
-    setbulkemail(true);
+    setbulkemail(!bulkemail);
     setMenuOpen(false);
   };
   const handleTodo = () => {
@@ -80,11 +74,10 @@ const Sidenav = () => {
     setMenuOpen(false);
   };
   const handleStartClass = () => {
-    setVideo(true);
+    setVideo(!video);
     setMenuOpen(false);
   };
   const handlewhiteBoard = () => {
-    setwhiteBoard(true);
     router.push(`/whiteBoard`);
     setMenuOpen(false);
   };

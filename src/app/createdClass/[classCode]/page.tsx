@@ -10,15 +10,27 @@ import { toast, ToastContainer } from "react-toastify";
 import Card from "../../../components/classRoom/card";
 import UploadMedia from "@/components/classRoom/created/UploadMedia";
 import axios from "axios";
+import Cookie from "js-cookie";
+
 import { fetchData } from "next-auth/client/_utils";
+import { useRouter } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const CreatedClass = ({ params }: { params: { classCode: string } }) => {
   const classCode = params?.classCode;
+  const Router = useRouter();
   const [file, SetFile] = useState([]);
-  // const [triger, setState] = useState([]);
-  // console.log("classCode", classCode);
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = Cookie.get("token");
+      if (!token) {
+        Router.back();
+      }
+    };
+    checkToken();
+  }, []);
+
   useEffect(() => {
     const fetchFile = async () => {
       const responce = await axios.get(
@@ -64,6 +76,7 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
           </div>
         </div>
       </div>
+
       <ToastContainer />
     </>
   );

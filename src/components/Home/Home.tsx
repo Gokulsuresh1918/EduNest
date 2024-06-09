@@ -1,30 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Nav from "./Navbar";
+import Cookie from "js-cookie";
+import { useTheme } from "next-themes";
 import Image from "next/image";
-import logo from "../../../../public/images/logo.png";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import imageUrl from "../../../public/images/bg.svg";
-import imageUrllight from "../../../public/images/milad-fakurian-UiiHVEyxtyA-unsplash.jpg";
 import landingGroup from "../../../public/images/landing-group.svg";
 import landingGroup2 from "../../../public/images/landing-group2.svg";
-import { Moon, Sun, UserRound } from "lucide-react";
-import { useTheme } from "next-themes";
-import { Button } from "@/components/Ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/Ui/dropdown-menu";
-import CarouselPlugin from "./curoseal";
+import imageUrllight from "../../../public/images/milad-fakurian-UiiHVEyxtyA-unsplash.jpg";
 import Footer from "../Footer/footer";
-import { JoinClass } from "../Modal/JoinClass";
 import { CreateClass } from "../Modal/CreateClass";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import Cookie from "js-cookie";
-import { ToastContainer, toast } from "react-toastify";
+import { JoinClass } from "../Modal/JoinClass";
 import { SparklesCore } from "../Ui/sparkles";
+import CarouselPlugin from "./curoseal";
+import Nav from "./Navbar";
 
 const Home = () => {
   const [login, setLogin] = useState(false);
@@ -35,7 +24,6 @@ const Home = () => {
   const checkToken = async () => {
     const token = Cookie.get("token");
     if (!token) {
-      toast.error("Please log in to Continue");
       router.push("/login");
     } else {
       setLogin(true);
@@ -43,6 +31,7 @@ const Home = () => {
   };
 
   function checkLogin() {
+    
     if (!login) {
       checkToken();
       return;
@@ -117,8 +106,9 @@ const Home = () => {
         </div>
 
         <div onClick={checkLogin} className="flex justify-center space-x-16 ">
-          <JoinClass />
-          <CreateClass />
+          
+          <JoinClass status={login} />
+          <CreateClass status={login}/>
         </div>
 
         <div className="flex justify-center items-center ml-14  ">

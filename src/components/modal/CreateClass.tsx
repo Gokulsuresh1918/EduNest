@@ -21,7 +21,7 @@ import { motion } from "framer-motion";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export function CreateClass() {
+export function CreateClass(status: any) {
   const router = useRouter();
   const [title, setTitle] = useState("title");
   const [description, setDescription] = useState("Description");
@@ -188,75 +188,77 @@ export function CreateClass() {
               Create &rarr;
             </motion.button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle className={`text-2xl text-${getTextColor()}`}>
-                Create ClassRooms
-              </DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className={` text-${getTextColor()} grid gap-4 py-4`}>
-                <div className="items-center gap-4">
-                  <Input
-                    id="title"
-                    // value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="title"
-                    className="col-span-3  border-cyan-800 rounded-xl"
-                  />
-                </div>
-                <div className="items-center gap-4">
-                  <label htmlFor="profilePicture" className="cursor-pointer">
+          {status && (
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle className={`text-2xl text-${getTextColor()}`}>
+                  Create ClassRooms
+                </DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit}>
+                <div className={` text-${getTextColor()} grid gap-4 py-4`}>
+                  <div className="items-center gap-4">
                     <Input
-                      id="profilePicture"
-                      type="file"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                          setProfilePicture(e.target.files[0]);
-                        }
-                      }}
-                      className="col-span-3 border-cyan-800 rounded-xl"
+                      id="title"
+                      // value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="title"
+                      className="col-span-3  border-cyan-800 rounded-xl"
                     />
-                  </label>
-                </div>
-                <div className="items-center gap-4">
-                  <Input
-                    id="description"
-                    // value={description}
-                    placeholder="Description"
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="col-span-3  border-cyan-800 rounded-xl"
-                  />
-                </div>
-                <div className="items-center gap-4">
-                  <div className="relative">
+                  </div>
+                  <div className="items-center gap-4">
+                    <label htmlFor="profilePicture" className="cursor-pointer">
+                      <Input
+                        id="profilePicture"
+                        type="file"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            setProfilePicture(e.target.files[0]);
+                          }
+                        }}
+                        className="col-span-3 border-cyan-800 rounded-xl"
+                      />
+                    </label>
+                  </div>
+                  <div className="items-center gap-4">
                     <Input
-                      id="uniqueCode"
-                      defaultValue={code}
-                      className="col-span-3 border-cyan-800 rounded-xl"
+                      id="description"
+                      // value={description}
+                      placeholder="Description"
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="col-span-3  border-cyan-800 rounded-xl"
                     />
-                    <button
-                      onClick={handleShareWhatsApp}
-                      className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-transparent border-0 focus:outline-none ml-2"
-                    >
-                      <FaShareAlt />
-                    </button>
-                    <button
-                      onClick={() => handleCopy("uniqueCode")}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-0 focus:outline-none"
-                    >
-                      <FaCopy />
-                    </button>
+                  </div>
+                  <div className="items-center gap-4">
+                    <div className="relative">
+                      <Input
+                        id="uniqueCode"
+                        defaultValue={code}
+                        className="col-span-3 border-cyan-800 rounded-xl"
+                      />
+                      <button
+                        onClick={handleShareWhatsApp}
+                        className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-transparent border-0 focus:outline-none ml-2"
+                      >
+                        <FaShareAlt />
+                      </button>
+                      <button
+                        onClick={() => handleCopy("uniqueCode")}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-0 focus:outline-none"
+                      >
+                        <FaCopy />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <DialogFooter
-                className={`rounded-xl w-[22%]  text-${getTextColor()}  bg-[#624DE3] `}
-              >
-                <Button type="submit">Create</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
+                <DialogFooter
+                  className={`rounded-xl w-[22%]  text-${getTextColor()}  bg-[#624DE3] `}
+                >
+                  <Button type="submit">Create</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          )}
         </Dialog>
       )}
     </div>
