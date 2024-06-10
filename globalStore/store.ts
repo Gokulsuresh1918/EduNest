@@ -1,6 +1,5 @@
-// store.js
 import { create } from "zustand";
-import {  persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 // Define the types for your data
 interface User {
@@ -17,6 +16,11 @@ interface Classroom {
   ownerId: string;
   students: Array<string>; 
   teachers: Array<string>; 
+}
+
+interface UIState {
+  activeSection: string;
+  setActiveSection: (section: string) => void;
 }
 
 // Define the store interfaces
@@ -41,7 +45,6 @@ const userStore = create<UserStore>()(
 );
 
 const classroomStore = create<ClassroomStore>((set) => ({
-  
   classrooms: [],
   createClassroom: (classroom: Classroom) =>
     set((state) => ({
@@ -49,4 +52,14 @@ const classroomStore = create<ClassroomStore>((set) => ({
     })),
 }));
 
-export { userStore, classroomStore };
+const uiStore = create<UIState>()(
+  persist(
+    (set) => ({
+      activeSection: "UserController",
+      setActiveSection: (section: string) => set(() => ({ activeSection: section })),
+    }),
+    { name: "UIState" }
+  )
+);
+
+export { userStore, classroomStore, uiStore };

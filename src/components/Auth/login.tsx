@@ -28,7 +28,7 @@ const schema = z.object({
 type FormField = z.infer<typeof schema>;
 
 const LoginPage = () => {
-  console.log("onChildren login");
+  // console.log("onChildren login");
 
   const { data, status } = useSession();
   const setUser = userStore((state) => state.setUser);
@@ -52,9 +52,12 @@ const LoginPage = () => {
   });
   useEffect(() => {
     const checkToken = async () => {
-      const token = Cookie.get("token");
+      const token = Cookies.get('token');
+      console.log(token)
       if (!token) {
         setLogin(true);
+      }else{
+        router.back()
       }
     };
     checkToken();
@@ -63,14 +66,11 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
+      // console.log("vannu", response.data.accessToken);
 
-      if (response.data && response.data.token) {
-        console.log(response.data.token, "this is token");
-        Cookies.set("token", response.data.token, {
-          expires: 7,
-          secure: true,
-          sameSite: "strict",
-        });
+      if (response.data && response.data.accessToken) {
+     
+        document.cookie = `token=${response.data.accessToken}; path=/; max-age=604800; Secure; SameSite=Strict`;
 
         setUser(response.data.user);
         // console.log('this is the data',response.data.user);
