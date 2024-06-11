@@ -29,7 +29,7 @@ const NavBar = () => {
   
   return (
     <>
-      <div className="flex justify-between border bg-[#f1eff3]   h-12 w-full">
+      <div className="flex justify-between border bg-[#f1eff3]   h-16 w-full">
         <div className=" flex justify-center items-center">
           {/* <div onClick={()=>{Router.push('/')}}>
           <Image src={logo} alt="logo" width={60} height={10} />
@@ -43,7 +43,7 @@ const NavBar = () => {
             {user?.name || "Guest"}
           </h2>
 
-          <button onClick={onSignout} className="border bg-red-700 px-5 py-2  rounded-2xl">
+          <button onClick={onSignout} className="border bg-red-400 px-4 py-1  rounded-2xl">
             Sign Out
           </button>
         </div>

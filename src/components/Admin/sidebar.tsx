@@ -61,10 +61,10 @@ const Sidenav: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1">
+      {/* <div className="flex-1">
         {activeSection === "UserController" && <UserController />}
         {activeSection === "ClassroomControl" && <div>Classroom Control Component</div>}
-      </div>
+      </div> */}
     </div>
   );
 };

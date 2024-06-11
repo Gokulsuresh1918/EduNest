@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { uiStore } from "../../../../globalStore/store";
 import UserController from "../../../components/Admin/DashBoard/userController";
+import ClassControlller from "./classController";
 
 const Dashboard: React.FC = () => {
   const router = useRouter();
@@ -30,9 +31,9 @@ const Dashboard: React.FC = () => {
           <Sidebar />
           <div className="flex flex-col flex-1">
             <Navbar />
-            <main className="p-10 font-bold text-3xl text-black">
+            <main className=" font-bold text-3xl text-black">
               {activeSection === "UserController" && <UserController />}
-              {activeSection === "ClassroomControl" && <div>Classroom Control Component</div>}
+              {activeSection === "ClassroomControl" && <ClassControlller />}
             </main>
           </div>
         </div>

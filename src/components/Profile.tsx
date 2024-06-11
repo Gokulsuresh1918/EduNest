@@ -214,7 +214,7 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="button" onClick={handleSaveChanges}>
+            <Button className="rounded-xl border bg-orange-300" type="button" onClick={handleSaveChanges}>
               Save changes
             </Button>
           </SheetClose>
