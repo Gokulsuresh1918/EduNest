@@ -180,31 +180,31 @@ const Sidenav = () => {
           <h1 className="text-xs text-cyan-800">👑 Upgrade to Pro 👑</h1>
           <hr className="mt-3"></hr>
         </div>
-        <div className="mt-5">
+        <div className="mt-1">
           <div
             onClick={handleAssignTask}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <BookOpen className="group-hover:animate-bounce" />
             <h2>Assign Task</h2>
           </div>
           <div
             onClick={handleAddStudent}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <BookAIcon className="group-hover:animate-bounce" />
             <h2>Add Student</h2>
           </div>
           <div
             onClick={handleAddTeacher}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <FaChalkboardTeacher className="group-hover:animate-bounce" />
             <h2>Add Teacher</h2>
           </div>
           <div
             onClick={handleBulkEmail}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <Mail className="group-hover:animate-bounce" />
             <h2>Bulk Email</h2>
@@ -212,28 +212,28 @@ const Sidenav = () => {
 
           <div
             onClick={handlewhiteBoard}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3 mt-1 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <PresentationIcon className="group-hover:animate-bounce" />
             <h2>WhiteBoard</h2>
           </div>
           <div
             onClick={handleStartClass}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <VideoIcon className="group-hover:animate-bounce" />
             <h2>Start Class</h2>
           </div>
           <div
             onClick={handleTodo}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <ListTodo className="group-hover:animate-bounce" />
             <h2>Todo</h2>
           </div>
           <div
             onClick={handleQuiz}
-            className="group flex gap-3 mt-2 p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
+            className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <GraduationCap className="group-hover:animate-bounce" />
             <h2>Quiz</h2>
