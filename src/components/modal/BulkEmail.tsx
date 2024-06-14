@@ -118,7 +118,7 @@ const BulkEmail = () => {
       <DialogContent className="sm:max-w-[425px] text-orange-300">
         <DialogHeader>
           <DialogTitle className="text-orange-200 text-lg">
-            Bulk E-mail
+            Direct E-mail
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-sm text-center text-orange-200">

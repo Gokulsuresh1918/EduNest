@@ -76,7 +76,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.error) {
-        toast.error(error.response.data.error, {
+        toast.error(`Try Sign up ${error.response.data.error}`, {
           position: "top-right",
         });
       } else {
@@ -95,7 +95,7 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         setEmailSent(true);
-        toast.success("Now you can Change password", { position: "top-right" });
+        toast.success(" Acess Granted Now you can Change password", { position: "top-right" });
       } else {
         toast.error("User Not Found, Please Sign Up", {
           position: "top-right",
@@ -103,7 +103,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Error during user lookup:", error);
-      toast.error("An error occurred while sending the code", {
+      toast.error(" Try Sign Up ,Can't find your Email", {
         position: "top-right",
       });
     }

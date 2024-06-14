@@ -26,22 +26,33 @@ declare global {
   }
 }
 
+interface User {
+  _id: string;
+  isSubscribed: boolean;
+}
+
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+}
+
 export default function PricingCards() {
   const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   const [loading, setLoading] = useState(false);
   const [pro, setPro] = useState(false);
-  const [data, setData] = useState({});
-  const [user, setUserId] = useState("");
+  const [data, setData] = useState<RazorpayResponse | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  const router=useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const userJSON = localStorage.getItem("User");
       const user = userJSON ? JSON.parse(userJSON) : null;
-      setUserId(user ? user._id : null);
+      setUser(user);
+      setPro(user?.isSubscribed ?? false);
     }
   }, []);
+
   const handleBuyPro = async () => {
     setLoading(true);
     const scriptLoaded = await loadRazorpay();
@@ -65,10 +76,9 @@ export default function PricingCards() {
         currency: currency,
         name: "EduNest",
         description: "Subscription Plan",
-        image:
-          "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQdLINnwzJyRoNKdfVWTHaS2F7a5u_Kii2tLIul6nM08Ccm_T9g",
+        image: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQdLINnwzJyRoNKdfVWTHaS2F7a5u_Kii2tLIul6nM08Ccm_T9g",
         order_id: id,
-        handler: function (response: any) {
+        handler: (response: RazorpayResponse) => {
           toast.success(
             `Payment successful. Razorpay Payment ID: ${response.razorpay_payment_id}`
           );
@@ -88,7 +98,7 @@ export default function PricingCards() {
           color: "#0A0118",
         },
         modal: {
-          ondismiss: function () {
+          ondismiss: () => {
             toast.info("Transaction cancelled.");
             setLoading(false);
           },
@@ -103,22 +113,26 @@ export default function PricingCards() {
       setLoading(false);
     }
   };
-  console.log("Payment data:", data);
-  {
-    data &&
-      useEffect(() => {
-        (async () => {
-          console.log("ethu daYA", data);
 
-          await axios.post(`${BASE_URL}/sub/updateSubscribe/${user}`, {
-            data: data,
+  useEffect(() => {
+    const updateSubscription = async () => {
+      if (data && user) {
+        try {
+          await axios.post(`${BASE_URL}/sub/updateSubscribe/${user._id}`, {
+            data,
           });
-        })();
-      }, [data]);
-  }
-const Exploreing=()=>{
-router.push('/')
-}
+        } catch (error) {
+          console.error("Error updating subscription", error);
+        }
+      }
+    };
+    updateSubscription();
+  }, [data, user, BASE_URL]);
+
+  const handleExplore = () => {
+    router.push("/");
+  };
+
   return (
     <>
       {loading ? (
@@ -155,7 +169,7 @@ router.push('/')
                 <ListItemDecorator sx={{ color: "green" }}>
                   <Check />
                 </ListItemDecorator>
-                LifeTime Access
+                Space Studies Help of NASA
               </ListItem>
               <ListItem>
                 <ListItemDecorator sx={{ color: "green" }}>
@@ -169,7 +183,7 @@ router.push('/')
               <Typography level="title-lg" sx={{ mr: "auto" }}>
                 {!pro ? "₹ 499" : "Now You are A Premium Member"}
               </Typography>
-              {!pro ?(
+              {!pro ? (
                 <Button
                   variant="solid"
                   color="primary"
@@ -178,21 +192,20 @@ router.push('/')
                 >
                   Buy Pro
                 </Button>
-              ):(
+              ) : (
                 <Button
                   variant="solid"
                   color="success"
                   endDecorator={<KeyboardArrowRight />}
-                  onClick={Exploreing}
+                  onClick={handleExplore}
                 >
-                   Explore
+                  Explore
                 </Button>
               )}
             </CardActions>
           </Card>
         </Box>
       )}
-
       <ToastContainer />
     </>
   );

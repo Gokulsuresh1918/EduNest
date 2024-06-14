@@ -6,7 +6,7 @@ import {
   ListTodo,
   Mail,
   PresentationIcon,
-  VideoIcon
+  VideoIcon,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,6 +19,7 @@ import AddTeacher from "../../Modal/AddTeacher";
 import AssignTask from "../../Modal/AssignTask";
 import BulkEmail from "../../Modal/BulkEmail";
 import VideoCallConfirm from "../../Modal/videoCallConfirm";
+import Swal from "sweetalert2";
 
 const Sidenav = () => {
   const router = useRouter();
@@ -51,27 +52,34 @@ const Sidenav = () => {
     setMenuOpen(false);
   };
   const handleTodo = () => {
-    toast("quiz also under condtruction ", {
-      position: "top-center",
-      autoClose: 3000,
+    Swal.fire({
+      title: "Confirm Redirection!!",
+      text: " ToDo App is not completed ,so we are about to be redirected to our Partner Todo app.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, proceed",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push("https://to-do-gokul.vercel.app/");
+        setMenuOpen(false);
+      }
     });
-    setMenuOpen(false);
   };
   const handleQuiz = () => {
-    toast(
-      "This feature is under construction. We will update soon when work finishes",
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    Swal.fire({
+      title: "Confirm Redirection!!",
+      text: " Quiz App is not completed ,so we are about to be redirected to our Partner quiz app.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, proceed",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push("https://quizhub-gokul.vercel.app/");
+        setMenuOpen(false);
       }
-    );
-
-    setMenuOpen(false);
+    });
   };
   const handleStartClass = () => {
     setVideo(!video);
@@ -207,7 +215,7 @@ const Sidenav = () => {
             className="group flex gap-3  p-3 text-[18px] items-center text-gray-500 cursor-pointer hover:bg-[#624DE3] hover:text-white rounded-md transition-all ease-in-out duration-200"
           >
             <Mail className="group-hover:animate-bounce" />
-            <h2>Bulk Email</h2>
+            <h2>Direct Email</h2>
           </div>
 
           <div

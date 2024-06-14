@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/Ui/dropdown-menu";
+import Link from "next/link";
 
 const Nav = () => {
   const { status } = useSession();
@@ -73,6 +74,8 @@ const Nav = () => {
         </div>
 
         <div className="hidden md:flex gap-4 rounded">
+          <Link href={'/classrooms'}>
+          
           <Button
             className={`text-gray-400 text-lg ${
               theme === "dark" ? "text-gray-100" : "text-gray-900"
@@ -81,6 +84,7 @@ const Nav = () => {
           >
             ClassRooms
           </Button>
+          </Link>
         </div>
 
         {status == "authenticated" || value ? (

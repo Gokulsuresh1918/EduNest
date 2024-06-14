@@ -27,9 +27,7 @@ const SubscriptionPage = () => {
           </div>
         </div>
       </main>
-      {/* <footer className="w-full">
-        <Footer />
-      </footer> */}
+      
     </div>
   );
 };

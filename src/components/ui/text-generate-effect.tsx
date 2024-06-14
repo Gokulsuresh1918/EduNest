@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -11,7 +11,10 @@ export const TextGenerateEffect = ({
   className?: string;
 }) => {
   const [scope, animate] = useAnimate();
+  const [style, setStyle] = useState({ textClass: "text-xl text-black", marginTop: "" });
+  
   let wordsArray = words.split(" ");
+
   useEffect(() => {
     animate(
       "span",
@@ -23,7 +26,15 @@ export const TextGenerateEffect = ({
         delay: stagger(0.2),
       }
     );
-  }, [scope.current]);
+  }, [scope]);
+
+  useEffect(() => {
+     if (words === 'Subscribe and Enjoy Premium Plan') {
+      setStyle({ textClass: 'text-4xl text-white', marginTop: 'mt-4' });
+    } else {
+      setStyle({ textClass: 'text-xl text-black', marginTop: '' });
+    }
+  }, [words]);
 
   const renderWords = () => {
     return (
@@ -32,7 +43,7 @@ export const TextGenerateEffect = ({
           return (
             <motion.span
               key={word + idx}
-              className="dark:text-white text-black opacity-0"
+              className={`opacity-0 ${style.textClass}`}
             >
               {word}{" "}
             </motion.span>
@@ -44,8 +55,8 @@ export const TextGenerateEffect = ({
 
   return (
     <div className={cn("font-bold", className)}>
-      <div className="mt-4">
-        <div className=" dark:text-white font-serif text-black text-4xl leading-snug tracking-wide">
+      <div className={style.marginTop}>
+        <div className={`font-serif leading-snug tracking-wide`}>
           {renderWords()}
         </div>
       </div>

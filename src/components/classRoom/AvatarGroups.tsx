@@ -32,7 +32,7 @@ export function AnimatedTooltipPreview() {
       }
     })();
   }, []);
-  console.log("user ", user);
+  // console.log("user ", user);
 
   const people = user.map(
     (user: { name: string; email: string }, index: number) => ({

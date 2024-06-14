@@ -40,8 +40,6 @@ interface ProfilePgeProps {
 }
 
 const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
-  // console.log('samad',status);
-  
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [username, setUsername] = useState("your name");
   const [email, setEmail] = useState("");
@@ -119,8 +117,10 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
         userId: userData._id,
         newUsername: username,
       });
+      userData.name = username;
+      localStorage.setItem("User", JSON.stringify(userData));
       console.log("Username updated successfully");
-      toast('Username updated successfully')
+      toast("Username updated successfully");
     } catch (error) {
       console.error("Failed to update username:", error);
     }
@@ -181,8 +181,11 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
                 <SelectContent className="text-black bg-slate-400">
                   {Array.isArray(joinedClassrooms) &&
                     joinedClassrooms.map((data, index) => (
-                      <SelectItem key={index} value={data}>
-                        {data}
+                      <SelectItem
+                        key={index}
+                        value={data || `class-${index}`}
+                      >
+                        {data || `Class ${index + 1}`}
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -197,14 +200,17 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
               <Select>
                 <SelectTrigger>
                   <SelectValue
-                    placeholder={createdClassrooms[0] || "Joined class"}
+                    placeholder={createdClassrooms[0] || "Created class"}
                   />
                 </SelectTrigger>
                 <SelectContent className="text-black bg-slate-400">
                   {Array.isArray(createdClassrooms) &&
                     createdClassrooms.map((data, index) => (
-                      <SelectItem key={index} value={data}>
-                        {data}
+                      <SelectItem
+                        key={index}
+                        value={data || `class-${index}`}
+                      >
+                        {data || `Class ${index + 1}`}
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -214,7 +220,11 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button className="rounded-xl border bg-orange-300" type="button" onClick={handleSaveChanges}>
+            <Button
+              className="rounded-xl border bg-orange-300"
+              type="button"
+              onClick={handleSaveChanges}
+            >
               Save changes
             </Button>
           </SheetClose>
