@@ -15,7 +15,10 @@ import googleimg from "../../../public/images/google logo.png";
 import Logo from "../../../public/images/logo.png";
 import imageUrl from "../../../public/images/signupimage.png";
 
+console.log("evidaii vannu");
+
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+console.log("env ann issue", BASE_URL);
 const handleGoogleSignIn = () => {
   window.open(`${BASE_URL}/auth/google/callback`, "_self");
 };
@@ -32,11 +35,9 @@ const schema = z
     password: z
       .string()
       .min(6, { message: "Password must be at least 6 characters long" }),
-    confirmPassword: z
-      .string()
-      .min(6, {
-        message: "Confirm password must be at least 6 characters long",
-      }),
+    confirmPassword: z.string().min(6, {
+      message: "Confirm password must be at least 6 characters long",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -45,7 +46,7 @@ const schema = z
 
 type FormField = z.infer<typeof schema>;
 
-const SignUpPage = () => {
+const   SignUpPage = () => {
   const router = useRouter();
 
   const {

@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
-const CLIENT = process.env.NEXT_PUBLIC_FRONT;
+const CLIENT = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 const socket = io(`${BASE_URL}`);
 

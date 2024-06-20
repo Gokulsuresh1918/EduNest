@@ -40,7 +40,7 @@ const NearEarthObjects = () => {
             params: {
               start_date: "2023-06-01", 
               end_date: "2023-06-07",   
-              api_key: "23Tiiz7jAc6DD5PaeCQmxj7Mgb6ah34CcBSudXdA",      // Replace with your NASA API key
+              api_key: "23Tiiz7jAc6DD5PaeCQmxj7Mgb6ah34CcBSudXdA",   
             },
           }
         );

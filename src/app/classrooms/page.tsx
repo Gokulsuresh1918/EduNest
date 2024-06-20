@@ -5,9 +5,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-
-
-const BASE_URL=process.env.NEXT_PUBLIC_SERVER_URL
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const Classrooms = () => {
   const [togleSelection, settogleSelection] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
@@ -27,7 +25,9 @@ const Classrooms = () => {
           const userId = user?._id;
 
           if (userId) {
-            const response = await axios.get(`${BASE_URL}/user/userData/${userId}`); 
+            const response = await axios.get(
+              `${BASE_URL}/user/userData/${userId}`
+            );
             setUserDetails(response.data);
           } else {
             toast.error("User ID not found in localStorage");
