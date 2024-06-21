@@ -65,7 +65,7 @@ export default function SideBarRight() {
     };
 
     fetchData();
-  }, []);
+  }, [BASE_URL,demoCode]);
 
   function handleDelete() {
     Swal.fire({

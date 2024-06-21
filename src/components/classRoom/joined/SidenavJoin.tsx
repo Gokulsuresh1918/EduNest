@@ -78,7 +78,7 @@ const Sidenav = () => {
     return () => {
       socket.off("assigned");
     };
-  }, [socket]);
+  }, []);
 
   return (
     <div className="sm:w-56 hidden h-screen bg-[#f1eff3] sm:block flex-row">

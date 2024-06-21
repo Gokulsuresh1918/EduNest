@@ -44,7 +44,7 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
       }
     };
     checkToken();
-  }, []);
+  }, [Router]);
 
   useEffect(() => {
     const fetchFile = async () => {
@@ -66,7 +66,7 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
       }, 50000); 
       return () => clearInterval(interval);
     }
-  }, [userstat]);
+  }, [userstat,components.length]);
 
   return (
     <>
@@ -75,7 +75,7 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
         <div className="w-full">
           <NavBar />
           <div className="w-full flex">
-            <div className="w-3/4">
+            <div className="w-full sm:w-3/4">
               <ClassDetails classCode={classCode} />
               <div className="w-full h-full">
                 <div className="grid grid-cols-1 overflow-scroll h-[28rem] rounded-xl md:grid-cols-3 m-6">
@@ -86,7 +86,7 @@ const CreatedClass = ({ params }: { params: { classCode: string } }) => {
                 <UploadMedia classCode={classCode} />
               </div>
             </div>
-            <div className="w-1/4 overflow-y-scroll">
+            <div className="w-1/4 overflow-y-scroll hidden sm:block">
               {userstat ? (
                 components[currentComponentIndex]
               ) : (

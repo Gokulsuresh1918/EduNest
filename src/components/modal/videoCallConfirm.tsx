@@ -17,7 +17,7 @@ import { createPortal } from "react-dom";
 import { FaWhatsapp } from "react-icons/fa";
 
 const BASEURL = process.env.NEXT_PUBLIC_SERVER_URL;
-const CLIENT = process.env.NEXT_PUBLIC_FRONT;
+const CLIENT = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 const VideoCallConfirm = ({ params }: { params: { classCode: string } }) => {
   const classCode = params?.classCode;
@@ -31,7 +31,7 @@ const VideoCallConfirm = ({ params }: { params: { classCode: string } }) => {
       );
     };
     fetchData();
-  }, []);
+  }, [classCode]);
   const handleShareWhatsApp = () => {
     // Refined message
     const message = `Hello 🌟\n\nWe're thrilled to invite you to join our exclusive Edunest

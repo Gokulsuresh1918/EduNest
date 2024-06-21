@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TextGenerateEffect } from "../Ui/text-generate-effect";
 import Loading from "../others/Loading";
+import Image from "next/image";
 
 type MarsRoverPhoto = {
   id: number;
@@ -28,8 +29,8 @@ const MarsRoverPhotos = () => {
           "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos",
           {
             params: {
-              sol: 1000, 
-              api_key: "23Tiiz7jAc6DD5PaeCQmxj7Mgb6ah34CcBSudXdA", 
+              sol: 1000,
+              api_key: "23Tiiz7jAc6DD5PaeCQmxj7Mgb6ah34CcBSudXdA",
             },
           }
         );
@@ -70,13 +71,19 @@ const MarsRoverPhotos = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
           {photos.map((photo) => (
             <div key={photo.id} className="text-center">
-              <img
+              <Image
                 src={photo.img_src}
                 alt={`Mars Rover ${photo.rover.name}`}
-                className="max-w-full h-auto"
+                width={600} // Specify the width of the image
+                height={400} // Specify the height of the image
+                className="max-w-full h-auto" // Optional: Additional CSS classes for styling
               />
-              <p className="text-amber-700 text-sm font-medium">{photo.earth_date}</p>
-              <p className="text-rose-700 text-lg font-semibold">{photo.rover.name}</p>
+              <p className="text-amber-700 text-sm font-medium">
+                {photo.earth_date}
+              </p>
+              <p className="text-rose-700 text-lg font-semibold">
+                {photo.rover.name}
+              </p>
               <p className="text-gray-700 text-sm">{photo.camera.full_name}</p>
             </div>
           ))}

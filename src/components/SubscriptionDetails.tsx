@@ -118,14 +118,30 @@ export default function PricingCards() {
     const updateSubscription = async () => {
       if (data && user) {
         try {
-          await axios.post(`${BASE_URL}/sub/updateSubscribe/${user._id}`, {
-            data,
-          });
+          // Update subscription via API
+          await axios.post(`${BASE_URL}/sub/updateSubscribe/${user._id}`, { data });
+
+          // Retrieve the existing local storage data
+          const storedUserData = localStorage.getItem('User');
+          // console.log('storedUserData',storedUserData);
+          
+          if (storedUserData) {
+            // Parse the JSON string to an object
+            const parsedUserData = JSON.parse(storedUserData);
+// console.log('parsedUserData',parsedUserData);
+
+            // Update the isSubscribed field
+            parsedUserData.isSubscribed = true;
+
+            // Save the updated data back to local storage
+            localStorage.setItem('User', JSON.stringify(parsedUserData));
+          }
         } catch (error) {
           console.error("Error updating subscription", error);
         }
       }
     };
+
     updateSubscription();
   }, [data, user, BASE_URL]);
 

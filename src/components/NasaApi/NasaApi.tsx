@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TextGenerateEffect } from "../Ui/text-generate-effect";
 import Loading from "../others/Loading";
+import Image from "next/image";
 
 type NasaApodData = {
   date: string;
@@ -26,7 +27,7 @@ const NasaApi = () => {
             },
           }
         );
-        
+
         setApodData(response.data);
       } catch (error) {
         console.error("Error fetching NASA APOD data:", error);
@@ -63,11 +64,15 @@ const NasaApi = () => {
         </h1>
         <hr />
         <div className="text-center text-xs">
-          <h2 className="p-2 text-rose-700 text-lg font-semibold">{apodData.title}</h2>
+          <h2 className="p-2 text-rose-700 text-lg font-semibold">
+            {apodData.title}
+          </h2>
           <p className="text-amber-700 text-sm font-medium">{apodData.date}</p>
-          <img
+          <Image
             src={apodData.hdurl}
             alt={apodData.title}
+            width={600}
+            height={400}
             style={{ maxWidth: "100%" }}
           />
           <p>{apodData.explanation}</p>

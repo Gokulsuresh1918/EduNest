@@ -29,7 +29,7 @@ const JoinedClass = ({ params }: { params: { classCode: string } }) => {
       // console.log('thid iud stat ',file);
     };
     fetchFile();
-  }, []);
+  }, [classCode]);
   return (
     <>
       <div className="bg-white flex w-screen overflow-hidden  h-screen">
@@ -45,7 +45,7 @@ const JoinedClass = ({ params }: { params: { classCode: string } }) => {
                 {file ? (
                   <div className="grid grid-cols-1 overflow-scroll h-[28rem]  rounded-xl md:grid-cols-3 m-6">
                     {file.map((item, index) => (
-                      <Card file={item} />
+                      <Card key={index} file={item} />
                     ))}
                   </div>
                 ) : (

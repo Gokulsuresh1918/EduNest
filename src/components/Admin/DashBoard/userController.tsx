@@ -10,14 +10,16 @@ interface User {
   _id: string;
   name: string;
   email: string;
-  role: String;
-  status: String;
+  role: string;
+  status: string;
   joinedClassrooms: string[];
   createdClassrooms: string[];
   blocked: boolean;
 }
+
 const BASEURL = process.env.NEXT_PUBLIC_SERVER_URL;
-const userController = () => {
+
+const UserController = () => { 
   const [users, setUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [render, setRender] = useState(false);
@@ -195,4 +197,4 @@ const userController = () => {
   );
 };
 
-export default userController;
+export default UserController; 1

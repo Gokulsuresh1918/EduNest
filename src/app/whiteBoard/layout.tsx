@@ -21,7 +21,7 @@ export default function RootLayout({
       }
     };
     checkToken();
-  }, []);
+  }, [Router]);
 
   return <>{login && children}</>;
 }

@@ -1,16 +1,20 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+import { signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Button } from "./Ui/button";
+import { IconButton } from "./Ui/iconButton";
+import { EditIcon } from "./Ui/icons";
 import { Input } from "./Ui/input";
 import { Label } from "./Ui/label";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "./Ui/select";
-import { IconButton } from "./Ui/iconButton";
-import { EditIcon } from "./Ui/icons";
 import {
   Sheet,
   SheetClose,
@@ -20,9 +24,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./Ui/sheet";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
+
+
+ 
 // Interface for user data
 interface UserData {
   name: string;
@@ -46,6 +52,7 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
   const [createdClassrooms, setCreatedClassrooms] = useState<string[]>([]);
   const [joinedClassrooms, setJoinedClassrooms] = useState<string[]>([]);
 
+  const router=useRouter()
   // Fetch user data on component mount
   useEffect(() => {
     const rawData = localStorage.getItem("User");
@@ -111,28 +118,50 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
     const rawData = localStorage.getItem("User");
     if (!rawData) return;
     const userData: UserData = JSON.parse(rawData);
+// console.log('userDatat',userData);
 
     try {
       await axios.post(`${BASE_URL}/user/updateUsername`, {
         userId: userData._id,
         newUsername: username,
       });
-      userData.name = username;
-      localStorage.setItem("User", JSON.stringify(userData));
-      console.log("Username updated successfully");
-      toast("Username updated successfully");
+      if(userData.name !== username){
+        userData.name = username;
+        localStorage.setItem("User", JSON.stringify(userData));
+        console.log("Username updated successfully");
+      }else{
+        toast("No Changes Done");
+
+      }
+
     } catch (error) {
       console.error("Failed to update username:", error);
     }
   };
 
+
+  const handleSignout = () => {
+    // Remove the token cookie
+    Cookies.remove("token", {
+      secure: true,
+      sameSite: "strict",
+    });
+  
+    // Remove the User item from localStorage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("User");
+    }
+    router.refresh()
+    // Perform the sign out operation
+    signOut();
+  };
   return (
     <Sheet defaultOpen={true}>
       <SheetContent className="bg-gray-300 text-black">
         <SheetHeader>
           <SheetTitle>User Profile</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you are done.
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
@@ -226,6 +255,15 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
               onClick={handleSaveChanges}
             >
               Save changes
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button
+              className="rounded-xl border bg-red-500"
+              type="button"
+              onClick={handleSignout}
+            >
+              Log Out
             </Button>
           </SheetClose>
         </SheetFooter>

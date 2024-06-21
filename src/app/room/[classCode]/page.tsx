@@ -76,7 +76,7 @@ const VideoCall = ({ params }: { params: { classCode: string } }) => {
         console.error(e);
       }
     })();
-  }, [username]);
+  }, [username,classCode]);
 
   if (token === "") {
     return (

@@ -26,7 +26,7 @@ export const TextGenerateEffect = ({
         delay: stagger(0.2),
       }
     );
-  }, [scope]);
+  }, [scope,animate]);
 
   useEffect(() => {
      if (words === 'Subscribe and Enjoy Premium Plan') {

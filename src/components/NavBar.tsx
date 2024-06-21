@@ -42,7 +42,7 @@ const NavBar = () => {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, [forceUpdate]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -72,10 +72,10 @@ const NavBar = () => {
           )}
         </div>
         <div onClick={handleProfile} className="flex justify-center items-center">
-          <h2 className="text-black p-1 border border-black rounded-xl shadow-2xl mr-2">
+          <h2 className="text-black p-1 font-serif text-lg hidden sm:block shadow-2xl mr-2">
             {user?.name || "Guest"}
           </h2>
-          <div onClick={handleProfile} className="rounded-full bg-black mr-3">
+          <div onClick={handleProfile} className="rounded-full bg-black mr-3 w-10 h-10 sm:w-11 sm:h-11">
             <Image src={logo} alt="logo" width={50} height={50} />
           </div>
         </div>

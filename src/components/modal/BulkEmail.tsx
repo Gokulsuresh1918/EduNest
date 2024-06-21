@@ -19,13 +19,12 @@ import {
   DrawerTrigger,
 } from "@/components/Ui/drawer";
 import { Input } from "@/components/Ui/input";
-import { z } from "zod";
-import axios from "axios";
 import { Textarea } from "@/components/Ui/textarea";
 import { useParams } from "next/navigation";
 import { FaEnvelope } from "react-icons/fa";
 import Checkbox from "@mui/material/Checkbox";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -38,13 +37,10 @@ interface Student {
 
 const BulkEmail = () => {
   const [email, setEmail] = useState(false);
-  const [classcode, setClasscode] = useState("");
   const [students, setStudents] = useState<Student[]>([]);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const subjectRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
-  const codeRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState({ email: "" });
   const params = useParams();
   const classCode = params.classCode;
@@ -69,12 +65,9 @@ const BulkEmail = () => {
         );
 
         const studentsData = res.map((ele) => ele.data.Students);
-        // console.log("students data", studentsData);
-
         if (Array.isArray(studentsData)) {
           setStudents(studentsData);
         }
-        setClasscode(classcode);
       } catch (error) {
         console.error("Failed to fetch class data:", error);
       }
@@ -94,7 +87,6 @@ const BulkEmail = () => {
     const subject = subjectRef.current ? subjectRef.current.value : "";
     const body = bodyRef.current ? bodyRef.current.value : "";
     const emailAddresses = selectedStudents.join(",");
-    // console.log("share ", subject, body, selectedStudents);
 
     try {
       const response = await axios.post(`${BASE_URL}/class/bulkEmail`, {
@@ -106,13 +98,14 @@ const BulkEmail = () => {
       toast.success("Email sent successfully");
 
       setTimeout(() => {
-        router.push(`http://localhost:3000/createdClass/${classCode}`);
+        router.push(`/createdClass/${classCode}`);
       }, 2000);
     } catch (error) {
       console.error("Error sending email:", error);
       setErrors({ email: "Failed to send email. Please try again later." });
     }
   };
+
   return (
     <Dialog defaultOpen={true}>
       <DialogContent className="sm:max-w-[425px] text-orange-300">

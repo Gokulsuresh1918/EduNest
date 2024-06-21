@@ -42,7 +42,7 @@ function ClassDetails({ classCode }: { classCode: string }) {
     };
 
     fetchData();
-  }, []);
+  }, [classCode,createClassroom]);
 
   // console.log("classdatatt an   aii", classData);
 

@@ -19,7 +19,7 @@ export function AnimatedTooltipPreview() {
       // console.log("response of data", responce);
     };
     fetchData();
-  }, []);
+  }, [classcode]);
   useEffect(() => {
     (async () => {
       try {

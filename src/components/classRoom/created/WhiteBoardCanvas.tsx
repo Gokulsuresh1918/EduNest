@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { io } from 'socket.io-client';
 
 interface DrawingAction {
@@ -24,6 +24,19 @@ const WhiteBoardCanvas: React.FC = () => {
 
   const socket = useRef(io(`${process.env.NEXT_PUBLIC_SERVER_URL}`)).current;
 
+  const reDrawPreviousData = useCallback((ctx: CanvasRenderingContext2D, actions: DrawingAction[] = drawingActions) => {
+    actions.forEach(({ path, style }) => {
+      ctx.beginPath();
+      ctx.strokeStyle = style.color;
+      ctx.lineWidth = style.lineWidth;
+      ctx.moveTo(path[0].x, path[0].y);
+      path.forEach((point) => {
+        ctx.lineTo(point.x, point.y);
+      });
+      ctx.stroke();
+    });
+  }, [drawingActions]);
+
   useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
@@ -46,7 +59,7 @@ const WhiteBoardCanvas: React.FC = () => {
     return () => {
       socket.disconnect();
     };
-  }, [context, socket]);
+  }, [context, socket, drawingActions, reDrawPreviousData]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (context) {
@@ -126,22 +139,6 @@ const WhiteBoardCanvas: React.FC = () => {
         canvasRef.current.height
       );
     }
-  };
-
-  const reDrawPreviousData = (
-    ctx: CanvasRenderingContext2D,
-    actions: DrawingAction[] = drawingActions
-  ) => {
-    actions.forEach(({ path, style }) => {
-      ctx.beginPath();
-      ctx.strokeStyle = style.color;
-      ctx.lineWidth = style.lineWidth;
-      ctx.moveTo(path[0].x, path[0].y);
-      path.forEach((point) => {
-        ctx.lineTo(point.x, point.y);
-      });
-      ctx.stroke();
-    });
   };
 
   return (

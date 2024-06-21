@@ -1,21 +1,38 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 import Nav from "@/components/Home/Navbar";
 import { GlareCard } from "@/components/Ui/glare-card";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import Image from "next/image";
+
+interface ClassroomDetail {
+  classroom: any;
+  id: string;
+  title: string;
+  description: string;
+  owner: string;
+  profilePicture: string;
+  roomCode: string;
+  status: boolean;
+  teacherCode: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
-const Classrooms = () => {
-  const [togleSelection, settogleSelection] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
 
-  function handleSelection() {
-    settogleSelection(true);
-  }
-  function handleSelectioncre() {
-    settogleSelection(false);
-  }
+const Classrooms = () => {
+  const [toggleSelection, setToggleSelection] = useState(false);
+  const [createdClassrooms, setCreatedClassrooms] = useState<string[]>([]);
+  const [joinedClassrooms, setJoinedClassrooms] = useState<string[]>([]);
+  const [joinedClassDetails, setJoinedClassDetails] = useState<
+    ClassroomDetail[]
+  >([]);
+  const [createdClassDetails, setCreatedClassDetails] = useState<
+    ClassroomDetail[]
+  >([]);
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userJson = localStorage.getItem("User");
@@ -28,25 +45,84 @@ const Classrooms = () => {
             const response = await axios.get(
               `${BASE_URL}/user/userData/${userId}`
             );
-            setUserDetails(response.data);
+
+            setCreatedClassrooms(response.data.createdClassrooms || []);
+            setJoinedClassrooms(response.data.joinedClassrooms || []);
           } else {
-            toast.error("User ID not found in localStorage");
+            toast.error("User ID not found, try logging in.");
           }
         } catch (error) {
           console.error("Error parsing user data or fetching details:", error);
-          toast.error("Failed to fetch user details");
+          toast.error("Failed to fetch user details.");
         }
       } else {
-        toast.error("Pls Login No user data found");
-        console.log("No user data found in localStorage");
+        toast.error("Please log in. No user data found.");
+        console.log("No user data found in localStorage.");
       }
     };
 
     fetchUserDetails();
   }, []);
+
+  useEffect(() => {
+    const fetchCreatedClassroomData = async () => {
+      try {
+        const promises = createdClassrooms.map(async (classroomId) => {
+          const response = await axios.get<ClassroomDetail>(
+            `${BASE_URL}/class/classDetails/${classroomId}`
+          );
+          return response.data;
+        });
+
+        const createdClassroomData = await Promise.all(promises);
+        setCreatedClassDetails(createdClassroomData);
+      } catch (error) {
+        console.error("Error fetching created classrooms:", error);
+        toast.error("Failed to fetch created classrooms.");
+      }
+    };
+
+    if (createdClassrooms.length > 0) {
+      fetchCreatedClassroomData();
+    }
+  }, [createdClassrooms]);
+
+  useEffect(() => {
+    const fetchJoinedClassroomData = async () => {
+      try {
+        const promises = joinedClassrooms.map(async (classroomId) => {
+          const response = await axios.get<ClassroomDetail>(
+            `${BASE_URL}/class/classDetails/${classroomId}`
+          );
+          return response.data;
+        });
+
+        const joinedClassroomData = await Promise.all(promises);
+        setJoinedClassDetails(joinedClassroomData);
+      } catch (error) {
+        console.error("Error fetching joined classrooms:", error);
+        toast.error("Failed to fetch joined classrooms.");
+      }
+    };
+
+    if (joinedClassrooms.length > 0) {
+      fetchJoinedClassroomData();
+    }
+  }, [joinedClassrooms]);
+
+  const handleSelection = () => {
+    setToggleSelection(true);
+  };
+
+  const handleSelectioncre = () => {
+    setToggleSelection(false);
+  };
+  console.log("joinedClassDetails", joinedClassDetails);
+  console.log("createdClassDetails", createdClassDetails);
+
   return (
     <>
-      <div className="flex flex-col h-screen gap-16  sm:gap-24">
+      <div className="flex flex-col h-screen gap-16 sm:gap-24">
         <nav className="w-full">
           <Nav />
         </nav>
@@ -66,39 +142,51 @@ const Classrooms = () => {
               Created
             </button>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 ">
-            {togleSelection ? (
-              <GlareCard className="relative flex flex-col items-start justify-end py-8 px-6">
-                <img
-                  className="h-full w-full absolute inset-0 object-cover"
-                  src="https://images.unsplash.com/photo-1512618831669-521d4b375f5d?q=80&w=3388&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                />
-                <div className="relative z-10">
-                  <p className="font-bold font-serif text-white text-xl">
-                    Joined
-                  </p>
-                  <p className="font-normal text-base text-neutral-200 mt-4">
-                    The greatest trick the devil ever pulled was to convince the
-                    world that he didn&apos;t exist.
-                  </p>
-                </div>
-              </GlareCard>
+          <div className="flex flex-wrap justify-center gap-4">
+            {toggleSelection && joinedClassDetails.length > 0 ? (
+              joinedClassDetails.map((item, index) => (
+                <GlareCard
+                  key={item.classroom.id}
+                  className="relative flex flex-col items-start justify-end py-8 px-6"
+                >
+                  <Image
+                    className="h-full w-full absolute inset-0 object-cover"
+                    src={item.classroom.profilePicture}
+                    alt="Classroom Image"
+                  />
+                  <div className="relative z-10">
+                    <p className="font-bold font-serif text-white text-xl">
+                      {item.classroom.title}
+                    </p>
+                    <p className="font-normal text-base text-neutral-200 mt-4">
+                      {item.classroom.description}
+                    </p>
+                  </div>
+                </GlareCard>
+              ))
+            ) : !toggleSelection && createdClassDetails.length > 0 ? (
+              createdClassDetails.map((item,index) => (
+                <GlareCard
+                  key={item.classroom.id}
+                  className="relative flex flex-col items-start justify-end py-8 px-6"
+                >
+                  <Image
+                    className="h-full w-full absolute inset-0 object-cover"
+                    src={item.classroom.profilePicture}
+                    alt="Classroom Image"
+                  />
+                  <div className="relative z-10">
+                    <p className="font-bold font-serif text-white text-xl">
+                      {item.classroom.title}
+                    </p>
+                    <p className="font-normal text-base text-neutral-200 mt-4">
+                      {item.classroom.description}
+                    </p>
+                  </div>
+                </GlareCard>
+              ))
             ) : (
-              <GlareCard className="relative flex flex-col items-start justify-end py-8 px-6">
-                <img
-                  className="h-full w-full absolute inset-0 object-cover"
-                  src="https://images.unsplash.com/photo-1512618831669-521d4b375f5d?q=80&w=3388&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                />
-                <div className="relative z-10">
-                  <p className="font-bold font-serif text-white text-xl">
-                    Created
-                  </p>
-                  <p className="font-normal text-base text-neutral-200 mt-4">
-                    The greatest trick the devil ever pulled was to convince the
-                    world that he didn&apos;t exist.
-                  </p>
-                </div>
-              </GlareCard>
+              <p className="text-neutral-200">No classrooms to display</p>
             )}
           </div>
         </main>

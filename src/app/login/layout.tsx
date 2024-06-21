@@ -14,7 +14,7 @@ const Layout = ({
       if(status==="loading"){
         router.push('/')
       } 
-  },[])
+  },[router,status])
 
   return (<>{status === "unauthenticated"?<>{children}</>:<div>{status}</div>}</>)
 };

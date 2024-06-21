@@ -59,7 +59,7 @@ const AdminLoginPage = () => {
       }
     };
     checkToken();
-  }, []);
+  }, [router]);
 
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {

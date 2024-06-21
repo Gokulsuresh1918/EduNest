@@ -3,6 +3,7 @@ import { Edit, Save, Ban } from "lucide-react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import CreateClass from "@/components/Modal/CreateClass";
+import Image from "next/image";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -25,11 +26,28 @@ interface ModalProps {
   imageUrl: string;
   onClose: () => void;
 }
+
+const initialEditedClassData: ClassData = {
+  _id: "",
+  title: "",
+  description: "",
+  students: [],
+  teacher: [],
+  owner: "",
+  profilePicture: "",
+  roomCode: "",
+  status: false, // or whatever default value makes sense for your app
+  teacherCode: "",
+  createdAt: "",
+  updatedAt: "",
+  __v: 0, // or 0 if it's a number
+};
+
 const ClassControlller = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [editingClassId, setEditingClassId] = useState<string | null>(null);
-  const [editedClassData, setEditedClassData] = useState<ClassData>({});
+  const [editedClassData, setEditedClassData] = useState<ClassData>(initialEditedClassData);
   const [render, setRender] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [createClassss, setcreateClassss] = useState(false);
@@ -120,7 +138,7 @@ const ClassControlller = () => {
   const Modal = ({ imageUrl, onClose }: ModalProps) => (
     <div className="fixed top-1/4 left-1/4  w-[50%] h-[50%] flex justify-center items-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-4 rounded-lg">
-        <img src={imageUrl} alt="Profile" />
+        <Image src={imageUrl} alt="Profile" />
         <button
           onClick={onClose}
           className="mt-4 bg-blue-500 text-md text-white px-2  rounded-lg"
@@ -224,7 +242,7 @@ const ClassControlller = () => {
                   onClick={() => handleImageClick(classData.profilePicture)}
                   className="py-2 px-4 border text-sm text-gray-700 cursor-pointer"
                 >
-                  <img
+                  <Image
                     src={classData.profilePicture}
                     alt="Profile"
                     className="w-10 h-10 rounded-full"
