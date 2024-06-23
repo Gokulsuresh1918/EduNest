@@ -56,17 +56,19 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
   // Fetch user data on component mount
   useEffect(() => {
     const rawData = localStorage.getItem("User");
+
     const fetchData = async () => {
       if (!rawData) return;
-      const userData: UserData = JSON.parse(rawData);
+
+      const userData: { _id: string } = JSON.parse(rawData);
       if (!userData._id) return;
 
       try {
-        const response = await axios.get(
-          `${BASE_URL}/user/userData/${userData._id}`
-        );
-        const data = response.data;
+        const response = await axios.get(`${BASE_URL}/user/userData`, {
+          params: { id: userData._id },
+        });
 
+        const data = response.data;
         setUsername(data.name);
         setEmail(data.email);
         setCreatedClassrooms(data.createdClassrooms || []);
@@ -77,19 +79,22 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
             getClassData(classroomId)
           )
         );
-        const creatclassroomNames = await Promise.all(
+        const createdClassroomNames = await Promise.all(
           data.createdClassrooms.map((classroomId: string) =>
             getClassData(classroomId)
           )
         );
-        setCreatedClassrooms(creatclassroomNames);
+
+        setCreatedClassrooms(createdClassroomNames);
         setJoinedClassrooms(classroomNames);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
+
     fetchData();
   }, []);
+
 
   // Fetch classroom data by ID
   const getClassData = async (classroomId: string) => {

@@ -1,4 +1,3 @@
-"use client";
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -74,9 +73,9 @@ const MarsRoverPhotos = () => {
               <Image
                 src={photo.img_src}
                 alt={`Mars Rover ${photo.rover.name}`}
-                width={600} // Specify the width of the image
-                height={400} // Specify the height of the image
-                className="max-w-full h-auto" // Optional: Additional CSS classes for styling
+                width={600}
+                height={400}
+                className="max-w-full h-auto"
               />
               <p className="text-amber-700 text-sm font-medium">
                 {photo.earth_date}

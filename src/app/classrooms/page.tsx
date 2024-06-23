@@ -42,10 +42,11 @@ const Classrooms = () => {
           const userId = user?._id;
 
           if (userId) {
-            const response = await axios.get(
-              `${BASE_URL}/user/userData/${userId}`
-            );
-
+           
+            const response = await axios.get(`${BASE_URL}/user/userData`, {
+              params: { id: userId },
+            });
+    
             setCreatedClassrooms(response.data.createdClassrooms || []);
             setJoinedClassrooms(response.data.joinedClassrooms || []);
           } else {

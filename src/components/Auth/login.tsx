@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/Ui/button";
 import { Input } from "@/components/Ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,26 +19,38 @@ import googleimg from "../../../public/images/google logo.png";
 import Logo from "../../../public/images/logo.png";
 import imageUrl from "../../../public/images/signupimage.png";
 
+// Environment variable for base URL
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
+// Form validation schema
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
 });
 
+// Infer the form field types from the schema
 type FormField = z.infer<typeof schema>;
 
 const LoginPage = () => {
+  // Hook to get the session data and status
   const { data, status } = useSession();
+
+  // Global state management using userStore
   const setUser = userStore((state) => state.setUser);
   const user = userStore((state) => state.user);
+
+  // Local state management
   const [pass, setPass] = useState(true);
   const [emailSent, setEmailSent] = useState(false);
+  const [codeVerified, setCodeVerified] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
   const [login, setLogin] = useState(false);
   const [foremail, setForeEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [originalCode, setOrginalCode] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
+  // React Hook Form setup with validation schema
   const {
     register,
     handleSubmit,
@@ -53,6 +66,7 @@ const LoginPage = () => {
 
   const router = useRouter();
 
+  // Effect to check token existence and manage login state
   useEffect(() => {
     const checkToken = async () => {
       const token = Cookies.get("token");
@@ -65,6 +79,7 @@ const LoginPage = () => {
     checkToken();
   }, [router]);
 
+  // Form submission handler
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, data);
@@ -87,15 +102,18 @@ const LoginPage = () => {
 
   const handleSendCode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(`${BASE_URL}/user/findUser`, {
-        email: foremail,
+      const response = await axios.get(`${BASE_URL}/user/userData`, {
+        params: { email: foremail },
       });
-
+      // console.log('respince banna data',response.data.otp);
+      setOrginalCode(response.data.otp);
       if (response.status === 200) {
         setEmailSent(true);
-        toast.success(" Acess Granted Now you can Change password", { position: "top-right" });
+        toast.success(
+          "Access Granted. Now you can verify the code send to your email",
+          { position: "top-right" }
+        );
       } else {
         toast.error("User Not Found, Please Sign Up", {
           position: "top-right",
@@ -103,45 +121,83 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Error during user lookup:", error);
-      toast.error(" Try Sign Up ,Can't find your Email", {
+      toast.error("Can't find your Email. Try Sign Up.", {
         position: "top-right",
       });
     }
   };
 
+  // Handler for verifying the code
+  const handleVerifyCode = async () => {
+    try {
+      // console.log('originalCode',originalCode);
+      // console.log('verificationCode',verificationCode);
+
+      if (originalCode == verificationCode) {
+        setCodeVerified(true);
+        toast.success(
+          "Code verified successfully. Now you can change the password.",
+          {
+            position: "top-right",
+          }
+        );
+      } else {
+        toast.error("Invalid code. Please try again.", {
+          position: "top-right",
+        });
+      }
+    } catch (error) {
+      console.error("Error verifying code:", error);
+      toast.error("An error occurred while verifying the code.", {
+        position: "top-right",
+      });
+    }
+  };
+
+  // Handler for changing the password
   const handleChangePassword = async () => {
     if (newPassword !== confirmNewPassword) {
       toast.error("Passwords do not match", { position: "top-right" });
       return;
     }
+    console.log("newPassword", newPassword);
+    console.log("confirmNewPassword", confirmNewPassword);
 
     try {
       const response = await axios.post(`${BASE_URL}/user/findUser`, {
         email: foremail,
         newPassword: newPassword,
       });
-   
-
+      console.log("responce.data", response.data);
 
       if (response.status === 200) {
-        toast.success("Password changed successfully, Log In with New PassWord", {
-          position: "top-right",
-        });
-        router.push('/login')
+        toast.success(
+          "Password changed successfully. Log in with the new password.",
+          {
+            position: "top-right",
+          }
+        );
+        router.push("/login");
         setPass(true);
         setEmailSent(false);
+        setCodeVerified(false);
       }
     } catch (error) {
       console.error("Error changing password:", error);
-      toast.error("An error occurred while changing the password .Try Sign Up", {
-        position: "top-right",
-      });
+      toast.error(
+        "An error occurred while changing the password. Try Sign Up.",
+        {
+          position: "top-right",
+        }
+      );
     }
   };
 
+  // Toggle the password reset form
   const ForgetPass = () => {
     setPass(!pass);
     setEmailSent(false);
+    setCodeVerified(false);
   };
 
   return (
@@ -209,7 +265,7 @@ const LoginPage = () => {
                 >
                   {!emailSent && (
                     <>
-                      <h1 className=" font-semibold  text-center overflow-hidden">
+                      <h1 className="font-semibold text-center overflow-hidden">
                         <span
                           className="scrolling-text text-red-500 inline-block"
                           style={{ animation: "marquee 10s linear infinite" }}
@@ -217,7 +273,6 @@ const LoginPage = () => {
                           Enter Your Email to Change Password
                         </span>
                       </h1>
-
                       <Input
                         type="email"
                         value={foremail}
@@ -226,7 +281,7 @@ const LoginPage = () => {
                         className="bg-blue-300 rounded-xl border-red-50"
                       />
                       <Button
-                        type="submit" // Add type attribute as submit
+                        type="submit"
                         className="bg-blue-800 rounded-xl text-white"
                         variant="outline"
                       >
@@ -236,7 +291,25 @@ const LoginPage = () => {
                   )}
                 </form>
               )}
-              {emailSent && (
+              {emailSent && !codeVerified && (
+                <div className="flex flex-col px-44 w-full gap-4">
+                  <Input
+                    type="text"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                    placeholder="Enter Verification Code"
+                    className="bg-blue-300 rounded-xl border-red-50"
+                  />
+                  <Button
+                    onClick={handleVerifyCode}
+                    className="bg-blue-800 rounded-xl text-white"
+                    variant="outline"
+                  >
+                    Verify Code
+                  </Button>
+                </div>
+              )}
+              {codeVerified && (
                 <div className="flex flex-col px-44 w-full gap-4">
                   <Input
                     type="password"
@@ -303,15 +376,15 @@ const LoginPage = () => {
       )}
       <ToastContainer />
       <style jsx>{`
-      @keyframes marquee {
-        0% {
-          transform: translateX(100%);
+        @keyframes marquee {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
         }
-        100% {
-          transform: translateX(-100%);
-        }
-      }
-    `}</style>
+      `}</style>
     </>
   );
 };
