@@ -26,7 +26,7 @@ const footer = () => {
             {/* <Image src={logo} alt="EduNest Logo" width={200} height={200} /> */}
             <Typography
               variant="h5"
-              className="mb-28 text-4xl "
+              className="mb-28 text-4xl hidden sm:block "
               placeholder={null}
               onPointerEnterCapture={null}
               onPointerLeaveCapture={null}

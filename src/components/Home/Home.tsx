@@ -31,7 +31,6 @@ const Home = () => {
   };
 
   function checkLogin() {
-    
     if (!login) {
       checkToken();
       return;
@@ -105,58 +104,49 @@ const Home = () => {
           </p>
         </div>
 
-        <div onClick={checkLogin} className="flex justify-center space-x-16 ">
-          
-          <JoinClass status={login} />
-          <CreateClass status={login}/>
+        <div onClick={checkLogin} className="flex justify-center space-x-4">
+          <JoinClass
+            status={login}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          />
+          <CreateClass
+            status={login}
+            className="px-4 py-2 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 focus:outline-none focus:bg-green-600"
+          />
         </div>
 
-        <div className="flex justify-center items-center ml-14  ">
-          <div className="hidden lg:block">
-            <Image
-              src={landingGroup}
-              alt="Login image"
-              className="object-cover -z-10 "
-            />
-          </div>
-
-          <div className=" p-16 w-[60%]  space-y-3">
-            <h1 className="font-bold text-4xl font-serif">
+        <div className="flex flex-col items-center justify-center text-center sm:flex-row sm:space-x-8">
+          <div className="p-6 sm:p-16 w-full sm:w-[60%] space-y-3">
+            <h1 className="font-bold text-3xl sm:text-4xl text-center font-serif">
               Join to a ClassRoom
             </h1>
-            <h6 className="text-sm">
+            <h6 className="text-sm text-center">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
               numquam maxime ab maiores nihil quisquam asperiores a
             </h6>
-            {/* <button
-              className="boreder rounded-xl bg-[#35259b] p-3"
-              type="button"
-            >
-              Placement Drive &rarr;
-            </button> */}
             <JoinClass />
           </div>
-        </div>
-        <div className="flex justify-center items-center ">
-          <div className="p-16 w-[50%] space-y-3">
-            <h1 className="font-bold text-4xl font-serif">
+
+          <div className="p-6 sm:hidden w-full space-y-3">
+            <h1 className="font-bold text-center  text-3xl sm:text-4xl font-serif">
               Create a ClassRoom
             </h1>
-
-            <h6>
+            <h6 className="text-center">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
               numquam maxime ab maiores nihil quisquam asperiores
             </h6>
-            {/* <button
-              className="boreder rounded-xl bg-[#35259b] p-3"
-              type="button"
-            >
-              Discusion Section &rarr;
-            </button> */}
             <CreateClass />
           </div>
 
-          <div className="hidden lg:block">
+          <div className="hidden sm:block p-6 w-[40%]">
+            <Image
+              src={landingGroup}
+              alt="Login image"
+              className="object-cover -z-10"
+            />
+          </div>
+
+          <div className="hidden lg:block p-6 w-[50%]">
             <Image
               src={landingGroup2}
               alt="Login image"
@@ -164,18 +154,21 @@ const Home = () => {
             />
           </div>
         </div>
-        <h1 className="font-bold text-5xl"> Upgrade to Premium</h1>
-        <h3 className=" text-lg text-center w-[60%]">
-          Unlock exclusive features and maximize your experience by subscribing
-          now! Gain access to premium content, advanced tools, and personalized
-          benefits. Elevate your journey with us and enjoy a seamless, enhanced
-          user experience. Subscribe today and unlock the full potential of our
-          platform.
-        </h3>
-        <div className="flex flex-row space-x-28 ">
-          <CarouselPlugin />
-          <CarouselPlugin />
-          <CarouselPlugin />
+        <div className=" p-6 rounded-lg shadow-md text-center">
+          <h1 className="font-bold text-2xl sm:text-5xl mb-4">
+            Upgrade to Premium
+          </h1>
+          <h3 className="text-xs sm:text-sm md:text-base text-center text-gray-700">
+            Unlock exclusive features and maximize your experience by
+            subscribing now! Gain access to premium content, advanced tools, and
+            personalized benefits. Elevate your journey with us and enjoy a
+            seamless, enhanced user experience. Subscribe today and unlock the
+            full potential of our platform.
+          </h3>
+          {/* Optional button for subscription */}
+          <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Subscribe Now
+          </button>
         </div>
 
         <Footer />
