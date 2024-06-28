@@ -60,15 +60,15 @@ const Home = () => {
       )}
       <main className="    items-center pt-36 justify-between flex flex-col space-y-28">
         <div className="flex justify-between ">
-          <div className="h-[40rem] w-full  flex-col items-center justify-center overflow-hidden rounded-md">
+          <div className="sm:h-[40rem] w-full  flex-col items-center justify-center overflow-hidden rounded-md">
             <h1
-              className={`pt-48 ${
+              className={`sm:pt-48 ${
                 theme === "dark" ? "text-white" : "text-black"
-              } font-bold tracking-wider text-6xl`}
+              } font-bold tracking-wider text-xl sm:text-6xl`}
             >
               New Era Of Learning
             </h1>
-            <div className="w-[40rem] h-40 relative">
+            <div className="w-[13rem] sm:w-[40rem] h-5   sm:h-40 relative">
               {/* Gradients */}
               <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
               <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
@@ -86,11 +86,11 @@ const Home = () => {
               />
 
               {/* Radial Gradient to prevent sharp edges */}
-              <div className="absolute inset-0 w-  h-full [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
+              <div className="absolute inset-0   h-full [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
             </div>
           </div>
         </div>
-        <div className=" w-[90%] flex justify-center text-white font-mono font-medium text-lg">
+        <div className=" w-[90%] flex justify-center text-white font-mono font-medium text-xs sm:text-lg">
           <p
             className={`tracking-wide ${
               theme === "dark" ? "text-white" : "text-black"
