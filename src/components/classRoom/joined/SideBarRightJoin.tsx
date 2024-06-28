@@ -1,3 +1,8 @@
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import { Fab, CircularProgress } from "@mui/material";
 import {
   Sheet,
   SheetContent,
@@ -6,12 +11,6 @@ import {
   SheetTitle,
 } from "@/components/Ui/sheet";
 import { useEdgeStore } from "@/lib/edgestore";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import { Fab } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -21,32 +20,35 @@ interface Student {
   status: string;
 }
 
-export function SideBarJoin({ classCode }: { classCode: string }) {
-  const [assignment, setAssignment] = useState([]);
-  const userString = localStorage.getItem("User");
-  let userData;
-  if (userString) {
-    userData = JSON.parse(userString);
-  } else {
-    userData = {};
-  }
-  const id = userData._id;
-  // console.log("User", userData._id);
-  useEffect(() => {
-    const fetchdata = async (id: String) => {
-      const responce = await axios.get(
-        `${BASE_URL}/class/assignedStudent/${id}`
-      );
-      setAssignment(responce.data.Students);
-      // console.log("this sis responce", responce.data.Students[0]);
-    };
-    fetchdata(id);
-    // console.log("this sis ", assignment);
-  }, [id]);
-
-  const [uploadProgress, setUploadProgress] = useState(0);
+export const SideBarJoin = ({ classCode }: { classCode: string }) => {
+  const [assignment, setAssignment] = useState<Student[]>([]);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { edgestore } = useEdgeStore();
+
+  useEffect(() => {
+    const fetchAssignedTasks = async (id: string) => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/class/assignedStudent/${id}`
+        );
+        console.log("Assigned tasks fetched:", response.data);
+        setAssignment(response.data.tasks || []);
+      } catch (error) {
+        console.error("Error fetching assigned tasks:", error);
+        toast.error("Failed to fetch assigned tasks.");
+      }
+    };
+
+    const userString = localStorage.getItem("User");
+    if (userString) {
+      const userData = JSON.parse(userString);
+      const userId = userData._id;
+      if (userId) {
+        fetchAssignedTasks(userId);
+      }
+    }
+  }, []);
 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
@@ -59,7 +61,6 @@ export function SideBarJoin({ classCode }: { classCode: string }) {
   ) => {
     const file =
       event.target && event.target.files ? event.target.files[0] : null;
-    // console.log('file', file);
 
     if (file) {
       try {
@@ -71,13 +72,11 @@ export function SideBarJoin({ classCode }: { classCode: string }) {
               setUploadProgress(0);
               toast.success("File uploaded successfully!");
             }
-            // console.log(progress);
           },
         });
+
         const userJSON = localStorage.getItem("User");
-        // Parse the JSON string back into a JavaScript object
         const user = userJSON ? JSON.parse(userJSON) : {};
-        console.log("res", user._id);
         const fileData = {
           filename: file?.name,
           fileType: file?.type,
@@ -86,79 +85,83 @@ export function SideBarJoin({ classCode }: { classCode: string }) {
           uploaderId: user._id,
           classCode,
         };
-        const responce = await axios.post(
+
+        const response = await axios.post(
           `${BASE_URL}/class/fileUpload`,
           fileData
         );
 
-        const resData = responce.data;
-        console.log("responce file:", resData);
+        console.log("Response file upload:", response.data);
       } catch (error) {
         console.error("Error uploading file:", error);
+        toast.error("Failed to upload file.");
       }
     }
   };
+
   return (
     <Sheet defaultOpen={true}>
-      <SheetContent className="bg-slate-300 text-black  overflow-scroll">
+      <SheetContent className="bg-slate-300 text-black overflow-scroll">
         <SheetHeader>
           <SheetTitle>Assigned Task</SheetTitle>
           <SheetDescription>
-            Your Assigned Task Will Be Shown Here and you can submit task
+            Your assigned tasks will be shown here, and you can submit your
+            task.
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-1 py-4">
-          {assignment.map((student: Student, index) => (
-            <div
-              key={index}
-              className="grid justify-between border px-4 py-3 border-black rounded-xl"
-            >
-              <h1 className="font-bold">
-                Title: <span className="font-normal">{student.title}</span>
-              </h1>
-              <h1 className="font-bold">
-                Due Date:{" "}
-                <span className="font-normal">
-                  {new Date(student.dueDate).toLocaleDateString()}
-                </span>
-              </h1>
-              <h1 className="font-bold">
-                Status: <span className="font-normal">{student.status}</span>
-              </h1>
+          {assignment.length > 0 ? (
+            assignment.map((student, index) => (
+              <div
+                key={index}
+                className="grid justify-between border px-4 py-3 border-black rounded-xl"
+              >
+                <h1 className="font-bold">
+                  Title: <span className="font-normal">{student.title}</span>
+                </h1>
+                <h1 className="font-bold">
+                  Due Date:{" "}
+                  <span className="font-normal">
+                    {new Date(student.dueDate).toLocaleDateString()}
+                  </span>
+                </h1>
+                <h1 className="font-bold">
+                  Status: <span className="font-normal">{student.status}</span>
+                </h1>
 
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
 
-              {uploadProgress ? (
-                <div className="w-full mt-2">
-                  <CircularProgress
-                    variant="determinate"
-                    value={uploadProgress}
-                  />
-                </div>
-              ) : (
-                <Fab
-                  size="medium"
-                  color="primary"
-                  aria-label="add"
-                  onClick={handleButtonClick}
-                >
-                  <AssignmentIcon />
-                </Fab>
-              )}
-            </div>
-          ))}
+                {uploadProgress ? (
+                  <div className="w-full mt-2">
+                    <CircularProgress
+                      variant="determinate"
+                      value={uploadProgress}
+                    />
+                  </div>
+                ) : (
+                  <Fab
+                    size="medium"
+                    color="primary"
+                    aria-label="add"
+                    onClick={handleButtonClick}
+                  >
+                    <AssignmentIcon />
+                  </Fab>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No assignments available.</p>
+          )}
         </div>
-        {/* <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter> */}
       </SheetContent>
     </Sheet>
   );
-}
+};
+
+export default SideBarJoin;

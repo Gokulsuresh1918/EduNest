@@ -46,7 +46,7 @@ const schema = z
 
 type FormField = z.infer<typeof schema>;
 
-const   SignUpPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
   const {
@@ -87,21 +87,21 @@ const   SignUpPage = () => {
   }
 
   return (
-    <div className="flex justify-center w-screen overflow-hidden">
-      <div className="w-[50%] flex bg-white flex-col justify-start">
-        <div className="w-full flex justify-center">
+    <div className="flex flex-col md:flex-row justify-center w-screen  overflow-hidden">
+      <div className="w-full md:w-1/2 flex flex-col bg-white justify-start h-screen px-6 md:px-20">
+        <div className="w-full flex justify-center mt-8 md:mt-0">
           <Link href="/">
             <Image src={Logo} alt="Logo" width={170} height={50} />
           </Link>
         </div>
-        <div className="flex flex-col px-44 w-full gap-5">
+        <div className="flex flex-col w-full gap-5">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col w-full gap-5"
           >
             <Input
               type="text"
-              placeholder="name"
+              placeholder="Name"
               {...register("name")}
               className="bg-blue-300 rounded-xl border-red-50"
             />
@@ -152,7 +152,7 @@ const   SignUpPage = () => {
               className="bg-blue-800 text-white rounded-xl"
               variant="outline"
             >
-              {isSubmitting ? "...Submitting" : " Sign Up"}
+              {isSubmitting ? "...Submitting" : "Sign Up"}
             </Button>
             {errors.root && (
               <p className="text-red-500 text-sm animate-pulse">
@@ -163,18 +163,19 @@ const   SignUpPage = () => {
 
           <h3 className="text-sm text-red-500">
             Already a User?{" "}
-            <a href="/login" className="text-black">
+            <Link href="/login" className="text-black">
               Click Here
-            </a>
+            </Link>
           </h3>
         </div>
-        <div className="flex justify-center items-center space-x-5 ">
+        <div className="flex justify-center items-center space-x-5 my-5">
           <Image
             onClick={handleGoogleSignIn}
             src={googleimg}
             alt="google logo"
             width={40}
             height={45}
+            className="cursor-pointer"
           />
           <Image
             onClick={handleGithubSignIn}
@@ -182,14 +183,15 @@ const   SignUpPage = () => {
             alt="github logo"
             width={60}
             height={60}
+            className="cursor-pointer"
           />
         </div>
       </div>
 
-      <div className="w-[50%] hidden h-screen sm:block">
+      <div className="w-full md:w-1/2 hidden md:block h-screen">
         <Image
           src={imageUrl}
-          alt="Login image"
+          alt="Sign Up image"
           className="object-cover h-full w-full"
         />
       </div>

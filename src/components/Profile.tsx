@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Button } from "./Ui/button";
 import { IconButton } from "./Ui/iconButton";
 import { EditIcon } from "./Ui/icons";
@@ -25,6 +25,8 @@ import {
   SheetTitle,
 } from "./Ui/sheet";
 import { useRouter } from "next/navigation";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -134,8 +136,9 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
         userData.name = username;
         localStorage.setItem("User", JSON.stringify(userData));
         console.log("Username updated successfully");
+        toast.success("Username updated successfully");
       }else{
-        toast("No Changes Done");
+        toast.error("No Changes Done");
 
       }
 
@@ -161,6 +164,7 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
     signOut();
   };
   return (
+    <>
     <Sheet defaultOpen={true}>
       <SheetContent className="bg-gray-300 text-black">
         <SheetHeader>
@@ -274,6 +278,8 @@ const ProfilePge: React.FC<ProfilePgeProps> = ({ status }) => {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+    <ToastContainer/>
+    </>
   );
 };
 

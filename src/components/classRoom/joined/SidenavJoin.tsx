@@ -35,7 +35,7 @@ const Sidenav = () => {
   }
 
   const [side, setSide] = useState(false);
-  const [notification, setNotification] = useState<string>("");
+  let [notification, setNotification] = useState<string>("");
 
   useEffect(() => {
     socket.on("callStarted", (data) => {
@@ -58,6 +58,7 @@ const Sidenav = () => {
 
   };
   const handleVideo = () => {
+    notification=''
     notification
       ? Router.push(`${CLIENT}/room/${classCode}`)
       : toast("Teacher not started a call", {

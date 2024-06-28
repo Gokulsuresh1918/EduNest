@@ -41,30 +41,37 @@ export function AssignTask() {
   useEffect(() => {
     const fetchClassData = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/class/getClassData/${demoCode}`
-        );
-        const stuId = response.data?.classroom[0]?.students;
-
-        const extractIds = (stuId: any[]) => stuId.map((item) => item._id);
-        const idsArray = extractIds(stuId);
-
-        const res = await Promise.all(
-          idsArray.map((id) =>
-            axios.get(`${BASE_URL}/class/getStudentData/${id}`)
-          )
-        );
-
-        const studentsData = res.map((ele) => ele.data.Students);
+        // Fetch the initial class data
+        const response = await axios.get(`${BASE_URL}/class/getClassData/${demoCode}`);
+        const students = response.data?.classroom[0]?.students || [];
+  
+        // Extract the IDs of the students
+        const idsArray = students.map((student: { _id: any; }) => student._id);
+  
+        // Fetch the data for each student in parallel
+        const res = await Promise.all(idsArray.map((id: any) =>
+          axios.get(`${BASE_URL}/class/getStudentData/${id}`)
+        ));
+  
+        // Log the raw response for debugging
+        console.log('res', res);
+  
+        // Extract the student data from the responses
+        const studentsData = res.map(ele => ele.data.student);
+        console.log('testing', studentsData);
+  
+        // Set the student data in the state
         setStudents(studentsData);
       } catch (error) {
+        // Handle errors appropriately
         console.error("Failed to fetch data:", error);
         toast.error("Failed to fetch students data.");
       }
     };
-
+  
     fetchClassData();
   }, [demoCode]);
+  
 
   const getTextColor = () => {
     return theme === "dark" ? "white" : "orange-200";
@@ -88,7 +95,7 @@ export function AssignTask() {
         await axios.post(`${BASE_URL}/class/assigntask`, data);
         toast.success("Task assigned successfully!");
       };
-      socket.emit("taskAssigned",data)
+      socket.emit("taskAssigned", data);
 
       assignTask(data);
     }
@@ -119,11 +126,13 @@ export function AssignTask() {
                   <SelectValue placeholder="Select Student" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-300 text-black">
-                  {students?.map((student, index) => (
-                    <SelectItem key={index} value={student.email}>
-                      {student.email}
-                    </SelectItem>
-                  ))}
+                  {students
+                    ?.filter((student) => student?.email)
+                    .map((student, index) => (
+                      <SelectItem key={index} value={student.email}>
+                        {student.email}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
 

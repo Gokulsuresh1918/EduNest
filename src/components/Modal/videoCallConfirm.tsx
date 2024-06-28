@@ -33,18 +33,19 @@ const VideoCallConfirm = ({ params }: { params: { classCode: string } }) => {
     fetchData();
   }, [classCode]);
   const handleShareWhatsApp = () => {
-    // Refined message
-    const message = `Hello 🌟\n\nWe're thrilled to invite you to join our exclusive Edunest
-     video call. Your unique access code is: ${classCode}.\n\nEmbark on your learning adventure 
-     now and discover endless opportunities!\n\nClick the link below to join
-      us:\n${CLIENT}/room/${classCode}`;
-
+    // Class code formatted in bold
+    const formattedClassCode = `<strong>${classCode}</strong>`;
+  
+    // Refined message with bold class code
+    const message = `Hello 🌟\n\nWe're thrilled to invite you to join our exclusive Edunest video call. Your unique access code is: ${formattedClassCode}.\n\nEmbark on your learning adventure now and discover endless opportunities!\n\nClick the link below to join us:\nhttps://edunest.life/room/${classCode}`;
+  
     // URL encoding the message for WhatsApp
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-
+  
     // Opening the WhatsApp share dialog with the encoded message
     window.open(whatsappUrl, "_blank");
   };
+  
   const handleClick = () => {
     Router.push(`${CLIENT}/room/${classCode}`);
     // console.log("dfghj");

@@ -48,14 +48,14 @@ function ClassDetails({ classCode }: { classCode: string }) {
   return (
     <div className="flex flex-col h-32 w-full">
       <div className="relative h-32 md:h-120 bg-orange-100">
-        <h1 className="absolute left-1/4 top-1/4 transform -translate-y-1/3 font-bold text-gray-700 md:text-2xl">
+        <h1 className="absolute  left-1/4 top-1/4 transform -translate-y-1/3 font-bold text-gray-700 md:text-2xl">
           {classData[0]?.title || "Loading..."}
         </h1>
 
         <div className="pt-2">
           <AnimatedTooltipPreview />
         </div>
-        <h1 className="absolute left-1/4 top-3/4 transform -translate-y-1/2 text-gray-700 md:text-lg">
+        <h1 className="absolute left-1/3 sm:left-1/4 top-3/4 transform -translate-y-1/2 text-gray-700 md:text-lg">
           {classData[0]?.description || "Loading..."}
         </h1>
         {classData[0]?.profilePicture && (

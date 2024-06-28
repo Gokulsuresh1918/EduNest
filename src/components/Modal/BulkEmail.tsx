@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/Ui/button";
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 import {
   Dialog,
   DialogContent,
@@ -20,12 +22,10 @@ import {
 } from "@/components/Ui/drawer";
 import { Input } from "@/components/Ui/input";
 import { Textarea } from "@/components/Ui/textarea";
-import { useParams } from "next/navigation";
 import { FaEnvelope } from "react-icons/fa";
+import CircularProgress from "@mui/material/CircularProgress";
 import Checkbox from "@mui/material/Checkbox";
-import { toast } from "react-toastify";
-import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
+import { Button } from "@/components/Ui/button";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -36,45 +36,51 @@ interface Student {
 }
 
 const BulkEmail = () => {
-  const [email, setEmail] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
-  const subjectRef = useRef<HTMLInputElement>(null);
-  const bodyRef = useRef<HTMLTextAreaElement>(null);
-  const [errors, setErrors] = useState({ email: "" });
+  const [loading, setLoading] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [body, setBody] = useState("");
+  const router = useRouter();
   const params = useParams();
   const classCode = params.classCode;
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `${BASE_URL}/class/getClassData/${classCode}`
         );
-
-        const stuId = response.data?.classroom[0]?.students;
-
-        const extractIds = (stuId: any[]) => stuId.map((item) => item._id);
-        const idsArray = extractIds(stuId);
-
+        console.log('respo', response.data);
+        
+        const stuId = response.data?.classroom[0]?.students || [];
+        console.log('stuId', stuId);
+  
+        const idsArray = stuId.map((item: any) => item._id);
+        console.log('idsArray', idsArray);
+  
         const res = await Promise.all(
-          idsArray.map((id) =>
+          idsArray.map((id: any) =>
             axios.get(`${BASE_URL}/class/getStudentData/${id}`)
           )
         );
-
-        const studentsData = res.map((ele) => ele.data.Students);
-        if (Array.isArray(studentsData)) {
-          setStudents(studentsData);
-        }
+        console.log('res.sss', res);
+  
+        const studentsData = res.map((ele) => ele.data.student);
+        console.log('studentsData', studentsData);
+  
+        setStudents(studentsData);
       } catch (error) {
         console.error("Failed to fetch class data:", error);
+        toast.error("Failed to fetch class data");
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [classCode]);
-
+  
   const handleCheckboxChange = (email: string) => {
     setSelectedStudents((prevSelected) =>
       prevSelected.includes(email)
@@ -84,11 +90,9 @@ const BulkEmail = () => {
   };
 
   const handleShareEmail = async () => {
-    const subject = subjectRef.current ? subjectRef.current.value : "";
-    const body = bodyRef.current ? bodyRef.current.value : "";
-    const emailAddresses = selectedStudents.join(",");
-
     try {
+      setLoading(true);
+      const emailAddresses = selectedStudents.join(",");
       const response = await axios.post(`${BASE_URL}/class/bulkEmail`, {
         subject,
         body,
@@ -102,11 +106,14 @@ const BulkEmail = () => {
       }, 2000);
     } catch (error) {
       console.error("Error sending email:", error);
-      setErrors({ email: "Failed to send email. Please try again later." });
+      toast.error("Failed to send email. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
+    <>
     <Dialog defaultOpen={true}>
       <DialogContent className="sm:max-w-[425px] text-orange-300">
         <DialogHeader>
@@ -120,13 +127,15 @@ const BulkEmail = () => {
         <div className="grid py-2">
           <div className="items-center space-y-3 text-orange-200">
             <Input
-              ref={subjectRef}
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
               id="Subject"
               placeholder="Subject"
               className="col-span-3 border-cyan-800 rounded-xl"
             />
             <Textarea
-              ref={bodyRef}
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
               className="rounded-xl text-center"
               placeholder="Body of the Email"
             />
@@ -134,7 +143,7 @@ const BulkEmail = () => {
               <DrawerTrigger className="border rounded-xl w-full p-1">
                 Select Students
               </DrawerTrigger>
-              <DrawerContent className="bg-yellow-50">
+              <DrawerContent className="bg-yellow-50 text-black">
                 <DrawerHeader>
                   <DrawerTitle className="text-3xl font-serif font-bold">
                     Select Student to share Mail
@@ -145,35 +154,36 @@ const BulkEmail = () => {
                   </DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter>
-                  {students.map((item, index) => (
-                    <div key={item._id} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id={`terms-${index}`}
-                        onChange={() => handleCheckboxChange(item.email)}
-                      />
-                      <label
-                        htmlFor={`terms-${index}`}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  {loading ? (
+                    <CircularProgress />
+                  ) : students.length > 0 ? (
+                    students.map((item, index) => (
+                      <div
+                        key={item?._id || index}
+                        className="flex items-center space-x-2"
                       >
-                        {item.email}
-                      </label>
-                    </div>
-                  ))}
-                  {errors.email && (
-                    <div className="text-red-500 text-sm mt-2">
-                      {errors.email}
-                    </div>
+                        <Checkbox
+                          checked={selectedStudents.includes(item.email)}
+                          onChange={() => handleCheckboxChange(item.email)}
+                        />
+                        <label
+                          htmlFor={`terms-${index}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {item.email}
+                        </label>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No students Joined.</p>
                   )}
                   <DialogFooter
                     onClick={handleShareEmail}
                     className="rounded-xl w-28 px-2 bg-red-700"
                   >
-                    <Button
-                      className="flex justify-evenly w-full"
-                      type="button"
-                    >
-                      Send <FaEnvelope />
+                    <Button className="flex justify-evenly w-full" type="button">
+                      {loading ? <CircularProgress size={24} /> : "Send"}{" "}
+                      <FaEnvelope />
                     </Button>
                   </DialogFooter>
                 </DrawerFooter>
@@ -184,6 +194,8 @@ const BulkEmail = () => {
         <div className="flex justify-evenly items-center"></div>
       </DialogContent>
     </Dialog>
+    <ToastContainer/>
+    </>
   );
 };
 

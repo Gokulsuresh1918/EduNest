@@ -203,15 +203,15 @@ const LoginPage = () => {
   return (
     <>
       {login && (
-        <div className="flex justify-center w-screen overflow-hidden">
-          <div className="w-[50%] hidden h-screen sm:block">
+        <div className="flex justify-center w-screen h-screen overflow-hidden">
+          <div className="hidden sm:block sm:w-1/2 h-screen">
             <Image
               src={imageUrl}
               alt="Login image"
               className="object-cover h-full w-full"
             />
           </div>
-          <div className="w-[50%] flex flex-col justify-center bg-white">
+          <div className="w-full sm:w-1/2 flex flex-col justify-center bg-white px-6 sm:px-20">
             <div className="w-full flex justify-center">
               <Link href="/">
                 <Image src={Logo} alt="Logo" width={170} height={50} />
@@ -221,7 +221,7 @@ const LoginPage = () => {
               {pass ? (
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                  className="flex flex-col px-44 w-full gap-4"
+                  className="flex flex-col w-full gap-4"
                 >
                   <Input
                     {...register("email")}
@@ -261,7 +261,7 @@ const LoginPage = () => {
               ) : (
                 <form
                   onSubmit={handleSendCode}
-                  className="flex flex-col px-44 w-full gap-4"
+                  className="flex flex-col w-full gap-4"
                 >
                   {!emailSent && (
                     <>
@@ -292,7 +292,7 @@ const LoginPage = () => {
                 </form>
               )}
               {emailSent && !codeVerified && (
-                <div className="flex flex-col px-44 w-full gap-4">
+                <div className="flex flex-col w-full gap-4">
                   <Input
                     type="text"
                     value={verificationCode}
@@ -310,7 +310,7 @@ const LoginPage = () => {
                 </div>
               )}
               {codeVerified && (
-                <div className="flex flex-col px-44 w-full gap-4">
+                <div className="flex flex-col w-full gap-4">
                   <Input
                     type="password"
                     value={newPassword}

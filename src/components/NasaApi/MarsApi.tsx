@@ -16,6 +16,10 @@ type MarsRoverPhoto = {
     full_name: string;
   };
 };
+const handleImageLoadError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  e.currentTarget.onerror = null; // prevents looping
+  e.currentTarget.src = '/fallback-image.jpg'; // fallback image
+};
 
 const MarsRoverPhotos = () => {
   const [photos, setPhotos] = useState<MarsRoverPhoto[]>([]);
@@ -63,7 +67,7 @@ const MarsRoverPhotos = () => {
       </Head>
 
       <main className="text-black bg-red-100 h-screen p-1 overflow-auto">
-        <h1 className="text-xl text-center text-black animate-in font-serif font-semibold ">
+        <h1 className="text-xl text-center text-black animate-in font-serif font-semibold">
           <TextGenerateEffect words={words} />
         </h1>
         <hr />
@@ -76,6 +80,10 @@ const MarsRoverPhotos = () => {
                 width={600}
                 height={400}
                 className="max-w-full h-auto"
+                onError={(e) => {
+                  e.currentTarget.onerror = null; // prevents looping
+                  e.currentTarget.src = '/fallback-image.jpg'; // fallback image
+                }}
               />
               <p className="text-amber-700 text-sm font-medium">
                 {photo.earth_date}

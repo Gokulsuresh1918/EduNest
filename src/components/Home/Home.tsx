@@ -14,6 +14,7 @@ import { JoinClass } from "../Modal/JoinClass";
 import { SparklesCore } from "../Ui/sparkles";
 import CarouselPlugin from "./curoseal";
 import Nav from "./Navbar";
+import Link from "next/link";
 
 const Home = () => {
   const [login, setLogin] = useState(false);
@@ -58,7 +59,7 @@ const Home = () => {
         />
       )}
       <main className="    items-center pt-36 justify-between flex flex-col space-y-28">
-        <div className="flex justify-between ">
+        <div className="flex justify-between text-center">
           <div className="sm:h-[40rem] w-full  flex-col items-center justify-center overflow-hidden rounded-md">
             <h1
               className={`sm:pt-48 ${
@@ -67,7 +68,7 @@ const Home = () => {
             >
               New Era Of Learning
             </h1>
-            <div className="w-[13rem] sm:w-[40rem] h-5   sm:h-40 relative">
+            <div className="w-[13rem] sm:w-[60rem] h-5   sm:h-80 relative">
               {/* Gradients */}
               <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
               <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
@@ -116,29 +117,21 @@ const Home = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center text-center sm:flex-row sm:space-x-8">
-          <div className="p-6 sm:p-16 w-full sm:w-[60%] space-y-3">
-            <h1 className="font-bold text-3xl sm:text-4xl text-center font-serif">
+          {/* Join to a ClassRoom section */}
+          
+          <div className="p-6 sm:p-16 w-full sm:w-[60%]">
+            <h1 className="font-bold text-3xl sm:text-4xl font-serif">
               Join to a ClassRoom
             </h1>
-            <h6 className="text-sm text-center">
+            <h6 className="text-sm">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
               numquam maxime ab maiores nihil quisquam asperiores a
             </h6>
             <JoinClass />
           </div>
 
-          <div className="p-6 sm:hidden w-full space-y-3">
-            <h1 className="font-bold text-center  text-3xl sm:text-4xl font-serif">
-              Create a ClassRoom
-            </h1>
-            <h6 className="text-center">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
-              numquam maxime ab maiores nihil quisquam asperiores
-            </h6>
-            <CreateClass />
-          </div>
-
-          <div className="hidden sm:block p-6 w-[40%]">
+          {/* Image for Join to a ClassRoom on large screens */}
+          <div className="hidden lg:block p-6 w-full sm:w-[40%]">
             <Image
               src={landingGroup}
               alt="Login image"
@@ -146,7 +139,20 @@ const Home = () => {
             />
           </div>
 
-          <div className="hidden lg:block p-6 w-[50%]">
+          {/* Create a ClassRoom section */}
+          <div className="p-6 sm:p-16 w-full sm:w-[60%]">
+            <h1 className="font-bold text-3xl sm:text-4xl font-serif">
+              Create a ClassRoom
+            </h1>
+            <h6 className="text-sm">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor
+              numquam maxime ab maiores nihil quisquam asperiores
+            </h6>
+            <CreateClass />
+          </div>
+
+          {/* Image for Create a ClassRoom on large screens */}
+          <div className="hidden lg:block p-6 w-full sm:w-[50%]">
             <Image
               src={landingGroup2}
               alt="Login image"
@@ -154,6 +160,7 @@ const Home = () => {
             />
           </div>
         </div>
+
         <div className=" p-6 rounded-lg shadow-md text-center">
           <h1 className="font-bold text-2xl sm:text-5xl mb-4">
             Upgrade to Premium
@@ -166,9 +173,11 @@ const Home = () => {
             full potential of our platform.
           </h3>
           {/* Optional button for subscription */}
-          <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Subscribe Now
-          </button>
+          <Link href={"/subscription"}>
+            <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Subscribe Now
+            </button>
+          </Link>
         </div>
 
         <Footer />
