@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import CreateClass from "@/components/Modal/CreateClass";
 import Image from "next/image";
+import { useTheme } from "next-themes"
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -36,7 +37,7 @@ const initialEditedClassData: ClassData = {
   owner: "",
   profilePicture: "",
   roomCode: "",
-  status: false, // or whatever default value makes sense for your app
+  status: false,
   teacherCode: "",
   createdAt: "",
   updatedAt: "",
@@ -47,11 +48,15 @@ const ClassControlller = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [editingClassId, setEditingClassId] = useState<string | null>(null);
-  const [editedClassData, setEditedClassData] = useState<ClassData>(initialEditedClassData);
+  const [editedClassData, setEditedClassData] = useState<ClassData>(
+    initialEditedClassData
+  );
   const [render, setRender] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [createClassss, setcreateClassss] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState("");
+  const { theme } = useTheme(); // Added to get the current theme
+
 
   useEffect(() => {
     (async () => {
@@ -74,9 +79,8 @@ const ClassControlller = () => {
   };
 
   const handleAddClass = () => {
-    setcreateClassss(!createClassss)
+    setcreateClassss(!createClassss);
     console.log(createClassss);
-    
   };
 
   const handleEditClass = (classData: ClassData) => {
@@ -130,15 +134,17 @@ const ClassControlller = () => {
   const filteredClasses = classes.filter((classData) =>
     classData.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   const handleImageClick = (imageUrl: React.SetStateAction<string>) => {
     setModalImageUrl(imageUrl);
     setShowModal(true);
   };
+
   // Modal Component
   const Modal = ({ imageUrl, onClose }: ModalProps) => (
     <div className="fixed top-1/4 left-1/4  w-[50%] h-[50%] flex justify-center items-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-4 rounded-lg">
-        <Image src={imageUrl} alt="Profile" />
+        <Image src={imageUrl} alt="Profile" width={500} height={500} />
         <button
           onClick={onClose}
           className="mt-4 bg-blue-500 text-md text-white px-2  rounded-lg"
@@ -148,26 +154,33 @@ const ClassControlller = () => {
       </div>
     </div>
   );
+
   return (
-    <div className="p-6 bg-gray-300 min-h-screen">
+    <div className={`p-6 bg-gray-300 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'} min-h-screen`}>
       <div className="flex justify-between items-center mb-6">
         <input
           type="text"
           value={searchTerm}
           onChange={handleSearch}
           placeholder="Search classes..."
-          className="border border-gray-300 rounded-2xl p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="border text-black bg-slate-100 rounded-2xl p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        {createClassss ? <CreateClass />:   <button
-          onClick={handleAddClass}
-          className="bg-blue-500 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-600 transition"
-        >
-          Add Class
-        </button>}
-     
+        {createClassss ? (
+          <CreateClass />
+        ) : (
+          <button
+            onClick={handleAddClass}
+            className="bg-blue-500 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-600 transition"
+          >
+            Add Class
+          </button>
+        )}
       </div>
-      <div className="overflow-x-scroll bg-white rounded-xl shadow-md">
-        <table className="min-w-full bg-white border overflow-y-scroll">
+      <div
+        className="overflow-x-scroll bg-white rounded-xl shadow-md"
+        style={{ maxHeight: "400px" }}
+      >
+        <table className="min-w-full bg-white border">
           <thead>
             <tr className="bg-gray-200">
               <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
@@ -176,26 +189,16 @@ const ClassControlller = () => {
               <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
                 Description
               </th>
-              {/* <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
-                Students
-              </th>
-              <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
-                Teacher
-              </th> */}
-              <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
-                Owner
-              </th>
+            
               <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
                 Profile Picture
               </th>
               <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
                 Room Code
               </th>
-
               <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
                 Teacher Code
               </th>
-
               <th className="py-2 px-4 border text-left text-sm font-medium text-gray-700">
                 Actions
               </th>
@@ -210,7 +213,7 @@ const ClassControlller = () => {
                       type="text"
                       value={editedClassData.title || ""}
                       onChange={(e) => handleChange(e, "title")}
-                      className="border border-gray-900 rounded-2xl p-1 text-sm"
+                      className="border text-white bg-gray-700 rounded-2xl p-1 text-sm"
                     />
                   ) : (
                     classData.title
@@ -222,16 +225,14 @@ const ClassControlller = () => {
                       type="text"
                       value={editedClassData.description || ""}
                       onChange={(e) => handleChange(e, "description")}
-                      className="border border-gray-900 rounded-2xl p-1 text-sm"
+                      className="border text-white bg-gray-700 rounded-2xl p-1 text-sm"
                     />
                   ) : (
                     classData.description
                   )}
                 </td>
 
-                <td className="py-2 px-4 border text-sm text-gray-700">
-                  {classData.owner}
-                </td>
+               
                 {showModal && (
                   <Modal
                     imageUrl={modalImageUrl}
@@ -245,17 +246,17 @@ const ClassControlller = () => {
                   <Image
                     src={classData.profilePicture}
                     alt="Profile"
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full"
                   />
                 </td>
                 <td className="py-2 px-4 border text-sm text-gray-700">
                   {classData.roomCode}
                 </td>
-
                 <td className="py-2 px-4 border text-sm text-gray-700">
                   {classData.teacherCode}
                 </td>
-
                 <td className="py-2 px-4 border text-sm text-gray-700">
                   <button
                     onClick={() =>

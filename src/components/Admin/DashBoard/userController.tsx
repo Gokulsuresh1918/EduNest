@@ -5,6 +5,8 @@ import { Ban, Edit, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import AddUser from "../DashBoard/AddUser";
+import { useTheme } from "next-themes"; // Added for theme management
+
 
 interface User {
   _id: string;
@@ -26,6 +28,8 @@ const UserController = () => {
   const [add, setAdd] = useState(false);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [editedUserData, setEditedUserData] = useState<Partial<User>>({});
+  const { theme } = useTheme(); // Added to get the current theme
+
 
   useEffect(() => {
     (async () => {
@@ -103,14 +107,14 @@ const UserController = () => {
   return (
     <>
       {add && <AddUser />}
-      <div className="p-6 bg-gray-300 min-h-screen">
+      <div className={`p-6 min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}> {/* Updated to apply theme */}
         <div className="flex justify-between items-center mb-6">
           <input
             type="text"
             value={searchTerm}
             onChange={handleSearch}
             placeholder="Search users..."
-            className="border border-gray-300 rounded-2xl p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border text-black bg-slate-100  rounded-2xl p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
             onClick={handleAddUser}
@@ -143,7 +147,7 @@ const UserController = () => {
                         type="text"
                         value={editedUserData.name || ""}
                         onChange={(e) => handleChange(e, "name")}
-                        className="border border-gray-900 rounded-2xl  p-1 text-sm"
+                        className="border border-gray-900 text-white rounded-2xl  p-1 text-sm"
                       />
                     ) : (
                       user.name
@@ -155,7 +159,7 @@ const UserController = () => {
                         type="text"
                         value={editedUserData.email || ""}
                         onChange={(e) => handleChange(e, "email")}
-                        className="border border-gray-900 rounded-2xl p-1 text-sm"
+                        className="border border-gray-900 text-white rounded-2xl p-1 text-sm"
                       />
                     ) : (
                       user.email
