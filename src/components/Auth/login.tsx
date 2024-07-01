@@ -58,8 +58,8 @@ const LoginPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormField>({
     defaultValues: {
-      email: "gokulanandhu1571@gmail.com",
-      password: "asdfasdf",
+      email: "example@gmail.com",
+      password: "",
     },
     resolver: zodResolver(schema),
   });
@@ -160,8 +160,8 @@ const LoginPage = () => {
       toast.error("Passwords do not match", { position: "top-right" });
       return;
     }
-    console.log("newPassword", newPassword);
-    console.log("confirmNewPassword", confirmNewPassword);
+    // console.log("newPassword/", newPassword);
+    // console.log("confirmNewPassword", confirmNewPassword);
 
     try {
       const response = await axios.post(`${BASE_URL}/user/findUser`, {
